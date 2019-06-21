@@ -1,7 +1,69 @@
 
-1. Lab Environment Home Setup
+1. Lab Environment - Home Setup - (Oracle ) VirtualBox  - To setup Lab environment on Local Machine
 
     A. Download Oracle Windows host on the machine. To do that, go to https://www.virtualbox.org/wiki/Downloads and select "Windows Host Machine" and Install that.
     
+    B. Once installed, we need to deploy the OS Image which we want to install on the Virtual box
 
-2. Lab Environment Cloud Setup
+    C. Go to https://www.osboxes.org/, which has readily images of operating systems. Navigate to VirtualBox Images and select Ubuntu.
+        Download link : https://sourceforge.net/projects/osboxes/files/v/vb/55-U-u/16.04/16.04.6/1604.664.7z/download
+        Once downloaded, extract the folder.
+    
+    D. Open Oracle Virtaul Box, and click on "Create" to create a new Virtual Machine. Enter "Ubuntu" or any
+    guest OS you want to install. Click on next, ensure you select atleast 2GB memory for the OS (Recommended one).
+    After that, select the option "Use an existing Virtual Hard Disk" and select the downloaded Ubuntu image and click on CREATE.
+
+    E. Once created, go to settings --> NETWORK --> Attached NETWORK --> Select attached to "Bridged Adapter" instead of NAT Network option.
+
+    F. One more setting before kicking off the guest OS is "Take a snapshot" to ensure a proper back of the installed version which
+       can be used to restore if required.
+
+    G. Start the OS. Once done Login screen will be opened, enter "osboxes.org" username and password and LOGIN.
+
+    E. Go to Virtual OS terminal and find the IP Address by running "ifconfig" command.
+
+    F. Now go to Host machine and install cmd tool for SSH (putty, MobaXterm etc). Here we are going to use MobaXterm
+
+In this first we will install install a virtual box on the machine and then install Ubuntu software on it. 
+
+Why is Virtualization useful?
+    -   Running multiple operating systems simultaneously. 
+    -   Easier software installations. 
+    -   Testing and disaster recovery. 
+    -   Infrastructure consolidation. 
+
+Virtualization Terminiology
+    -   Host operating system (host OS). 
+    -   Guest operating system (guest OS).
+    -   Virtual machine (VM). 
+    -   Guest Additions. 
+    -   Desktop Virtualization
+- Hypervisor/VMM (Virtual Machine Moniter)
+    - Hypervisor is a special software product that can simultaneously run multiple virtual machines on a physical machine.
+        The VMs are logically isolated from each other and the underlying physical machine; 
+        this is due to the abstraction layer of a hypervisor that makes VMs independent from the hardware that is
+        used by a physical machine. This setup enables one of the advantages of virtualization – easy copying
+        machines from one host to another. 
+        Another benefit is hardware resource redistribution between VMs.
+
+    -  Oracle provides VirtualBox as a hypervisor for running virtual machines (VMs).
+    -  The hypervisor is a software that can virtualize the hardware resources. For example Oracle VirtualBox, Fusion VMvare
+       There are two types of hypervisors:
+         - Type 1 hypervisor: hypervisors run directly on the system hardware – A “bare metal” embedded hypervisor.
+                A type 1 hypervisor doesn’t require an underlying operating system (OS) because the hypervisor works as the operating system in this case. Using type 1 is optimal for large production environments.
+         - Type 2 hypervisor: hypervisors run on a host operating system that provides virtualization services, such as I/O device support and memory management.
+                A  type 2 hypervisor runs on an existing host operating system as an application. 
+                This type provides virtualization services by coordinating calls for CPU, memory, disk, and other 
+                I/O (input/output) resources through the host OS. Using a type 2 hypervisor is convenient for users who want to run a VM on their personal computers.
+
+
+
+2. Lab Environment Cloud Setup 
+
+
+
+
+
+NOTE : Tech Vocabs
+
+ - manifestations  -  manifestations of <STH> : It’s important to note that not all manifestations of VirtualBox are free
