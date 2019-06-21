@@ -57,21 +57,31 @@ Below are the steps :
        can be used to restore if required.
 
     G. Start the OS. Once done Login screen will be opened, enter "osboxes.org" username and password and LOGIN.
+        - if unable to start then please follow below  steps (Windows 10):
+            1) open command prompt as Administrator
+            2) run bcdedit to check hypervisor status:
+            3) if is set to auto then disable it:
+                bcdedit /set hypervisorlaunchtype off
+            4) reboot host machine and launch VirtualBox again
+
 
     E. Go to Virtual OS terminal and find the IP Address by running "ifconfig" command.
 
     F. Now go to Host machine and install cmd tool for SSH (putty, MobaXterm etc). Here we are going to use MobaXterm
 
     G. Once installed, we are going to use this from host machine to connect to our virtual host. To do that, we will create a new SSH session by entering ipAddress of 
-        Guest OS and username "osboxes.org". 
+        Guest OS and username "osboxes". 
     
     ** If connection refused then please ensure that you have ssh service up and running on VM.
      - To check ssh service status : service ssh status  (To check the service status)
      - sudo su (Enter the password "osboxes.org")
      - apt-get update
      - apt-get install openssh-server
-     - service ssh status (Check to see the service is installed and running or not)
+     - service ssh status (Check to see the service is installed and active/running or not)
      - Once done, go to MobaXterm ssh terminal and try to login into the session.
+
+    If you are having trouble in running "apt-get update" then try to change Virtual Box Network Settings to NAT from Bridged network.
+    Once installed, revert the network settings to "Bridge Adapter".
 
     E. Enter the password when prompted and you are already In. 
 
