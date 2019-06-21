@@ -101,7 +101,40 @@ Below are the steps :
     D. Click on Launch Intance then choose AMI (Amazon Machine Instance) screen appears. Then click on "Community Amis"
         and search for "centos7.4" image. The next screen will show Intance type where you can select different configuration for your machine.
 
-    E.
+    E. For Pupper Master the adviced one is 4GB with 2 cCPU's machine, Once clicked click on "Add instance Configuration".
+       Let all the defualt settings here and click on "Configure Add storage" followed by "cofigure add tags" and then 
+       "configure Security Group".
+
+    F. In "Secirty Group Screen", Create a new Security Group and name it "PuppetSetup" or any name that you want to keep.
+        and allow open internet traffic for the application by adding a rule and select Type as "All TCP"  and Source "anywhere" and then click 
+        on "Review and Launch" and verify your settings and clik on Launch.
+    
+    G. Here AWS asks you to select or create key pair, this is because key based authentication is the defualt authentication in AWS for Linux Instances.
+
+    H. You need to create a new key value pair here. Enter the name of the key and click on download Keys Pair which is ".pem" file.
+
+    I. Now click on Launch Instances and click on Instance ID to go to Instance details screen. Here it will take few minutes to initialize the instance context.
+       You will get Non-Persistent Public IP with this instance which would be used later on to connect via ssh. One thing to keep in mind here is the IP will be changed everytime you stop and 
+       start the instance.
+
+    J.  The downloaded Key Pair is ".PEM" file, but to login into the server you need ".PKK" file. Download a "putty gen" software to
+        convert "pem" to "pkk".
+
+    K.  Opne putty-gen and load ".pem" file and save private key. 
+
+    L.  Now its time to use "putty" to login into Amazon server using public key. Open Putty and enter "IP address".
+        Then select SSH --> AUTH and select the private key. After selected click on OPEN. The console will ask for the user name.
+        Please enter "centos" which is default user name for Centos. To check internet connection, type "sudo -i" or "ping google.com".
+
+    M.  Now we will deploy the second AWS Machine which we will use as a Puppet Agent. The only diffence would be the instance type, which in 
+        this case would be T2 type micro. 
+
+    N. At security group selection, use the exisiting that we have created above and same while choosing Key Pair selection, and once all selected, click on Launch Button.
+
+    O. Now go to Service Screen where you could see both of your services up and running. You can add Name to the service. Here for the first service we would name "Pupper_Master" and the Second one would be "Puppet_Agent".
+
+    
+
 
 
 
