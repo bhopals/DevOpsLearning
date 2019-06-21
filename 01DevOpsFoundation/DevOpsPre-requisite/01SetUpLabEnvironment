@@ -89,7 +89,20 @@ Below are the steps :
 
 
 
-2. Lab Environment Cloud Setup 
+2. Lab Environment Cloud Setup  - Setup  Puppet environment on Cloud - To Deploy AWS instances
+
+    A. Create a free tier account on AWS cloud  (https://aws.amazon.com/)
+
+    B. Once login, select the REGION from top right corner. Each region has 2 availibility zones which are the
+       physical data center for any region.
+    
+    C. Now go to SERVICES tab and select "EC2" which is AWS cloud computing service.
+
+    D. Click on Launch Intance then choose AMI (Amazon Machine Instance) screen appears. Then click on "Community Amis"
+        and search for "centos7.4" image. The next screen will show Intance type where you can select different configuration for your machine.
+
+    E.
+
 
 
 
