@@ -1,28 +1,7 @@
 
 1. Lab Environment - Home Setup - (Oracle ) VirtualBox  - To setup Lab environment on Local Machine
 
-    A. Download Oracle Windows host on the machine. To do that, go to https://www.virtualbox.org/wiki/Downloads and select "Windows Host Machine" and Install that.
-    
-    B. Once installed, we need to deploy the OS Image which we want to install on the Virtual box
 
-    C. Go to https://www.osboxes.org/, which has readily images of operating systems. Navigate to VirtualBox Images and select Ubuntu.
-        Download link : https://sourceforge.net/projects/osboxes/files/v/vb/55-U-u/16.04/16.04.6/1604.664.7z/download
-        Once downloaded, extract the folder.
-    
-    D. Open Oracle Virtaul Box, and click on "Create" to create a new Virtual Machine. Enter "Ubuntu" or any
-    guest OS you want to install. Click on next, ensure you select atleast 2GB memory for the OS (Recommended one).
-    After that, select the option "Use an existing Virtual Hard Disk" and select the downloaded Ubuntu image and click on CREATE.
-
-    E. Once created, go to settings --> NETWORK --> Attached NETWORK --> Select attached to "Bridged Adapter" instead of NAT Network option.
-
-    F. One more setting before kicking off the guest OS is "Take a snapshot" to ensure a proper back of the installed version which
-       can be used to restore if required.
-
-    G. Start the OS. Once done Login screen will be opened, enter "osboxes.org" username and password and LOGIN.
-
-    E. Go to Virtual OS terminal and find the IP Address by running "ifconfig" command.
-
-    F. Now go to Host machine and install cmd tool for SSH (putty, MobaXterm etc). Here we are going to use MobaXterm
 
 In this first we will install install a virtual box on the machine and then install Ubuntu software on it. 
 
@@ -55,6 +34,48 @@ Virtualization Terminiology
                 A  type 2 hypervisor runs on an existing host operating system as an application. 
                 This type provides virtualization services by coordinating calls for CPU, memory, disk, and other 
                 I/O (input/output) resources through the host OS. Using a type 2 hypervisor is convenient for users who want to run a VM on their personal computers.
+
+
+
+Below are the steps :
+
+    A. Download Oracle Windows host on the machine. To do that, go to https://www.virtualbox.org/wiki/Downloads and select "Windows Host Machine" and Install that.
+    
+    B. Once installed, we need to deploy the OS Image which we want to install on the Virtual box
+
+    C. Go to https://www.osboxes.org/, which has readily images of operating systems. Navigate to VirtualBox Images and select Ubuntu.
+        Download link : https://sourceforge.net/projects/osboxes/files/v/vb/55-U-u/16.04/16.04.6/1604.664.7z/download
+        Once downloaded, extract the folder.
+    
+    D. Open Oracle Virtaul Box, and click on "Create" to create a new Virtual Machine. Enter "Ubuntu" or any
+    guest OS you want to install. Click on next, ensure you select atleast 2GB memory for the OS (Recommended one).
+    After that, select the option "Use an existing Virtual Hard Disk" and select the downloaded Ubuntu image and click on CREATE.
+
+    E. Once created, go to settings --> NETWORK --> Attached NETWORK --> Select attached to "Bridged Adapter" instead of NAT Network option.
+
+    F. One more setting before kicking off the guest OS is "Take a snapshot" to ensure a proper back of the installed version which
+       can be used to restore if required.
+
+    G. Start the OS. Once done Login screen will be opened, enter "osboxes.org" username and password and LOGIN.
+
+    E. Go to Virtual OS terminal and find the IP Address by running "ifconfig" command.
+
+    F. Now go to Host machine and install cmd tool for SSH (putty, MobaXterm etc). Here we are going to use MobaXterm
+
+    G. Once installed, we are going to use this from host machine to connect to our virtual host. To do that, we will create a new SSH session by entering ipAddress of 
+        Guest OS and username "osboxes.org". 
+    
+    ** If connection refused then please ensure that you have ssh service up and running on VM.
+     - To check ssh service status : service ssh status  (To check the service status)
+     - sudo su (Enter the password "osboxes.org")
+     - apt-get update
+     - apt-get install openssh-server
+     - service ssh status (Check to see the service is installed and running or not)
+     - Once done, go to MobaXterm ssh terminal and try to login into the session.
+
+    E. Enter the password when prompted and you are already In. 
+
+
 
 
 
