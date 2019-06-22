@@ -52,7 +52,8 @@ Below are the steps to setup Virtual Box and Install VM's (Virtual Machines) :
     After that, select the option "Use an existing Virtual Hard Disk" and select the downloaded Ubuntu image and click on CREATE.
 
     E. Once created, go to settings --> NETWORK --> Attached NETWORK --> Select attached to "Bridged Adapter" instead of NAT Network option.
-
+        Note : If your PC/Machine Internet causing isssue in connection in next restart then please switch it back to "NAT" and once wifi is working you can revert it to "Bridge Adapter".
+    
     F. One more setting before kicking off the guest OS is "Take a snapshot" to ensure a proper back of the installed version which
        can be used to restore if required.
 
