@@ -1,9 +1,7 @@
 
 1. Lab Environment - Home Setup - (Oracle ) VirtualBox  - To setup Lab environment on Local Machine
 
-
-
-In this first we will install install a virtual box on the machine and then install Ubuntu software on it. 
+In this first we will install a virtual box on the host machine and then install Ubuntu software on it. 
 
 Why is Virtualization useful?
     -   Running multiple operating systems simultaneously. 
@@ -17,6 +15,7 @@ Virtualization Terminiology
     -   Virtual machine (VM). 
     -   Guest Additions. 
     -   Desktop Virtualization
+
 - Hypervisor/VMM (Virtual Machine Moniter)
     - Hypervisor is a special software product that can simultaneously run multiple virtual machines on a physical machine.
         The VMs are logically isolated from each other and the underlying physical machine; 
@@ -26,18 +25,19 @@ Virtualization Terminiology
         Another benefit is hardware resource redistribution between VMs.
 
     -  Oracle provides VirtualBox as a hypervisor for running virtual machines (VMs).
+
     -  The hypervisor is a software that can virtualize the hardware resources. For example Oracle VirtualBox, Fusion VMvare
        There are two types of hypervisors:
+    
          - Type 1 hypervisor: hypervisors run directly on the system hardware – A “bare metal” embedded hypervisor.
                 A type 1 hypervisor doesn’t require an underlying operating system (OS) because the hypervisor works as the operating system in this case. Using type 1 is optimal for large production environments.
+    
          - Type 2 hypervisor: hypervisors run on a host operating system that provides virtualization services, such as I/O device support and memory management.
                 A  type 2 hypervisor runs on an existing host operating system as an application. 
                 This type provides virtualization services by coordinating calls for CPU, memory, disk, and other 
                 I/O (input/output) resources through the host OS. Using a type 2 hypervisor is convenient for users who want to run a VM on their personal computers.
 
-
-
-Below are the steps :
+Below are the steps to setup Virtual Box and Install VM's (Virtual Machines) :
 
     A. Download Oracle Windows host on the machine. To do that, go to https://www.virtualbox.org/wiki/Downloads and select "Windows Host Machine" and Install that.
     
@@ -88,7 +88,6 @@ Below are the steps :
 
 
 
-
 2. Lab Environment Cloud Setup  - Setup  Puppet environment on Cloud - To Deploy AWS instances
 
     A. Create a free tier account on AWS cloud  (https://aws.amazon.com/)
@@ -132,12 +131,6 @@ Below are the steps :
     N. At security group selection, use the exisiting that we have created above and same while choosing Key Pair selection, and once all selected, click on Launch Button.
 
     O. Now go to Service Screen where you could see both of your services up and running. You can add Name to the service. Here for the first service we would name "Pupper_Master" and the Second one would be "Puppet_Agent".
-
-    
-
-
-
-
 
 
 
