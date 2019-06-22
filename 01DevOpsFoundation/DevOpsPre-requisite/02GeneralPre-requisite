@@ -43,11 +43,28 @@ CHEF -  Chef is an automation tool. Initial name "OPSCODe".
 
         - Chef comes with two types of deployment model.
         
-            - Chef-Zero  - For Production use case only
-            - Self-contained Standalone Deployment model or Server-Client Deployment model  - For development, testing or POC's. Also called 
+            - Chef-Zero or Self-contained Standalone Deployment model - For development, testing or POC's. Also called 
               Pull based mechanism.
+            - Server-Client Deployment model  - For Production use case only
         
         - The Primary Responsibility of chef is to maintain defined state or desired state configurations.
         - Chef helps in maximizing business productivity by automating regular repetitive tasks.
 
+        Note: Chef Server can only be Linux node, it cannot be a windows machine.However, the clients can be cinfigured on 
+        any supported and configured OS ( Linux or Windows)
+
         Iac ( Infrastructure as a code)
+
+        Chef Component:
+
+            Chef-Workstation - Local development for chef users to CREATE, TEST, and APPLY Chef Configuration
+                                A Local Machince with Chef DK (development kit) installed.
+            Chef-Server -  A node, having CHEF software and compomnent installed. An Acess hub for CHEF configuration.
+            
+            Chef-Client/Node - Communicate with Chef-server for the configuration.
+
+        Docs Link : https://docs.chef.io/  
+                    https://learn.chef.io/#/
+                    https://learn.chef.io/demos#/
+                    https://learn.chef.io/modules#/
+                    
