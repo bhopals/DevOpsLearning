@@ -1,0 +1,18 @@
+
+
+- Source Code Management System / Version control System / Revision Control System / Code Repositories
+- Common Code Hosting Platforms are GitHub, GitLab, BitBucket.
+
+
+
+YAML - YAML Ain't Markup Language
+    - A YAML file is used to represent data.
+
+
+Configuration Management (CHEF):
+    - Automation Tool - Chef, Puppet, Ansible
+    - There are two models of configuration management tool. 
+        Push Based Deployment Model - Master Server Pushes the configuration and softwares to the individual servers. Push is 
+            initiated by the master node. Example of such tools are Sensible, Salk stack
+
+        Pull Based Deployement model - Individual server contact a Master Server, establish connections and download their configurations.
