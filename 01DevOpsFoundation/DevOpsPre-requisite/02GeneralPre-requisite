@@ -6,7 +6,12 @@
 
 
 YAML - YAML Ain't Markup Language
+    
     - A YAML file is used to represent data.
+
+    What It Is: YAML is a human friendly data serialization
+    standard for all programming languages.
+
 
 
 Configuration Management (CHEF):
@@ -15,4 +20,34 @@ Configuration Management (CHEF):
         Push Based Deployment Model - Master Server Pushes the configuration and softwares to the individual servers. Push is 
             initiated by the master node. Example of such tools are Sensible, Salk stack
 
-        Pull Based Deployement model - Individual server contact a Master Server, establish connections and download their configurations.
+        Pull Based Deployement model - Individual server contact a Master Server, establish connections and 
+        download the softwares and configurations, and then configure themselves accordingly. Configuration Pull is initiated by Agents at regular interval.
+        Examples are puppet and chef.
+
+    - TWO fundamental characteristics of Automation Tools:
+        - Idempotency  - Task yeild the same result when repeated multiple times
+        - Convergence  - the process or state of converging.
+
+    - Why we need Automation Script?
+        - No Complex Scripting
+        - Consistent in Heterogeneous Environment
+        - Imperative and Declarative Patterns
+        - Idempotent
+
+
+
+CHEF -  Chef is an automation tool. Initial name "OPSCODe".
+        - An Infrastructure Automation Tool.
+        - Chef is a Ruby Based system automation friendly IT Automation tool use to configure, manage, deploy
+            and orchestrate various applications and services across your entire infrastructure.
+
+        - Chef comes with two types of deployment model.
+        
+            - Chef-Zero  - For Production use case only
+            - Self-contained Standalone Deployment model or Server-Client Deployment model  - For development, testing or POC's. Also called 
+              Pull based mechanism.
+        
+        - The Primary Responsibility of chef is to maintain defined state or desired state configurations.
+        - Chef helps in maximizing business productivity by automating regular repetitive tasks.
+
+        Iac ( Infrastructure as a code)
