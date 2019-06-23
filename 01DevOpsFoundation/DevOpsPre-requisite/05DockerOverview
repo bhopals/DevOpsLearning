@@ -1,0 +1,31 @@
+DOCKER:
+
+Why Do you need Docker?
+    - Compatibility (OS version/ Library version with each Technology stack)
+    - Long setup time
+    - Different Dev/Test/Prod environments
+    
+
+What It can do?
+    - Containerize Applications
+    - Run each service with its own dependencies in separate containers
+    
+
+Containers are completely isolated environments
+
+Docker Container shares the underlying Kernel
+
+Public Docker Registery - Dockerhub
+
+
+
+Docker Container V/S Docker Image
+
+    Docker Image - Package Template plan - Image is a package or template 
+     just like VM template in Virtualization world.
+
+     Docker Image is used to create one or more container
+
+    Docker Container - Containers are running instances of Docker Image.
+     They are isolated and have their own environment and set of processes.
+
