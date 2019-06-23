@@ -138,3 +138,9 @@ Below are the steps to setup Virtual Box and Install VM's (Virtual Machines) :
 NOTE : Tech Vocabs
 
  - manifestations  -  manifestations of <STH> : It’s important to note that not all manifestations of VirtualBox are free
+
+Public and Private Cloud
+Virtual and Local datacenter environments
+
+Public Cloud - Azure, Amazon, GCP
+Private Cloud - OpenStack, Vmware

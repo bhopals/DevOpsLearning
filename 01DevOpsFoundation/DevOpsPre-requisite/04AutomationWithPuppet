@@ -1,0 +1,24 @@
+PUPPET:
+
+Powerful automation for your entire hybrid and cloud-native estates
+
+Puppet is one of the oldest Ruby based system administrators friendly IT automation tool majorly used
+to configure manage deploy and  tested various applications and services across your whole infrastructure.
+
+-   Puppet comes with two deployment models: 
+        Master Client Deployment Model
+        Self-contained standalone deployment Model 
+
+-   Language Used : Puppet DSL (Domain Specific Language)
+
+-   The primary responsibility of puppet is to maintain defined state are sometimes called desired state
+
+-   Puppet is written in Ruby and uses its own DSL (Domain Specific Language). a declarative language
+
+
+
+Execution Flow : (Pull Based Deployment Model)
+
+Facts - Agents Send datas such as IP Address, MAC address to Puppet Master
+Catalogue - Configuration Changes needs to be applied on Agent Nodes
+Reports - Agent Reports back to Master that given configuration is applied.
