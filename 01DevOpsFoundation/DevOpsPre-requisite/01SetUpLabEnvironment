@@ -142,5 +142,13 @@ NOTE : Tech Vocabs
 Public and Private Cloud
 Virtual and Local datacenter environments
 
+
+Various Cloud Computing Models :
+    IaaS - Infrastructure as a Service
+    PaaS - Platform as a Service
+    SaaS - Software as a Service
+
+OpenShift is Paas (Platform as a Service)
+
 Public Cloud - Azure, Amazon, GCP
 Private Cloud - OpenStack, Vmware

@@ -57,5 +57,17 @@ Kube Command Line Tool / kube controll tool - kubectl
 
 
 
-OpenShift : OpenShift is a family of containerization software developed by Red Hat. Its flagship product is the OpenShift Container Platform—an on-premises platform as a service built around Docker containers 
+OpenShift : OpenShift is a family of containerization software developed by Red Hat. Its flagship product 
+is the OpenShift Container Platform—an on-premises platform as a service built around Docker containers 
 orchestrated and managed by Kubernetes on a foundation of Red Hat Enterprise Linux.
+
+
+OpenShift is Paas (Platform as a Service)
+
+OpenShift Origin is based on top of docker containers and the Kubernetes cluster manager with added developer
+an operational centric tools that enable rapid application development deployment and lifecycle management
+
+OCR - OpenShift Container Registery
+POD - Multiple Containers where the Deployement should happen
+
+SCM - Source Code Management
