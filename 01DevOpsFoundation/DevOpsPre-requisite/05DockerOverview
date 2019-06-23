@@ -29,3 +29,33 @@ Docker Container V/S Docker Image
     Docker Container - Containers are running instances of Docker Image.
      They are isolated and have their own environment and set of processes.
 
+
+
+Kubernetes: Kubernetes (K8s) is an open-source system for automating deployment, 
+scaling, and management of containerized applications.
+
+Nodes - Minions - A Machine (Physical or Virtual) where Kuberentes is installed.
+(A Worker Machine)
+
+Cluster - Set of more than one nodes grouped together.
+
+Master Node and Worker Node 
+
+
+When you are installing Kubernetes server on a machine, you are actually installing following components:
+  
+   - An API Server (Only in MASTER Node)- Acts as a front end for kubernetes. All the intercation to kubernetes server goes through this channel
+   - An ETCD key store (Only in MASTER Node)- A distributed, reliable, kye-value store used by kubernetes to store all data to manage cluster.
+   - A Kubelet (Only in WORKER Node) - The agents that runs of each node in the clusted. The agent is responsible for making sure that containers are running on the nodes as 
+   - A Container Runtime (Only in WORKER Node) - Underlying software that used to run containers. In our case it is docker.
+   - Scheduler (Only in MASTER Node) - Responsible for distributing work or containers. It looks for newly created containers and assign them to nodes.
+   - Controllers (Only in MASTER Node) - The controllers are the brain behind orchestartion. They are responsible for noticing and responding when nodes, containers, or end points goes down. They make decision to bring up new containers in such cases.
+ 
+  
+
+Kube Command Line Tool / kube controll tool - kubectl
+
+
+
+OpenShift : OpenShift is a family of containerization software developed by Red Hat. Its flagship product is the OpenShift Container Platform—an on-premises platform as a service built around Docker containers 
+orchestrated and managed by Kubernetes on a foundation of Red Hat Enterprise Linux.
