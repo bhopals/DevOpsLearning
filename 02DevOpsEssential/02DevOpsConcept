@@ -29,14 +29,48 @@ What does build automation look like?
 
 2. Continuous Integration
 --------------------------------------------------
+What is Continuous Integration?
+    • Continuous Integration (CI):the practice of frequently merging code changes done by developers
+    • Traditionally, developers would work separately, perhaps for weeks at a time, and then merge all of
+        their work together at the end in one large effort
+    • Continuous integration means merging constantly throughout the day, usually with the execution of
+        automated tests to detect any problems caused by the merge
+    • Merging all the time could be a lot of work, so to avoid that it should be automated!
+
+CI Servers- Run the build + test cases (automated)
+Broken Builds 
 
 
-
+Why do Continuous Integration?
+   -     Early detection of certain types of bugs – If code doesn’t compile or an automated test fails, the
+            developers are notified and can fix it immediately. The sooner these bugs are detected, the easier they
+            are to fix!
+   -     Eliminate the scramble to integrate just before a big release – The code is constantly merged, so there is
+            no need to do a big merge at the end.
+    -   Makes frequent releases possible - Code is always in a state that can be deployed to production.
+    -   Makes continuous testing possible – Since the code can always be run, QA testers can get their hands on
+        it all throughout the development process, not just at the end.
+    -   Encourages good coding practices – Frequent commits encourages simple, modular code.
 
 
 3. Continuous Delivery and Continuous Deployment
 --------------------------------------------------
+What is Continuous Delivery?
+    • Continuous Delivery (CD): the practice of continuously maintaining code in a deployable state
+    • Regardless of whether or not the decision is made to deploy, the code is always in a state that is able
+        to be deployed.
+    • Some use the terms continuous delivery and continuous deployment interchangeably, or simply use
+        the abbreviation CD;however, both are different.
 
+What is Continuous Deployment?
+    • Continuous Deployment: the practice of frequently deploying small code changes to production
+    • Continuous delivery is keeping the code in a deployable state. Continuous deployment is actually
+        doing the deployment frequently
+    • Some companies that do continuous deployment deploy to production multiple times a day
+    • There is no standard for how often you should deploy, but in general the more often you deploy the
+        better!
+    • With continuous deployment, deployments to production are routine and commonplace. They are
+        not a big, scary event
 
 4. Infrastructure as a Code (IaaC)
 --------------------------------------------------
