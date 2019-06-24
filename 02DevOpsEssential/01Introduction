@@ -1,0 +1,48 @@
+DevOps = Dev (Development) + Ops (Operations)
+
+ - DevOps is a software engineering culture and practice that aims at unifying software development(dev) and software operation(ops).
+
+ - DevOps aims at shorter development cycles, increased deployment frequency, and more dependable releases in close alignment with
+    business objectives
+
+DevOps Is...
+• DevOps is first a Culture of collaboration between developers and operations people
+• This culture has given rise to a set of Practices
+• DevOps is a grassroots movement, by practitioners, for practitioners
+
+
+DevOps Is NOT...
+• DevOps is NOT tools, but Tools are essential to success in DevOps
+• DevOps is NOT a standard
+• DevOps is NOT a product
+• DevOps is NOT a job title
+
+
+
+DevOps Culture
+
+ -  DevOps culture is about collaboration between Dev and Ops.
+ -  Under the traditional separation between Dev and Ops, Dev and Ops have different and opposing goals.
+    Dev - Speedy Delivery
+    Ops - Stability
+
+The Goals of DevOps Culture With DevOps:
+• Dev and Ops are playing on the same team
+• Dev and Ops share the same goals
+
+These goals include things like:
+• Fast time-to-market (TTM)
+• Few production failures
+• Immediate recovery from failures
+
+The Goals of DevOps Culture:
+    -   DevOps is about Dev and Ops working together.
+    -   In a DevOps culture, devs care about stability as well as speed, and ops care about speed as well as
+        stability.
+    -   The traditional roles of developers and operational engineers can even become blurred under DevOps.
+    -   Instead of “throwing code over the wall,” dev and ops work together to create and use tools and
+        processes that support both speed and stability.
+    -   DevOps recognizes that dev and ops are more powerful when they are together!
+
+DevOps Silos (Culture / Practice)
+Traditional Silos (Culture / Practice)
