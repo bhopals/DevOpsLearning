@@ -93,3 +93,77 @@ Step 4 : change env variable - JENKINS_HOME and set to new dir
  export JENKINS_HOME=/Users/raghav/Desktop/Tools/Jenkins/JenkinsHome/
 
 Step 5 : restart Jenkins
+
+
+Jenkins Beginner Tutorial 4 - How to use CLI - command line interface
+========================================================
+
+Step 1 : start Jenkins
+
+Step 2 : goto Manage Jenkins - Configure Global Security - enable security
+
+Step 3 : goto - http://localhost:8080/cli/
+
+Step 4 : download jerkins-cli jar. Place at any location.
+
+Step 5 : test the jenkins command line is working
+
+
+
+
+
+Jenkins Beginner Tutorial 5 - How to create Users + Manage + Assign Roles
+==========================================================
+Jenkins authentication and authorization
+
+Today we will learn:
+———————————
+How to create New Users
+How to configure users
+How to create new roles
+How to assign users to roles
+How to Control user access on projects
+
+
+Step 1 : Create new users
+
+Step 2 : Configure users
+
+Step 3 : Create and manage user roles Roles Strategy Plugin - download - restart jenkins
+
+Step 4 : Manage Jenkins - Configure Global Security - Authorisation - Role Based Strategy
+
+Step 5 : Create Roles and Assign roles to users
+
+Step 6 : Validate authorization and authentication are working properly
+
+
+
+Jenkins Beginner Tutorial 6 - Basic Configurations
+========================================
+
+Step 1 : Goto Manage Jenkins - Configure System
+
+Step 2 : Get a basic understanding of common/basic configurations
+
+
+
+
+
+
+Jenkins Beginner Tutorial 7 - Getting started with JOBS
+============================================
+
+Today we will learn:
+———————————
+1. How to create a basic JOB in Jenkins
+2. Basic job configurations
+2. How to run the Job remotely
+4. How to chain Job Execution
+
+
+Step 1 : Jenkins - New Item - add details 
+
+Step 2 : How to trigger the job remotely
+
+Step 3 : How to chain job executions
