@@ -169,3 +169,54 @@ Step 3 : How to chain job executions
 
 
 
+
+
+Jenkins Beginner Tutorial 8 - Jenkins integration with GIT (SCM)
+===================================================
+
+Today we will learn
+———————————
+1. Create a java program and run it through command line
+2. Create a Jenkins job to run the java program
+3. Add this program/project to Git
+4. Jenkins - add git plugin
+5. Configure Jenkins job to trigger the execution when a change is pushed to GitHub
+__________________________________________________________
+
+Step 1 : Create a java program
+
+Step 2 : Compile from command line
+   javac “name of .java class”
+      java “name of class without extension .java”
+
+Step 3 : Create a Jenkins job to run this program
+
+Step 4 : Add the project to Git and GitHub
+
+
+
+Jenkins Beginner Tutorial 9 - How to use CATLIGHT (Jenkins Build Monitor)
+===================================================
+Today we will learn :
+How to use CATLIGHT
+(status notifier for jenkins)
+
+What is CATLIGHT
+https://catlight.io/
+
+How to use CATLIGHT
+
+
+REFERENCES:
+Catlight website:
+https://catlight.io/
+
+Downloads link:
+https://catlight.io/downloads
+
+Support link:
+http://catlight.helprace.com/
+
+Blog link:
+http://blog.catlight.io/
+
