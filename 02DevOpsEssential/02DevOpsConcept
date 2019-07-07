@@ -196,6 +196,7 @@ Monitoring tools collect data over things such as:
     • Application logs
     • Network traffic
     • etc.
+    
  
 The collected data is presented in various forms, such as charts and graphs, or in the form of realtime
 notifications about problems
