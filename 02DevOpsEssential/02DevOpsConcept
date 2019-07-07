@@ -102,13 +102,84 @@ What does infrastructure as code look like?
         automation
 
 
+Why do infrastructure as code?
+
+    - Consistency : Consistency in creation and management of resources – The same automation will run the same way every time.
+    
+    - Reusability : Code can be used to make the same change consistently across multiple hosts and can be used
+                    again in the future.
+    
+    - Scalability : Need a new instance? You can have one configured exactly the same way as the existing instances in
+                    minutes (or seconds).
+
+    - Self-documenting : With IaC, changes to infrastructure document themselves to a degree. The way a server is
+                            configured can be viewed in source control, rather than being a matter of who logged in to the server and did
+                            something.
+    - Simplify the complexity : Complex infrastructures can be stood up quickly once they are defined as code. A
+                                group of several interdependent servers can be provisioned on demand.
+
+
+RECOMMENDED TOOL - Ansible, Terraform
+
 5. Configuration Management
 --------------------------------------------------
+What is Configuration Management?
+    • Configuration Management: maintaining and changing the state of pieces of infrastructure in a
+        consistent, maintainable, and stable way
+    • Changes always need to happen – configuration management is about doing them in a maintainable
+        way
+    • Configuration management allows you to minimize configuration drift – the small changes that
+        accumulate over time and make systems different from one another and harder to manage
+    • Infrastructure as Code is very beneficial for configuration management
+
 
 
 6. Orchestration
 --------------------------------------------------
 
+What is Orchestration?
+    
+    • Orchestration: automation that supports processes and workflows, such as provisioning resources
+    
+    • With orchestration, managing a complex infrastructure is less like being a builder and more like
+    conducting an orchestra
+    
+    • Instead of going out and creating a piece of infrastructure, the conductor simply signals what needs
+    to be done and the orchestra performs it:
+        • The conductor does not need to control every detail
+        • The musicians (automation) are able to perform their piece with only a little bit of guidance
+
+
+What does Orchestration look like?
+    • Here is an example:
+        • A customer requests more resources for a web service that is about to see a heavy increase in usage due to
+            a planned marketing effort
+        • Instead of manually standing up new nodes, operations engineers use an orchestration tool to request five
+            more nodes to support the service
+        • A few minutes later, the tool has five new nodes are up and running
+    
+    • A much cooler example:
+        • A monitoring tool detects an increased load on the service
+        • An orchestration tool responds to this by spinning up additional resources to handle the load
+        • When the load decreases again, the tool spins the additional resources back down, freeing them up to be
+            used by something else
+        • All of this happens while the engineer is getting coffee
+
+Self Healing Environment / Scalability / Increase - decrease resources based on the request
+
+
+Why do orchestration?
+    
+    Scalability – Resources can be quickly increased or decreased to meet changing needs.
+    
+    Stability – Automation tools can automatically respond to fix problems before users see them.
+    
+    Save time – Certain tasks and workflows can be automated, freeing up engineers’ time.
+    
+    Self-service – Orchestration can be used to offer resources to customers in a self-service fashion.
+    
+    Granular insight into resource usage – Orchestration tools give greater insight into how many resources
+        are being used by what software, services, or customers.
 
 7. Monitering
 --------------------------------------------------
