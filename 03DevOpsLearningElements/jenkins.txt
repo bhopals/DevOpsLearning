@@ -150,7 +150,6 @@ Step 2 : Get a basic understanding of common/basic configurations
 
 
 
-
 Jenkins Beginner Tutorial 7 - Getting started with JOBS
 ============================================
 
@@ -167,3 +166,6 @@ Step 1 : Jenkins - New Item - add details
 Step 2 : How to trigger the job remotely
 
 Step 3 : How to chain job executions
+
+
+

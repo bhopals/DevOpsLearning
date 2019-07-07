@@ -76,6 +76,31 @@ What is Continuous Deployment?
 4. Infrastructure as a Code (IaaC)
 --------------------------------------------------
 
+What is Infrastructure as Code?
+    • Infrastructure as Code (IaC): manage and provision infrastructure through code and automation.
+    • With infrastructure as code, instead of doing things manually, you use automation and code to
+    create and change:
+        - Servers
+        - Instances
+        - Environments
+        - Containers
+        - Other infrastructure
+
+
+What does infrastructure as code look like?
+
+    - Without infrastructure as code you might:
+        - ssh into a host
+        - Issue a series of commands to perform the change
+    
+    - With infrastructure as code:
+        - Change some code or configuration files that can be used with an automation tool to perform changes
+        - Commit them to source control
+        - Use an automation tool to enact the changes defined in the code and/or configuration files
+
+    - With IaC, provisioning new resources and changing existing resources are both done through
+        automation
+
 
 5. Configuration Management
 --------------------------------------------------
