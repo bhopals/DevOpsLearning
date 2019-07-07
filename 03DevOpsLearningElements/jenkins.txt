@@ -220,3 +220,26 @@ http://catlight.helprace.com/
 Blog link:
 http://blog.catlight.io/
 
+
+
+
+Jenkins Beginner Tutorial 10 - What is Automated Deployment (Step by Step)
+================================================================================
+
+What is Automated Deployment ?
+
+Main stages in
+Continuous delivery and deployment pipeline
+
+1. BUILD
+2. DEPLOY
+3. TEST
+4. RELEASE
+
+Lets see ...
+A real world Project SetUp
+
+
+Automated Deployment is the process of Automating the deployment process in a Continuous Delivery system
+
+Build - Deploy - Test - Release
