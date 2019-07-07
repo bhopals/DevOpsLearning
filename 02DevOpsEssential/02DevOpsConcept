@@ -184,13 +184,58 @@ Why do orchestration?
 7. Monitering
 --------------------------------------------------
 
+What is Monitoring?
+• Monitoring: The collection and presentation of data about the performance and stability of services
+                and infrastructure
 
+Monitoring tools collect data over things such as:
+    • Usage of memory
+    • cpu
+    • disk i/o
+    • Other resources over time
+    • Application logs
+    • Network traffic
+    • etc.
+ 
+The collected data is presented in various forms, such as charts and graphs, or in the form of realtime
+notifications about problems
 
-7. Microservices
+Why do Monitoring?
+    Fast recovery – The sooner a problem is detected, the sooner it can be fixed. You want to know bout a
+            problem before your customer does!
+    Better root cause analysis – The more data you have, the easier it is to determine the root cause of a
+            problem.
+    Visibility across teams – Good monitoring tools give useful data to both developers and operations
+            people about the performance of code in production.
+    Automated response – Monitoring data can be used alongside orchestration to provide automated
+            responses to events, such as automated recovery from failures.
+
+8. Microservices
 --------------------------------------------------
 
+What are Microservices?
+
+    • Microservices: A microservice architecture breaks an application up into a collection of small,
+        loosely-coupled services
+    • Traditionally, apps used a monolithic architecture. In a monolithic architecture, all features and
+        services are part of one large application
+    • Microservices are small: each microservice implements only a small piece of an application’s overall
+        functionality
+    • Microservices are loosely coupled: Different microservices interact with each other using stable and
+        well-defined APIs. This means that they are independent of one another
 
 
+    Why use Microservices?
+        • Modularity – Microservices encourage modularity. In monolithic apps, individual pieces become
+                tightly coupled, and complexity grows. Eventually, it’s very hard to change anything without breaking
+                something
+        • Technological flexibility – You don’t need to use the same languages and technologies for every part
+                of the app. You can use the best tool for each job
+        • Optimized scalability – You can scale individual parts of the app based upon resource usage and
+                load. With a monolith, you have to scale up the entire application, even if only one aspect of the
+                service actually needs to be scaled
+        • Microservices aren’t always the best choice. For smaller, simpler apps a monolith might be easier to
+            manage
 VOCABS :
 
     Agnostic 
