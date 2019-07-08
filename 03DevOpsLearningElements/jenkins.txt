@@ -243,3 +243,40 @@ A real world Project SetUp
 Automated Deployment is the process of Automating the deployment process in a Continuous Delivery system
 
 Build - Deploy - Test - Release
+
+
+
+Jenkins Beginner Tutorial 11 - How to do Automated Deployment (Step by Step)
+======================================================================================
+
+Today we will learn :
+How to do Automated Deployments with Jenkins ?
+
+
+Step 1
+Start Jenkins
+
+Step 2
+Install Plugin
+(Deploy Plugin)
+https://wiki.jenkins-ci.org/display/J...
+
+You can also goto your Jenkins on browser and
+- Manage Jenkins - Plugins Manager - Click on Available tab and search for deploy to container
+Add to Jenkins
+
+Step 3
+Create a Build JOB in Jenkins
+
+Step 4
+Add Post-build Action Deploy war/ear to container
+(add values to the fields) 
+
+sample war file - https://tomcat.apache.org/tomcat-6.0-...
+
+Step 5
+In tomcat-users.xml add user for DEPLOYMENT
+user username="deployer" password="deployer" roles="manager-script" /
+
+Step 6
+Run and Validate

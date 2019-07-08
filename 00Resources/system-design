@@ -49,6 +49,8 @@
             Least response time
             IP HASH
 
+        Some load balancers now offer SSL offloading and even SSL acceleration. With offloading, the cryptography is typically done with the load balancer's main processor. With acceleration, the cryptography is done on a separate SSL accelerator card (usually an installed PCI card), enabling even a modest box to handle thousands of SSL transactions per second.
+
 1.2.2 CAP Theorem
         CAP: Consistency, Availability and Partition Tolerance.
 
