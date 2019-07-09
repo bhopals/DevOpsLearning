@@ -333,3 +333,44 @@ configure the view
 
 Step 4
 Run and Validate
+
+
+
+
+Jenkins Beginner Tutorial 15 - How to setup BUILD PIPELINE in Jenkins (Step by Step)
+=======================================================================================
+
+How to setup BUILD PIPELINE in Jenkins ?
+
+Follow along step by step
+
+Step 1
+Chain required jobs in sequence
+Add upstream/downstream jobs
+
+How to chain jobs? Watch
+https://www.youtube.com/watch?v=ndLbn24OwQg
+
+Step 2
+Install
+Build Pipeline Plugin
+
+Step 3
+Add 
+Build Pipeline View
+configure the view
+
+Step 4
+Run and Validate
+
+____________________________________________________________
+
+Difference between Build and Delivery Pipeline:
+
+At a high level you can say Build pipeline has a smaller scope in terms of the entire process of software dev and delivery whereas delivery pipeline has a much broader scope. Also when we say delivery, build pipeline will be one of its components.
+Build Pipeline provides a view of the upstream and downstream jobs setup for the build process (typically)
+Whereas Delivery Pipeline gives the visualization of the complete Delivery Process that may include Build, Deploy, Test. In the delivery pipeline view, you can see each of these sections in a separate box.
+Just have a look here:
+Build Pipeline - https://www.youtube.com/redirect?event=video_description&v=zf6ogW0HKLY&redir_token=QqEpBKCvd7zEhraA9A7_EWPeVap8MTU2Mjc0MzgyM0AxNTYyNjU3NDIz&q=https%3A%2F%2Fwiki.jenkins.io%2Fdisplay%2FJENKINS%2FBuild%2BPipeline%2BPlugin
+Delivery Pipeline - https://www.youtube.com/redirect?event=video_description&v=zf6ogW0HKLY&redir_token=QqEpBKCvd7zEhraA9A7_EWPeVap8MTU2Mjc0MzgyM0AxNTYyNjU3NDIz&q=https%3A%2F%2Fwiki.jenkins.io%2Fdisplay%2FJENKINS%2FDelivery%2BPipeline%2BPlugin
+
