@@ -374,3 +374,115 @@ Just have a look here:
 Build Pipeline - https://www.youtube.com/redirect?event=video_description&v=zf6ogW0HKLY&redir_token=QqEpBKCvd7zEhraA9A7_EWPeVap8MTU2Mjc0MzgyM0AxNTYyNjU3NDIz&q=https%3A%2F%2Fwiki.jenkins.io%2Fdisplay%2FJENKINS%2FBuild%2BPipeline%2BPlugin
 Delivery Pipeline - https://www.youtube.com/redirect?event=video_description&v=zf6ogW0HKLY&redir_token=QqEpBKCvd7zEhraA9A7_EWPeVap8MTU2Mjc0MzgyM0AxNTYyNjU3NDIz&q=https%3A%2F%2Fwiki.jenkins.io%2Fdisplay%2FJENKINS%2FDelivery%2BPipeline%2BPlugin
 
+
+
+Jenkins Beginner Tutorial 16 - What is BLUE OCEAN (How to get started)
+==========================================================================
+
+What is Jenkins Blue Ocean?
+How to get started with Blue Ocean ?
+
+Blue Ocean is a new User Interface (UI) and User Experience (UX) for Jenkins
+
+It is designed to make Jenkins UI more efficient (reduces clutter and increases the clarity)
+
+In simple words:
+Blue Ocean is a new User Interface for Jenkins and provides an interactive view for Jenkins Pipeline (and jobs)
+
+How to get Blue Ocean
+Ensure you have Jenkins 2.7 or above
+and follow the steps:
+
+Step 1
+Install Blue Ocean Plugin
+
+Step 2
+Switch to Blue Ocean View
+
+References : Blue Ocean Wiki
+https://www.youtube.com/redirect?q=https%3A%2F%2Fwiki.jenkins-ci.org%2Fdisplay%2FJENKINS%2FBlue%2BOcean%2BPlugin&event=video_description&v=Di1DjW8Qxb0&redir_token=OKyS50B0O9nZorXBMvXve9r7SLx8MTU2Mjc0NDcxM0AxNTYyNjU4MzEz
+
+
+
+
+
+Jenkins How to Trigger Job with Email | Poll Mailbox Trigger Plugin
+==========================================================================
+To add this functionality, please add this PLUGIN "Poll Mailbox Trigger Plugin"
+
+
+
+Jenkins How to create Build Monitor View
+==========================================================================
+
+    1. What is Build Monitor View plugin
+    2. How to add in Jenkins
+
+
+How to install Jenkins on Amazon AWS EC2 Linux | 8 Steps
+==========================================================================
+1. How to download and install Jenkins on aws ec2 linux
+2. How to access Jenkins from browser
+3. How to start and stop Jenkins
+4. How to start Jenkins on different port
+5. How to uninstall Jenkins
+
+Step 1 : Connect to your Linux machine
+
+Step 2: Update Packages
+   sudo yum update
+
+Step 3 : Check Java is installed. If not install java  
+   java -version
+   sudo yum install java-1.8.0
+
+   To check and select one out of multiple java versions available
+   sudo /usr/sbin/alternatives --config java
+
+Step 4 : Download latest Jenkins code package
+   sudo wget -O /etc/yum.repos.d/jenkins.repo https://www.youtube.com/redirect?q=http%3A%2F%2Fpkg.jenkins-ci.org%2Fredhat%2Fjenkins.repo&v=jmm8DsosBqw&event=video_description&redir_token=b3pmlXKfootxxZYo-kQunkF3ceV8MTU2Mjc0NjI5MkAxNTYyNjU5ODky
+
+Step 5 : Import a key file from Jenkins-CI to enable installation from the package
+   sudo rpm --import https://www.youtube.com/redirect?q=http%3A%2F%2Fpkg.jenkins-ci.org%2Fredhat%2Fjenkins-ci.org.key&v=jmm8DsosBqw&event=video_description&redir_token=b3pmlXKfootxxZYo-kQunkF3ceV8MTU2Mjc0NjI5MkAxNTYyNjU5ODky
+
+
+Step 6 : Install Jenkins
+   sudo yum install jenkins
+
+
+Step 7 : Start jenkins
+   sudo service jenkins start
+
+
+Step 8 : Access Jenkins server using the public DNS of your ec2 on port 8080
+   http://{ec2-public-dns}:8080
+   example : http://3.89.79.74:8080/
+
+Note : Here you might have to allow port 8080 in your security group settings
+                     
+
+Useful tips
+
+To start jenkins on a diff port
+Update port number in /etc/sysconfig/jenkins
+
+
+To fetch initial admin password
+ sudo su -
+ cd /var/lib/jenkins/secrets/
+ cat initialAdminPassword
+0bcbbcab7f984af7b4171b55e9201d04
+To stop Jenkins
+ sudo service jenkins stop
+
+To uninstall Jenkins
+ sudo service jenkins stop
+ sudo yum remove jenkins
+ sudo rm -r /var/lib/jenkins
+
+
+References
+https://www.youtube.com/redirect?q=https%3A%2F%2Fdocs.aws.amazon.com%2Faws-technical-content%2Flatest%2Fjenkins-on-aws%2Finstallation.html&v=jmm8DsosBqw&event=video_description&redir_token=b3pmlXKfootxxZYo-kQunkF3ceV8MTU2Mjc0NjI5MkAxNTYyNjU5ODky
+
+
+
