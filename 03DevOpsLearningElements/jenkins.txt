@@ -280,3 +280,56 @@ user username="deployer" password="deployer" roles="manager-script" /
 
 Step 6
 Run and Validate
+
+
+
+
+Jenkins Beginner Tutorial 12 - Notifications - How to send Email from Jenkins
+=================================================================================
+
+
+Manage Jenkins - Configure System - Email Notifications
+
+To find your smtp server and port details
+https://www.youtube.com/redirect?redir_token=_Le7HbkFF9ZUmuxq4rxn9U4dSNd8MTU2MjcwMTcwNUAxNTYyNjE1MzA1&v=DULs4Wq4xMg&q=https%3A%2F%2Fwww.arclab.com%2Fen%2Fkb%2Femail%2Flist-of-smtp-and-pop3-servers-mailserver-list.html&event=video_description
+
+
+References:
+Notification Plugins
+
+
+
+
+Jenkins Beginner Tutorial 13 - What is Pipeline in Jenkins (DevOps)
+=================================================================================
+What is Pipeline in Jenkins ?
+
+Pipeline - is a workflow with group of events or jobs that are chained and integrated with each other in sequence.
+Every job in a pipeline has some dependency on one or more other jobs
+
+
+Continuous Delivery Pipeline
+
+
+
+Jenkins Beginner Tutorial 14 - How to setup DELIVERY PIPELINE in Jenkins (Step by Step)
+========================================================================================
+How to setup Delivery Pipeline in Jenkins ?
+
+Follow along step by step
+
+Step 1
+Chain required jobs in sequence
+Add upstream/downstream jobs
+
+Step 2
+Install
+Delivery Pipeline Plugin
+
+Step 3
+Add 
+Delivery Pipeline View
+configure the view
+
+Step 4
+Run and Validate
