@@ -490,7 +490,7 @@ https://www.youtube.com/redirect?q=https%3A%2F%2Fdocs.aws.amazon.com%2Faws-techn
 Jenkins Pipeline
 ================================================
 
-First Pipeline code
+First Pipeline code (Groovy Language)
 ------------------------
 
 pipeline {
@@ -522,3 +522,53 @@ pipeline {
 }
 
 Once JOB is created, at the time of Running, use "Build with parameters"  Option
+
+
+
+Connecting Jenkins to GitHub
+=======================================
+
+Go to github and create a token from "developer setting" page. Ensure to select access of webhooks and notification services as well as repo code 
+Once token is generated, copy that and go to Jenkins --> Manage Jenkins --> Configure System --> Git --> add credential --> OKyS50B0O9nZorXBMvXve9r7SLx8MTU2Mjc0NDcxM0AxNTYyNjU4MzEz
+https://github.com/settings/tokens
+
+
+
+WebHook Build Configurations
+======================================
+# We'll need to get a personal API key from our git repo
+#1, create a fork of this repository:
+
+https://github.com/robertstarmer/jenkins-git.git
+
+# creating
+
+https://github.com/{your_github_user_name}/jenkins-git.git
+#2, in github, get a personal access token:
+
+https://github.com/settings/tokens
+
+#3, when creating the token, add:
+admin:repo_hook
+repo:*
+notifications:*
+
+#4 after configuring jenkins, verify that the webhook
+# was created
+https://github.com/{your_github_user_name}/jenkins-git/settings/hooks
+
+
+
+
+REST API Jenkins
+======================================
+# Triggering a build via REST
+#1 We need a token from the Jenkins UI:
+Admin->Configure->Show API Token
+
+#2 We need a CSRF crumb
+curl --user "admin:TOKEN" 'http://jenkins.kumulus.co:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+# grab the entire string from Jenkins-Crumb:...
+
+#3 We can now trigger a build
+curl -X POST http://jenkins.kumulus.co:8080/job/multi-step/build --user admin:TOKEN --data-urlencode json='' -H "Jenkins-Crumb:....."
