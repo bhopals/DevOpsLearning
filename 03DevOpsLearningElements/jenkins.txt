@@ -486,3 +486,39 @@ https://www.youtube.com/redirect?q=https%3A%2F%2Fdocs.aws.amazon.com%2Faws-techn
 
 
 
+
+Jenkins Pipeline
+================================================
+
+First Pipeline code
+------------------------
+
+pipeline {
+           agent any
+           stages {
+                stage("Hello") {
+                     steps {
+                          echo 'Hello World'
+                     }
+                }
+           }
+      }
+
+
+Parameterized Pipeline
+---------------------------
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo "${params.Greeting} World!"
+            }
+        }
+    }
+}
+
+Once JOB is created, at the time of Running, use "Build with parameters"  Option
