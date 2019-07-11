@@ -584,3 +584,21 @@ Admin->Configure->Show API Token
 #  for readability, if we have python installed
 #  we can forward the data through a simple formatter
 curl  -s --user admin:TOKEN http://jenkins.kumulus.co:8080/job/multi-step/lastBuild/api/json | python -mjson.tool
+
+
+
+Security
+===================================
+pipeline {
+    agent any
+    environment {
+       SECRET=credentials('jenkins-secret-text')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo "${env.SECRET}"
+            }
+        }
+    }
+}
