@@ -1,0 +1,115 @@
+CREATE VPC
+===========================================
+To create your VPC using the VPC wizard
+
+Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+In the navigation pane, click VPC Dashboard. If you do not already have any VPC resources, locate the Your Virtual Private Cloud area of the dashboard and click Get started creating a VPC. Otherwise, click Start VPC Wizard.
+
+Select the second option, VPC with a Single Public Subnet, and then click Select.
+
+Enter the following information into the wizard and click Create VPC.
+
+IP CIDR block
+10.0.0.0/16
+
+VPC name
+ADS VPC
+
+Public subnet
+10.0.0.0/24
+
+Availability Zone
+No Preference
+
+Subnet name
+ADS Subnet 1
+
+Enable DNS hostnames
+Leave default selection
+
+Hardware tenancy
+Default
+
+It takes several minutes for the VPC to be created. After the VPC is created, proceed to the following section to add a second subnet.
+
+
+
+
+
+To create a subnet - To create a Linux MAchine which would be under subnet 
+============================================================
+
+Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+In the navigation pane, select Subnets, select the subnet with the name ADS Subnet 1, and select the Summary tab at the bottom of the page. Make a note of the Availability Zone of this subnet.
+
+Click Create Subnet and enter the following information in the Create Subnet dialog box and click Yes, Create.
+
+Name tag
+ADS Subnet 2
+
+VPC
+Select your VPC. This is the VPC with the name ADS VPC.
+
+Availability Zone
+Select any Availability Zone other than the one noted in step 2. The two subnets used by AWS Directory Service must reside in different Availability Zones.
+
+CIDR Block
+10.0.1.0/24
+
+Once subnet created, edit and modify auto enable / select Y and save
+
+
+
+Create Internet Gateway
+===================================
+Click on create internet Gateway --> save 
+Once saved, attached the gateway toi VPC . Right click and select the appropriate VPC and save 
+
+
+Create Route Table
+======================
+
+Create Route Table. Enter the name you want to put and then select appropriate VPC from the list.
+Once created, select the newly created Route Config and Click on Subnet Associations --> Edit Subnet Associations -->
+Select the created one and SAVE.
+
+Then click on EDIT Routes --> Add Routes --> set the value to "0.0.0.0/0" and select Gateway to Internet Gateway. The selection should
+fetch the gateway that we have created in above steps.
+
+Once above is done. We need to add Security Group details.
+
+
+
+Create Security Groups
+================================
+Create Security group ..and then add inbound rules..all traffic --> anywhere and then save
+
+
+
+vpc -- linux02 --right click on dns "hostname"	 10.2.0.0/16
+	subnets - create a subnet 
+			   under linux02  10.2.2.0/24
+			   right clikc click on auto assign ipv4 addres
+	intetnetgate - linux02	
+				attach it your vpc linux02
+	 route table:	any name		
+			0.0.0.0/0		inetnetgateway
+							 linux02
+			subnet associations:
+								edit
+								choose your subnet
+			route:
+				0.0.0.0/0	 internetgateway
+								
+								
+							 
+							 
+	security group:
+			creata a security grup
+			inbound/outbound
+			choose inbound:
+				select all trafic     anywhere
+
+
