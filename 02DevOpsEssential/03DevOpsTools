@@ -1,0 +1,98 @@
+
+To Discover New DevOps Tools
+https://blog.xebialabs.com/2015/07/20/xebialabs-launches-the-periodic-table-of-devops-tools/
+
+
+Build Automation Tools
+==================================
+
+    • Build automation – Automated processing of code in preparation for deployment
+    • What tools you use for build automation usually depend on programming languages and frameworks
+
+    A few examples:
+    • Java – ant, maven, gradle
+    • Javascript – npm, grunt, gulp
+    • Make – widely used in Unix-based systems
+    • Packer – build machine images and containers
+
+JENKINS / TRAVIS CI / BAMBOO
+
+
+
+Configuration Management Tools
+================================================
+    
+    • Configuration Management – Managing and changing the state of pieces of infrastructure in a
+    consistent and maintainable way
+    • Configuration management tools are a great way to implement infrastructure as code
+
+    ANSIBLE/CHEF/PUPPET/SALT
+
+
+Virtualization Tools
+=======================================
+    • Virtualization – Managing resources by creating virtual rather than physical machines
+    • Hypervisor – Runs on bare metal and manages virtual machines (VMs)
+    
+    • Examples:
+    
+    • VMWare ESX and ESXi
+    • Microsoft Hyper-V
+    • Citrix XenServer
+
+Containerization
+=================================
+
+    • Containers – Lightweight, isolated packages containing everything needed to run a piece of software
+    • Require fewer resources than VMs –VMs contain an entire OS plus virtual versions of all the
+    hardware
+    • Containers have the bare minimum needed to run the software
+    • Docker – Docker is currently the leading container technology
+    • Containers are still relatively new but very useful for DevOps!
+
+
+Monitoring Tools
+===================================
+
+    • Monitoring – Collecting and presenting data about the state and performance of applications
+    • There are different types of monitoring:
+    • Infrastructure monitoring – focuses on things related to infrastructure
+    • Examples: CPU, ram
+    • Application Performance Monitoring (APM) – focuses on performance and stability of individual parts of an
+    application
+    • Examples: response times, logs
+
+    Infrastructure Monitoring Tools - SENSU / NewRelic
+
+    Application Performance Monitoring Tools - AppDynamics / NewRelic
+
+
+Orchestration Tools (Scale up and scale down of resources)
+==============================================================
+• Orchestration – automation that supports processes and workflows, such as provisioning resources.
+• Lets you do things like:
+• Scale up and scale down applications on request
+• Auto scale applications based on usage
+• Create self-healing systems by spinning down unhealthy nodes and replacing them with new ones
+
+
+Orchestration Tools
+    Docker Swarm:
+        • Docker-native
+        • Orchestration for Docker containers
+
+    Kubernetes:
+        • Open source
+        • Orchestration server
+        • Manage containerized apps across multiple hosts
+
+    Zookeeper:
+        • Open source – Apache foundation
+        • Can work alongside Kubernetes
+        • Offers a centralized service registry that integrates with orchestration features
+
+    Terraform:
+        • Combines orchestration and infrastructure-as-code
+        • Works well with other tools, like Ansible
+        • Works well with AWS
+        • Integrates with Kubernetes
