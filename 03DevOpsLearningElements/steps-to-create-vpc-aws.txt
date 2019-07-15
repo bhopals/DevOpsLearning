@@ -113,3 +113,15 @@ vpc -- linux02 --right click on dns "hostname"	 10.2.0.0/16
 				select all trafic     anywhere
 
 
+
+IPv4 Public IP
+34.200.243.195
+
+Open GitBAsh 
+ssh -i "key-value-pair file" ec2-user@<ipAddress>
+
+here ec2-user is the default user and IP address is your aws instance IP address.
+
+Once Connected, there are couple of commands we need to execute:
+
+Run "sudo su -" to switch to the ROOT User.  
