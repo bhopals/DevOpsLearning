@@ -173,3 +173,46 @@ Serverless
                         -------------------
                         |    NETWORKING   |    NETWORKING is managed by Serverless
                         -------------------
+
+
+
+
+
+
+
+Amazon Web Services DevOps Features
+==========================================================
+	Amazon EC2 (Elastic Compute Cloud):
+	• IaaS
+	• Easily scalable
+	• Full control over your cloud infrastructure
+	• Integrates with tons of tools, both AWS and 3rd-party
+	
+
+	AWS Elastic Beanstalk:
+	• PaaS
+	• Out-of-the-box load balancing and autoscaling
+	• Can still access underlying AWS resources with full control
+
+
+	Continuous Integration, Delivery, and Deployment:
+	• AWS CodeBuild – continuous integration
+	• AWS CodeDeploy – continuous deployment
+	• AWS CodePipeline – full code pipeline from build to deploy
+	• AWS CodeStar – integrates all parts of the process with project management tools and JIRA issue
+	tracking
+
+
+
+	Infrastructure as Code:
+	• CloudFormation – Stack templating engine, YAML or JSON-based
+	• OpsWorks – IaC with Chef
+
+
+	Serverless / FaaS:
+	• AWS Lambda – run serverless functions on AWS
+
+
+	Monitoring:
+	• Amazon Cloudwatch – track metrics and logs, set alarms, and automate responses to monitoring
+		data
