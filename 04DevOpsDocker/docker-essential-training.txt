@@ -12,10 +12,75 @@ https://labs.play-with-docker.com/
 
 Docker is a tool that can package an application and its dependencies in a virtual container that can run on any Linux server. 
 
+
+Docker is a platform for developers and sysadmins to develop, deploy, and run applications with containers. The use of Linux containers to deploy applications is called containerization. Containers are not new, but their use for easily deploying applications is.
+
+container - A container is a runtime instance of an image
+
+
+
+COMMANDS :
+
+docker run <image-name>
+docker ps  (will return all the running systems.)
+docker ps -a (to see all the containers including stopped ones)
+docker ps -l (last exited container)
+docker image ls (List out all the images)
+
+docker run <image-name> (It takes image to the container)
+docker commit <container-id> (it takes container back to new image. The command will return ID)
+docker tag <ID> <custom-name-of-image> (this will put the name of the newly created image)
+
+
+docker container have main process. Once the process finish, container stops.
+
+docker attach <container-name>
+
+docker exec (Add another process to the container)
+
+
+docker kill <container-name> (Kill the container)
+docker rm <container-name> (Remove the container)
+
+
+
+
+
+
 ===================================================================================================
     Chapter 1 - Docker Essential Training: 1 Installation and Configuration
 ===================================================================================================
 
+DOCKER ENGINE : 
+
+    Client - Docker Cli - (From where you execute the command.)
+    Rest API - REGISTRY (docker hub)
+
+When you run "docker run hello-world" on the command prompt, following things happened:
+
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+
+Docker Universal Control Panel (UCP):
+  Only comes with docker EE version (Enterprise Edition)
+  It helps us to manage multiple nodes/machine with docker engine running
+
+  UCP provides below features:
+    - Private image Registry
+    - Secure and access use Management
+    - Application and cluster Management
+    - Image security scanning and continuous monitoring
+    - Content trust and verification
+    - Policy Management
+    
 
 
 ===================================================================================================
