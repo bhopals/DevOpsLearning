@@ -74,19 +74,126 @@ Docker Universal Control Panel (UCP):
   It helps us to manage multiple nodes/machine with docker engine running
 
   UCP provides below features:
-    - Private image Registry
+    - Private image Registry called Docker Trusted Registry
     - Secure and access use Management
     - Application and cluster Management
     - Image security scanning and continuous monitoring
     - Content trust and verification
     - Policy Management
+
+
+Docker user Namespace for container isolation.
+Moreover, Docker also uses CGroups (Control Groups) for controlling container resources, primarily around CPU and Memory.
+
+
+To Run Ubuntu Images:
+docker container run -it ubuntu
+
+
+
+Docker Public Repository - Docker hub
+
+To login into docker hub.
+
+Configuration
+-------------------
+run "docker login"
+It will ask for username and password. Once successfully logged in, pull sample images to local from public dockerhub repository.
+
+    docker pull <image-name>
+    docker pull alphine
+
+Once the image is downloaded, you can check by running "docker images". It will list out all the images/repository.
+
+Now we will tag the downloaded image with some other id.
+
+    docker tag <first_three_letter_of_image_id> <username>/<image-name/repository-name>:<newtagname>
+
+    docker tag af0 bhopalsingh/alphine:linkedtag1
+    docker tag af0 bhopalsingh/alphine:linkedtag2
+    docker tag af0 bhopalsingh/alphine:linkedtag3
+
+Here we have created 3 copies of the same repository.
+
+Now we need to push these repositories up to Docker Hub, and to do that, execute following command.
+
+    docker push <username>/<repository-name>
+    docker push bhopalsingh/alphine
+
+
+
+To delete docker images 
+    docker images (it will list out all the Images)
+    docker image rm <first_three_letter_of_image_id> -f 
+
+Once deleted, we can fetch the copy from docker hub by
+
+    docker pull <username>/<repository-name>:<tagname>
+    docker pull bhopalsingh/alphine:linkedin1
+
+So above demo was about: (push and pull images back and forth)
+    - creating a docker repositories on local
+    - push the repository to docker Hub
+    - pull it back to local
+
+
+Docker Universal Control Plane (UCP)
+
+To Back up DOCKER, we need to take back up of following things:
+
+    - Docker Swarm Cluster
+    - Universal Control Plane (UCP)
+    - Docker Truster Registry (DTR)
+    - Container Volume Data
+
     
 
+Install DTR - Docker Trusted Registry
+
+docker run -it --rm docker/dtr:2.4.12 install --ucp-insecure-tls
+
+
+Some useful commands to know the staus of your docker command.
+
+    docker info
+    docker version
+    docker ps
+    docker ps -a 
+    
 
 ===================================================================================================
     Chapter 2 - Docker Essential Training: 2 Orchestration
 ===================================================================================================
 
+
+Docker Swarm
+-----------------
+Docker Swarm is Cluster Management and Orchestration feature that build into the Docker Engine.
+
+In Docker Swarm Cluster, worker nodes are being controlled by Swarm Manager Node.
+
+
+To setup docker swarm cluster, "docker swarm init" command.
+C:\Users\<UserName>>docker swarm init
+Swarm initialized: current node (56gohlzhrnfn5z5es8ikxs90x) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join \
+    --token SWMTKN-1-2k65k4vnr7a72cxo1jm1ir7zdf2foj82pzs8u3dueuc3f4uncm-c7xuczrsqvx70hvm8mmxhyk3k \
+    192.168.65.2:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+
+docker swarm join-token  = it will give you the token to use if you want to add more worker node
+docker swarm join-manager= it will give you the token to use if you want to add more manager node
+
+Now run command "docker node ls". It will list out all the nodes that are running.
+
+C:\Users\<UserName>>docker node ls
+ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+56gohlzhrnfn5z5es8ikxs90x *  moby      Ready   Active        Leader
 
 
 ===================================================================================================
