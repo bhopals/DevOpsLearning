@@ -196,6 +196,18 @@ ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
 56gohlzhrnfn5z5es8ikxs90x *  moby      Ready   Active        Leader
 
 
+
+Practical:
+-----------------------
+Use - https://labs.play-with-docker.com
+For all the practicals.
+
+If you are getting below error in Docker lab while running "docker swarm init" command, then use the <IP-Address> flag
+ERROR : docker swarm init could not choose an IP address error
+
+docker swarm init --advertise-addr <IP-ADDRESS>
+
+
 ===================================================================================================
     Chapter 3 - Docker Essential Training: 3 Image Creation, Management, and Registry
 ===================================================================================================
