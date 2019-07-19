@@ -256,6 +256,32 @@ Once run, If one of the node crashed, the services instances would be created on
 Docker services are better way to run Containers because services allow you to run containers across 
 tens or hundreds of nodes in a docker swarm cluster with scalability and high availability build in.
 
+
+
+Locking a Swarm Cluster - You can enable it by passing a parameter --autolock while initializing docker swarm.
+
+    The locking envolves saving of the keys on the storage for communication between all the nodes in clustered environment.
+    Also the logs access. To store and distribute keys across all the applications that uses docker.
+
+    docker swarm init --autolock
+
+For an existing docker swarm cluster which is running we use this command in MANAGER 
+
+    docker swarm update --autolock=true 
+
+    This will return a KEY. 
+
+
+On worker node, we will simple restart all the nodes by running.
+    sudo systemctl restart docker
+
+    Now if you run command "docker node ls", it will ask for the key to unlock it.
+    You can do it by running the command- "docker swarm unlock" and once prompted, enter the KEY.
+
+To change key, we can run "docker swarm unlock-key --rotate
+
+
+
 ===================================================================================================
     Chapter 3 - Docker Essential Training: 3 Image Creation, Management, and Registry
 ===================================================================================================
