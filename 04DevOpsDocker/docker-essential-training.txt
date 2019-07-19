@@ -208,6 +208,54 @@ ERROR : docker swarm init could not choose an IP address error
 docker swarm init --advertise-addr <IP-ADDRESS>
 
 
+NODE / SERVICE / CONTAINER / TASKS
+
+NODE - Node is your physical host or a virtual machine in the cloud thats running docker, the docker engine.
+
+SERVICE - SERVICES are the instances of the image that run inside container.
+
+    docker service create --name <app-name> --replicas=6 nginx
+    docker service create --name webapp1 --replicas=6 nginx
+
+TASK - Tasks are the container Images that are running across cluster. In a above example, TASK is  
+webapp1 and CONTAINER is NGINX.
+
+CONTAINER - Any image that you want to deploy as a service in the swarm cluster.
+
+The container runs only on one host, the host you instantited on when you perform "docker run" command.
+It will share the network and other resources per container.
+
+CONTAINER :
+    - Runs on one host
+    - Must share networks and storage per container, when run
+    - Containers are tough to scale and make highly available
+    - COMMAND - docker run <IMAGE-NAME>
+SERVICE : 
+    - Automatically runs across however many nodes are needed.
+    - High availabilit simply builts in.
+    - COMMAND - docker service create --name <name> --replicas=6 <IMAGENAME>
+    - Scalability of the app is easy
+    - Exposing Network and Storage is easy
+
+
+We do docker swarm init and run 3 nodes in cluster node. Then instantite nginx (a popular webserver's) 6 instances 
+on all three nodes (2 instances each) in a clustered environment.
+
+NODE1 - MANAGER  
+NODE2 - WORKER 
+NODE3 - WORKER
+NODE4 - WORKER
+
+docker node ls (Output all the nodes running) - (Can only be executed on manager)
+docker service ls (List the service details and replicas)
+docker service ps (Will return the process / services running details)
+
+Once run, If one of the node crashed, the services instances would be created on another node instantly.
+
+
+Docker services are better way to run Containers because services allow you to run containers across 
+tens or hundreds of nodes in a docker swarm cluster with scalability and high availability build in.
+
 ===================================================================================================
     Chapter 3 - Docker Essential Training: 3 Image Creation, Management, and Registry
 ===================================================================================================
