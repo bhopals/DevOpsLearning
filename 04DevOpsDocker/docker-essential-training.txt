@@ -681,8 +681,47 @@ Anytime you go to use a registry (docker hub), first you need to login in to the
 
     Pusing, pulling, and signing Images 
     ---------------------------------------
-    
 
+    C:\...\DOCKER\DockerExercise\dockertemp>docker tag ubuntu:latest <username>/ubuntu:latest   (TAGGING THE IMAGE)
+
+    C:\BhopalDev\DOCKER\DockerExercise\dockertemp>docker image ls
+    REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
+    ubunut               v3                  644366f5d590        24 minutes ago      274 MB
+    <none>               <none>              195381418de7        24 minutes ago      274 MB
+    <none>               <none>              9e5ae206df0e        31 minutes ago      274 MB
+    myapp                latest              c83cd457511b        About an hour ago   274 MB
+    <username>/ubuntu   latest              4c108a37151f        4 weeks ago         64.2 MB
+    ubuntu               latest              4c108a37151f        4 weeks ago         64.2 MB
+
+    C:\...\DOCKER\DockerExercise\dockertemp>docker push <username>/ubuntu:latest   (PUSHING THE IMAGE)
+    The push refers to a repository [docker.io/<username>/ubuntu]
+    75e70aa52609: Mounted from library/ubuntu
+    dda151859818: Mounted from library/ubuntu
+    fbd2732ad777: Mounted from library/ubuntu
+        
+
+
+Docker Image Signing - Docker Enterprise Edition Only 
+Docker Notary - Docker Community version- Open source but with limited features.
+
+
+
+Searching Docker Registries
+---------------------------------
+
+docker search ubuntu - It will bring the results from the docker hub (Public only)
+
+docker search --limit=100 ubuntu 
+
+docker search --filter "is-official=true" ubuntu
+
+docker search --filter "stars=100" ubuntu
+
+docker search --filter "is-official=true"  --filter "stars=100" ubuntu
+
+docker image ls 
+
+It will bring the list of the images from local docker host.
 
 ===================================================================================================
     Chapter 4 - Docker Essential Training: 4 Storage and Volumes
