@@ -594,10 +594,94 @@ docker image tag new-app:latest mynew-app:latest
 docker build <githuburl>
 
 
+docker build -f dd-docker -t ubunut:v2 . 
+
+here "." is the build context
+here "-t" is the tag name 
+
+
+docker image history ubunut:v2  (it will list out all Layers of the image as a part of the build )
+
+To minimize the Image size you can use "squash" feature.
+
+docker build -f dd-docker --squash -t ubunut:v3 . 
+
+Another way to reduce image size, we can use EXPORT option. Creating image into TAR by exporing a running container and then import it back
+
+
+Modifying Image Layer :
+-------------------------------
+
 
 Tags are essentially aliases
 
 
+
+
+Understanding Docker Registry
+----------------------------------
+
+Docker Registry : A Docker Registry is a stateless, highly scalable application that stores and lets you distribute Docker Images.
+Registries could be local(private) or cloud-based(private or public).
+
+Example of Docker Registries:
+    - Docker Registry (Local open-source registry)
+
+        On your local Machine. 
+
+        $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+        Once local registry is up and running, we can push any image to this registry by using 
+
+            docker tag ubuntu localhost:5000/ubuntu:v4   (Tagged)
+            docker push local:5000/ubuntu:v4 (Pushing)
+
+
+        To Test this, Once image is pushed to local registry, we can delete from local 
+            docker image rm localhost:5000/ubuntu:v4  (Deleted from local)
+        
+        Pull it back from local registry
+            docker pull localhost:5000/ubuntu:v4
+
+
+    - Docker Trusted Registry (DTR) Enterprise grade, higly scalable and 
+        Features LDAP Integration, Image Signing, Security scanning and integration with Universal Control Plane
+    
+        To install DTR, first you require to install UCP (Universal Control Plane) on all the nodes where you plan to intall DTR. 
+
+        DTR needs to be installed on a worker node that is being managed by UCP. 
+        You cannot install DTR on a standalone Docker Engine.
+
+
+
+
+    - Docker hub - Cloud based Docker registry
+
+        Docker hub is a public and private registry
+
+
+
+Anytime you go to use a registry (docker hub), first you need to login in to the registry.
+
+    "docker login" once run, it will ask for username and password.
+
+    You will get "Login Successed" message if its success.
+
+    If you want to logout, then use "docker logout"
+
+    If you want to use local deployed registry then
+
+    docker login localhost:5000
+
+
+    To login Docker trusted registry 
+
+        docker login <DTR-HOSTNAME>, then the user credential you have 
+
+
+    Pusing, pulling, and signing Images 
+    ---------------------------------------
+    
 
 
 ===================================================================================================
