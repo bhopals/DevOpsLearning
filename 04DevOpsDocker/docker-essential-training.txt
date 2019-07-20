@@ -407,6 +407,170 @@ To modify stack (To modify number of replicas, no of instances, resourece alloca
     Chapter 3 - Docker Essential Training: 3 Image Creation, Management, and Registry
 ===================================================================================================
 
+docker image ls 
+
+docker image rm -f <image-name>
+
+docker image prune -a (To remove all the images)
+
+
+DOCKER IMAGE 
+-------------
+An image is an executable package that includes every thing needed 
+to run an application - the code, a runtime, libraries, environment variables, configurations. files.
+
+A container is a runtime instance of an Image.
+
+
+OR an Image is a container that's not yet running.
+
+AND A container is essentially a running image.
+So you can build an image and literraly spawn thousands of containers from that.
+
+Containers are stateless
+
+
+Docker Image is made of Layer. 
+
+Understanding Layering with docker Image
+
+Images are made up of multiple read-only layers. Multiple containers are typically based on the same image.
+When an image is instantiated into a container, a top writable image is created (which is deleted when the container is removed)
+Docker manages this using STORAGE DRIVERS to manage the content of the image layers and the top writable layer. 
+All drivers use stackable image layers and then a copy-on-write, or COW, strategy.
+
+Docker Image Union Filesystem.
+
+Image LAyers : 
+
+                                        Other Changes
+                                        application
+                                        Config changes
+                                        operating system 
+                                        manifest
+
+
+
+Once an image is instantiated in docker container. A writable layer is created on top of the Image in the container.
+
+Container Layers = Image Layers + Writable Layers.
+
+Container are stateles as the Image layers are read only and can't be modified.
+
+
+Dockerfile
+------------
+The configuration file that build docker image is called Dockerfile
+
+A Dockerfile is a text file that contians all the commands, in order, needed to build a given iamge. 
+A Dockerfile is executed by the "docker build" command.
+
+Dockerfile - Automate the steps of creating Docker Image.
+
+"docker build" read the docker file and then builds a docker image based on docker file.
+
+You can keep name anything you want, but if you do then you need to pass the file name with "docker build" command.
+Without passing any name the "docker build" command will look for "Dockerfile.yml" in the same directory and with same name.
+
+
+CLIENT (DOCKER CLI) ------ DOCKER HOST (DOCKER DAEMON) --- REGISTRY (DOCKERHUB)
+
+
+Once you create the file. Run "docker build <DockerFileLocation>"
+
+"docker build ." if its in the same location.
+
+Dockerfile :
+
+nvironment variables are supported by the following list of instructions in the Dockerfile:
+
+ADD
+COPY
+ENV - Any Environment variable
+EXPOSE
+FROM - Which Image 
+LABEL - Details 
+STOPSIGNAL
+USER
+VOLUME
+WORKDIR
+RUN - Commands to run 
+
+SAMPLE Dockerfile :
+# Nginx
+#
+# VERSION               0.0.1
+
+FROM      ubuntu
+LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
+RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
+
+
+docker build . 
+
+Once above command is executed, a new image is created. To check the newly created image run 
+
+docker image ls 
+
+OR 
+
+docker image inspect <first-three-chars-of-image-id>
+docker image inspect 4f4
+docker image inspect 4f4 | more
+OR
+docker image history 4f4 (this will give you details of all the layers of the images when I was created and size of the layers )
+
+Example :
+
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+c83cd457511b        4 minutes ago       /bin/sh -c apt-get update && apt-get insta...   210 MB
+c00d03324bae        10 minutes ago      /bin/sh -c #(nop)  LABEL Description=This ...   0 B
+4c108a37151f        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
+<missing>           4 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
+<missing>           4 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
+<missing>           4 weeks ago         /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
+
+
+"docker image" command has various options.
+
+C:\...\DOCKER\DockerExercise>docker image --help
+
+Usage:  docker image COMMAND
+
+Manage images
+
+Options:
+      --help   Print usage
+
+Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+Run 'docker image COMMAND --help' for more information on a command.
+
+C:\...\DOCKER\DockerExercise>
+
+
+docker image prune 
+
+   - it will removed all the dangling images (Images without TAGID/NAME)
+
+if you want to remove all 
+
+docker image prune -a 
+    - It will remove all the unused images, that are not being used by the container.
+
 
 
 ===================================================================================================
