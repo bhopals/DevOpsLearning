@@ -29,3 +29,145 @@ In Linux the parent directory is ROOT Directory (/) - The top most directory
         /usr default softwares are installed in this location
             c:\program files
         
+
+To Switch user 
+
+    sudo su -  
+
+    here sudo - Super User Do 
+    su - Switch user 
+
+When you login to linxu if $ is appearing then normal user and if # is appearing then its Super User.
+
+To know about logged in User - whoami
+
+
+Three types of file type 
+
+    - Files - txt, doc files
+
+        files(text files):
+-------------------
+        >> how to create file:
+	    how to edit
+	    how to delete fixed
+	
+        cat command : concatenate
+        
+                cat [options] file_ame
+                create the file	 cat > filename
+                    Once done with the content, press CTRL + C or D to exit the editor.
+
+                append the text  cat >> filename
+
+                display the file(important)  cat filename
+        
+                cat -n name 
+                    - Will open the file with line number.
+
+                "cat" command drawbacks. 
+                    - It will always append at the end of the file (cat >> <file-name>).
+                    - While entering text in the file, the backspace will not work.
+
+
+                **To know more about the command, use "man <command-name>"
+
+        touch command	
+                - Only to create new files 
+                    touch file1 file2 file3  
+                        3 files created 
+
+                    touch file{1...100}
+                        - it will create file1, file2...file100 with just one commands 
+
+        To remove created files 
+
+            rm <file-name>
+            rm -rf <file-name> (Remove file recursively and forcefully. will not ask for Y/N Confirmation)
+            rm -rf one.* (Delete all matching file / directories)
+
+
+    - Directories - Folders
+    - Link Files (Soft and Hard Link Files)  - Shortcut Files 
+
+
+
+ls - List files (minimal infromation)
+ll - List files with permission and other details as well.
+
+press "cd" command to go to the root directory anytime.
+
+
+To Add new user in Linux Machine
+
+"useradd <user-name>"
+
+To check the added user details : 
+    cat /etc/passwd
+
+  It will return all the login details of all the users.
+
+
+To assign password to newly created user
+    passwd <user-name>
+    passwd sachin (now it will ask for the password and confirm the password. Thats it)
+
+
+To switch user in Linux
+    su <user-name>
+
+To Delete User 
+
+    userdel <user-name>
+
+    userdel sachin
+
+
+Directory/File permission:
+
+mkdir test
+ll test 
+
+
+
+-rw-r--r-- 
+
+ r - Readable
+ w - Writable
+ x - Executable
+ - - Denied
+
+ in "-rw-r--r--" 
+    "-" first denotes its directory
+    "rw-" denotes permission for person who created it
+    "r--" permission for Group
+    "r--" (last one) Permission for others (except the user who created )
+
+ RWX = 241 (both way can be used)
+ R - 2
+ W - 4
+ X - 1
+  Total is 7 if you want to give full permission
+
+chmod 777 <file-name>
+This will give full permission to Created User, Groups, and other users
+
+To give only created user we need to run "chmod 722" (Read only for Group and others)
+
+
+Other way to update permissions is:
+
+chmod u+x <file-name> (Adding Execute permission to Main user )
+chmod g-x <file-name>(Removing execute permission for the Group users)
+u - Created User 
+g - Group
+o - Other 
+
+
+VI Mode :
+
+vi <file-name>, once file is opened, press "i" for activating INSERT mode.
+Enter the details. Once done editing. Press ESC then :wq to quit the editor.
+
+
+
