@@ -1,0 +1,31 @@
+
+GUI - Graphical User Interface 
+CUI - Command line Interface
+
+In Linux everything is stored as a file
+
+
+In Windows we have MY Computer and then C:/D: Drives
+
+In Linux the parent directory is ROOT Directory (/) - The top most directory
+
+    ROOT(/)
+        /home---: default directory of normal user:
+        Ex: dhoni
+                /home/dhoni
+        /root -- sepecially for root user.
+        /ecc -- it container all configuration files
+                /etc/passwd
+                c:/windows/system32/drivers
+        /boot	all bootable are available here
+        
+        /bin --commands which exe.by all the users
+        /sbin--it contains the commands it is exculsively for the root.
+        
+        /dev   all device files	
+                printer, hard disk cd rom
+        /proc it conatins all process files
+        /mnt   it is a default mount point for your external storage devices
+        /usr default softwares are installed in this location
+            c:\program files
+        
