@@ -573,6 +573,33 @@ docker image prune -a
 
 
 
+docker image inspect <image-name>:latest --format='{{.<FieldName>}}'
+
+
+docker image inspect <image-name>:latest --format='{{json .ContainerConfig}}'
+
+
+docker image inspect <image-name>:latest --format='{{.ContainerConfig.HostName}}'
+
+
+Docker Tag : used to identiy version of image/application.
+
+docker image tag <tag-name/image-id> <new-name>:<tag-name>
+
+docker image tag 6fr new-app:latest
+
+docker image tag new-app:latest mynew-app:latest
+
+
+docker build <githuburl>
+
+
+
+Tags are essentially aliases
+
+
+
+
 ===================================================================================================
     Chapter 4 - Docker Essential Training: 4 Storage and Volumes
 ===================================================================================================
