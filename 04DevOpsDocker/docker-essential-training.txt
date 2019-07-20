@@ -168,6 +168,8 @@ Some useful commands to know the staus of your docker command.
 
 Docker Swarm
 -----------------
+Docker Swarm is open-source container orchestration platform and is the native clustering engine for and by Docker.
+
 Docker Swarm is Cluster Management and Orchestration feature that build into the Docker Engine.
 
 In Docker Swarm Cluster, worker nodes are being controlled by Swarm Manager Node.
@@ -279,6 +281,125 @@ On worker node, we will simple restart all the nodes by running.
     You can do it by running the command- "docker swarm unlock" and once prompted, enter the KEY.
 
 To change key, we can run "docker swarm unlock-key --rotate
+
+
+Quorum should be achieved in CLUSTER mode of swarm. This basically tells if you have n numbers of total nodes
+then how many of the nodes would be manager to achieve less or almost zero fault tolerence.
+
+Fault tolerance is the property that enables a system to continue operating properly in the event of the failure of (or one or more faults within) some of its components.
+
+The Quorum algorithms basically are based on RAFT consensus Algorith.
+
+By default Manager Nodes also shares the load of all the worked nodes, so sometimes 
+if you want your manager nodes to only manage things and not involve in work load sharing then 
+you need to run following command.
+
+    docker node update --availability drain <NODE>
+
+
+
+MANAGING DOCKER Swarm
+-----------------------------------
+
+docker node ls - List all the nodes 
+docker info | more - Provide more information about the node.
+
+If any node wants to leave the Swarm
+    docker swarm leave --force
+
+To Stop any service on docker
+ 
+    sudo systemctl stop docker
+
+To visualize docker swarn cluster.
+
+    https://github.com/dockersamples/docker-swarm-visualizer
+    Here have details about it. Copy the given command and paste that in one of the manager node to deploy our startup.
+
+    docker run -it -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer.
+
+    Once the command is completed, please run "docker ps", you will find the visualizer in the list
+
+    now run "ip addr" to get the ip address and get the IP address of the SERVICE. Append the port 8080 with ip address
+    and run that on the browser 
+    http://127.0.0.1:8080/
+
+To convert Manager to Worker and vice versa run promote/demote command
+
+
+Analyzing docker services with docker inspect
+----------------------------------------------------
+
+docker node ls - Give you the list of the nodes
+
+Now run "docker inspect <nodename>/containerID | more"
+
+To get specific field details you can do grep
+
+    docker inspect <nodename>/containerID | grep Replicas
+
+    docker inspect <containerID> | grep IPAddress
+
+
+
+
+STACK 
+-------------------------------
+A Service defines one or more instances of a single image deployed on one or more machines (described by one entry in the services part of the docker-compose.yaml files).
+
+
+A Stack defines a group of heterogeneous services (described by the whole yaml file).
+
+A stack is a group of interrelated services that share dependencies, and can be orchestrated and scaled together. A single stack is capable of defining and coordinating the functionality of an entire application (though very complex applications may want to use multiple stacks).
+
+To implement stack, first we need to create docker-composer.yml file and add all the details in it.
+Once done we need to run "the stack. 
+
+docker stack deploy -c docker-compose.yml <stackname>
+
+docker stack ls (List out all the stacks/services delpoyed)
+
+To modify stack (To modify number of replicas, no of instances, resourece allocation, network and storage Configuration):
+
+    docker service ls
+    docker service update --replicas=20 <service-name> (Dynmically, without updating compose file) - One way
+    Or
+
+    Go to docker stack yml file and save. once done, run 
+        docker stack deploy -c docker-compose.yml <stackname>
+
+
+    docker service ps <SERVICE/STACK_NAME>
+
+    docker service update - can be used to update the network port or other settings of the deployed service
+
+
+    Replicated v/s global services 
+
+    You can define the mode of the service at the time of service Creation
+
+    docker service create --mode = global  - It will deploye one task/service every node (One node can have multiple containers)
+    for example- virus scanning, agent scanning
+
+    docker service create --mode = replicated 
+
+
+
+    LOGS 
+    -------------------
+    docker service logs
+
+    docker service create --name <name-of-service> -p<incomingport>:<outboundport> <imagename>
+    docker service create --name test-server -p8080:80 httpd
+
+    docker service ls
+
+    docker service logs <service-name>
+
+    DOCKER CONTAINER NETWROKING MODEL.. ?? //NEED to READ 
+    
+
+
 
 
 
