@@ -734,6 +734,8 @@ It will bring the list of the images from local docker host.
     Chapter 4 - Docker Essential Training: 4 Storage and Volumes
 ===================================================================================================
 
+https://docs.docker.com/storage/
+
 Manage Data in Containers 
 
 Issue with storing data inside containers.
@@ -782,6 +784,95 @@ Options for Data Storage with Containers:
 
 
     Docker uses what they call storage drivers to manage the contents of the image layers, as well as that top writable layer. Each storage layer has different implementation, but all drivers use this layered, stackable concept and the copy-on-write strategy. What that means is that a read-only file is only brought from the lower read-only layers into the writable layer when that file is being modified. 
+
+
+    Configuring Storage Drivers
+    ----------------------------------
+    Storage Drivers - Overlay2 is default and preferred choice over "overlay"
+
+    To find out existing docker storage driver, you can run "docker info"
+
+    C:\Users\<UserName>docker info 
+        Containers: 5
+        Running: 0
+        Paused: 0
+        Stopped: 5
+        Images: 8
+        Server Version: 17.03.1-ce-rc1
+        Storage Driver: overlay2
+        Backing Filesystem: extfs
+    
+
+To change Storage Drivers:
+
+    1. Stop the docker 
+        - sudo systemctl stop docker 
+    2. Take the old backup
+    3. Edit /etc/docker/daemon.json and update the driver information
+    4. Restart the docker 
+        - sudo systemctl start docker 
+
+Device Mapper Storage Drivers 
+------------------------------
+    1. Stop the docker 
+        - sudo systemctl stop docker 
+    2. Take the old backup
+    3. Edit /etc/docker/daemon.json and update the Storage to devicemapper 
+    4. Restart the docker 
+        - sudo systemctl start docker 
+
+
+VOLUME 
+-------------------
+
+docker volume ls (To list all the volumes )
+docker volume inspect <vol-name> (Will inspect and show details about that specific volume)
+
+ docker volume create <vol-name>
+ docker volume create my-vol
+
+ docker volume inspect my-vol
+    [
+        {
+            "Driver": "local",
+            "Labels": {},
+            "Mountpoint": "/var/lib/docker/volumes/my-vol/_data",
+            "Name": "my-vol",
+            "Options": {},
+            "Scope": "local"
+        }
+    ]
+
+docker volume rm my-vol
+
+docker run -d --name devtest --mount source=myvol2,target=/app nginx:latest
+
+
+Bind Mount
+----------------------
+
+docker container run -d --mount type=bind, source=/tmp, target=/app nginx
+
+
+configure docker cluster storage 
+--------------------------------
+ Use a volume driver ...Storage volume plugin
+ Docker Volume Plugin driver
+
+ https://thenewstack.io/methods-dealing-container-storage/
+ https://dev.to/jibinliu/how-to-persist-data-in-docker-container-2m72
+
+
+docker image prune - Delete all dangling container images 
+docker system prune - Delete all system files..stopped container and system files being used by first_three_letter_of_image_id
+
+C:\Users\<userId>docker system prune
+WARNING! This will remove:
+        - all stopped containers
+        - all volumes not used by at least one container
+        - all networks not used by at least one container
+        - all dangling images
+Are you sure you want to continue? [y/N]
 
 
 ===================================================================================================
