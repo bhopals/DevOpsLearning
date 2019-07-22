@@ -1108,9 +1108,36 @@ If Worker then it will have following Process components :
     UCP AGENT 
     DOCKER EE 
 
-
 https://docs.docker.com/ee/ucp/ucp-architecture/
 
+https://docs.docker.com/ee/docker-ee-architecture/
+
+
+Docker Container External PORT
+---------------------------------
+To know docker containers port details 
+
+docker ps 
+docker container port "container-name"
+
+docker container port ucp-proxy
+OUTPUT: 
+    6444/tcp=>0.0.0.0:6444
+    12378/tcp=>0.0.0.0:12378
+
+
+
+Using logs to analyze networking issue .
+--------------------------------------
+    https://docs.docker.com/engine/reference/commandline/logs/
+
+
+To know all the options of logs, we can check
+    docker container logs --help
+
+docker container logs <container-id>
+
+docker container logs tdc-o3e
 
 
 
