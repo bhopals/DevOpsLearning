@@ -906,7 +906,36 @@ The Docker networking architecture is built on a set of interfaces called the Co
 The Container Networking Model
  - Network Sandbox  --> Endpoints --> NETWORK (This is not physical network, its the one which is configured on the Docker Host)
 
-    
+        Then Network --> Docker Engine --> Network Driver or IPAM Driver --> NETWORK INFRASTRUCTURE
+
+        IPAM - IP Addressm Management Driver 
+
+
+    Native Network Driver:
+
+        - Bridge - Connects container to the LAN and other containers .
+                 --> default n/w type 
+
+        - Host - Remove n/w isolation between container and hist.
+                --> Only one container can use a port at the same time.
+                --> Useful for specific applications, such as a management container that you want to run on eveyr host.
+
+        - Overlay - Connet multiple Docker Hosts and their container together and enable swarm.
+                --> Only available with Docker EE and Swarm Enabled 
+                --> Multihost networking using VXLAN
+
+        - Macvlan - Assign a MAC Address, appear as physic host.
+                --> Clones host interfaces to create virtual interfaces, available in the container.
+                --> Supports connecting to VLANS
+
+        - none 
+
+    Third Party Network Plugins :
+        Examples on the Docker Store :
+            - infobox IPAN Plugin
+            - Weave Net
+            - Contiv Network Plugin 
+            https://blog.docker.com/2016/12/understanding-docker-networking-drivers-use-cases/ 
 
 ===================================================================================================
     Docker: Continuous Delivery
