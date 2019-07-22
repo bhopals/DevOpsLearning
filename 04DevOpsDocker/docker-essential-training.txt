@@ -979,6 +979,115 @@ docker container rm <container1>,...<container-n>
 docker container rm app1 app2
 docker network rm app-net 
 
+
+
+Creating an overlay network
+---------------------------------
+Docker overlay network by default created if you have enabled docker swarm 
+
+ create overlay n/w 
+    docker network create --driver overlay <custom-network-name>
+    docker network create --dricver overlay app-overlay 
+
+Now deploy a service on newly created overlay network 
+
+    docker service create --network app-overlay --name app-serv1 --replicas 6 nginx
+
+    docker service create --network=app-overlay --name=app-serv1 --replicas=6 nginx
+
+ I believe both of the above commads are same. Need to investigate more if there is any sort of difference here 
+
+    docker service ls
+    docker ps 
+    docker ps | grep app1 
+
+    docker service inspect app1 | more 
+
+        Look for -  "VirtualIPs": [
+                            "NetworkID":"dafdfasdf",
+                            "Addr":"10.0.0.0"
+                        ]
+
+
+Publishing PORTS 
+----------------------
+To make application accessible outside the network / public network 
+
+DOCKER HOST 
+                    Exposed PORT #
+        container1 ----------------->  
+                                      BRIDGED NETWORK  ----------> Internal LAN / Public Network 
+        container2 ----------------->
+                    Exposed PORT #
+
+To summarize above diagram we can cofirm that 
+
+    - By default, containers are connected to the bridge network-
+    - By default, containers have outbound network access but no inbound network 
+    - Ports must be published to allow inbound network access 
+
+https://docs.docker.com/engine/reference/commandline/run/
+
+
+docker container run -dit -p 8080:80 nginx
+    - SMALL -p means the exposed port will be selected/decided by USER 
+docker container run -dit -P nginx
+    - CAPITAL -P means the exposed port will be selected by DOCKER HOST 
+
+-dit : Run it as Daemon (d) and in interactive mode (it)
+-p : PORT Option 
+8080 : on the host 
+80 : inside the container 
+
+docker ps 
+
+And if you take a look on the assigned ports, it says:
+    0.0.0.0:8080->80/tcp
+    so here 8080 host going inside the container by port 80(inbound traffic)
+
+
+Comparing HOST and INGRESS Port Publishing 
+
+Configuring DNS in Docker 
+    by passing --dns <ip-address> in the command 
+
+
+To change DNS setting for all cotainers hosted on docker 
+
+    we would edit /etc/docker/daemon.json and change 
+
+        {
+            "dns":["198.12.1.33"]
+        }
+
+sudo nano /etc/docker/daemon.json 
+
+sudo systemctl restart docker 
+
+DNS server details are being saved in /etc/resolv.conf of each conatners 
+
+
+
+Configuring Load Balancing 
+    https://success.docker.com/article/ucp-service-discovery
+
+
+Configuring Host network - No IP is assigned and thats what make it different from other network type
+    docker run --rm -d --network host --name my_nginx nginx
+
+    https://docs.docker.com/network/network-tutorial-host/
+
+
+DOCKER ARCHITECTURE AND TRAFFIC FLOW 
+
+
+
+
+
+
+
+
+
 ===================================================================================================
     Docker: Continuous Delivery
 ===================================================================================================
