@@ -1078,11 +1078,38 @@ Configuring Host network - No IP is assigned and thats what make it different fr
     https://docs.docker.com/network/network-tutorial-host/
 
 
-DOCKER ARCHITECTURE AND TRAFFIC FLOW 
+DOCKER ARCHITECTURE AND TRAFFIC FLOW:- 
+
+        ----------------------------------------------------
+        DOCKER TRUSTER REGISTRY | CONTAINERS/APPLICATIONS
+        ----------------------------------------------------
+        UNIVERSAL CONTROL PLANE (UCP)
+        ----------------------------------------------------
+            DOCKER EE ENGINE 
+        ----------------------------------------------------
+        CLOUD SERVER | PHYSICAL SERVERS | VIRTUAL SERVERS
+        ---------------------------------------------------
 
 
 
+DOCKER Swarm Cluster Configuration: 
 
+If Manager then it will have following Process components :
+
+    MANAGER
+    UCP MANAGER 
+    UCP AGENT 
+    DOCKER EE 
+
+If Worker then it will have following Process components :
+
+    WORKER 
+    UCP WORKER 
+    UCP AGENT 
+    DOCKER EE 
+
+
+https://docs.docker.com/ee/ucp/ucp-architecture/
 
 
 
