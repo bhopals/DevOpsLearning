@@ -937,6 +937,48 @@ The Container Networking Model
             - Contiv Network Plugin 
             https://blog.docker.com/2016/12/understanding-docker-networking-drivers-use-cases/ 
 
+
+Configuring Docker Networking 
+---------------------------------
+docker network ls 
+docker network bridge inspect 
+
+Since "bridge" network is default one so when we do 
+
+"docker container run", it by default go to bridge netwrok 
+
+To create user define bridge network :
+
+    docker network create --driver bridge <network-name>
+    docker network create --driver bridge app-net 
+
+    docker network inspect app-net  
+
+Now spin a container with newly created bridge connection.
+
+    docker run --name <app-name> --network <network-name> <image-name>
+
+    docker run --name app11 --network app-net alpine ash 
+    docker run --name app12 --network app-net alpine ash 
+
+Once created. 
+
+    docker container attach app12
+        /# ping app11 
+        /# ping www.google.com
+        To exit from this. Press CTRL+P+Q
+
+
+    docker container attach app11
+        /# ping app12 
+        /# ping www.google.com
+
+
+docker container rm <container1>,...<container-n>
+
+docker container rm app1 app2
+docker network rm app-net 
+
 ===================================================================================================
     Docker: Continuous Delivery
 ===================================================================================================
