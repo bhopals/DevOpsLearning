@@ -233,5 +233,150 @@ To modify stack (To modify number of replicas, no of instances, resourece alloca
     DOCKER CONTAINER NETWROKING MODEL.. ?? //NEED to READ 
     
 
+    -----------------------------------------------------------------------------------------------
 
+    https://github.com/Evalle/DCA/blob/master/README.md#domain-1-orchestration-25-of-exam
+        
+
+    Domain 1: Orchestration (25% of exam)
+    -----------------------------------------------------------------------------------
+
+
+        Complete the setup of a swarm mode cluster, with managers and worker nodes
+        --------------------------------------------------------------------------    
+        
+            $ docker swarm init --advertise-addr <MANAGER-IP>
+                (Initializing SWARM container)
+
+            $ docker swarm join \
+                --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+                192.168.99.100:2377   
+
+            $ docker swarm join-token worker (It will return token details to join as a worker)
+
+            $ docker swarm join-token manager  (It will return token details to join as a manager)
+
+
+            $ docker service create --replicas 1 --name helloworld alpine ping docker.com
+                (To create and deploy service on Docker Container with replicas )
+
+
+            Publish a port for a service
+            $ $ docker service create \
+                    --name <SERVICE-NAME> \
+                    --publish published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
+                    <IMAGE>
+    
+            $ docker service inspect helloworld
+
+            Run docker service ps <SERVICE-ID> to see which nodes are running the service
+            $ docker service ps helloworld
+
+
+            Run the following command to change the desired state of the service running in the swarm:
+
+            $ docker service scale <SERVICE-ID>=<NUMBER-OF-TASKS>
+                For example:
+                    $ docker service scale helloworld=5
+                    helloworld scaled to 5
+
+
+            $ docker node update --label-add foo --label-add bar=baz node-1
+
+            $ docker node promote node-3 node-2 (Worker to Manager Node )
+
+            $ docker node demote node-3 node-2 (Manager to Worker Node)
+
+            $ docker swarm leave
+
+            $ docker node update --availability drain <NODE>
+
+
+
+        State the differences between running a container vs running a service
+        --------------------------------------------------------------------------    
+            https://stackoverflow.com/questions/43408493/what-is-the-difference-between-docker-service-and-docker-container/43408904#43408904
+
+    
+        Demonstrate steps to lock a swarm cluster
+        --------------------------------------------------------------------------    
+        
+            $ docker swarm init --autolock
+    
+    
+    
+        Extend the instructions to run individual containers into running services under swarm
+    
+    
+    
+        Interpret the output of "docker inspect" commands
+    
+    
+    
+        Convert an application deployment into a stack file using a YAML compose file with "docker stack deploy"
+    
+    
+    
+        Manipulate a running stack of services
+    
+    
+    
+        Increase number of replicas
+    
+    
+    
+        Illustrate running a replicated vs global service
+    
+    
+    
+        Mount volumes
+    
+    
+    
+        Add networks, publish ports
+    
+    
+    
+        Identify the steps needed to troubleshoot a service not deploying
+    
+    
+    
+        Apply node labels to demonstrate placement of tasks
+    
+    
+    
+        Sketch how a Dockerized application communicates with legacy systems
+    
+    
+    
+        Paraphrase the importance of quorum in a swarm cluster
+    
+    
+    
+        Demonstrate the usage of templates with "docker service create"
+
+
+
+
+
+
+Other Details :
+-------------------------
+Open protocols and ports between the hosts
+
+The following ports must be available. On some systems, these ports are open by default.
+
+    TCP port 2377 for cluster management communications
+    TCP and UDP port 7946 for communication among nodes
+    UDP port 4789 for overlay network traffic
+    If you plan on creating an overlay network with encryption (--opt encrypted), you also need to ensure ip protocol 50 (ESP) traffic is allowed
+
+
+
+The swarm manager uses ingress load balancing to expose the services you want to make available externally to the swarm. The swarm manager can automatically assign the service a PublishedPort or you can configure a PublishedPort for the service. You can specify any unused port. If you do not specify a port, the swarm manager assigns the service a port in the 30000-32767 range.
+
+
+An N manager cluster tolerates the loss of at most (N-1)/2 managers.
+
+Worker nodes don’t participate in the Raft distributed state, make scheduling decisions, or serve the swarm mode HTTP API.
 
