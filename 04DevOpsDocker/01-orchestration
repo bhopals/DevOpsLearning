@@ -302,6 +302,14 @@ To modify stack (To modify number of replicas, no of instances, resourece alloca
         --------------------------------------------------------------------------    
         
             $ docker swarm init --autolock
+
+            $ docker swarm update --autolock=true
+
+            $ docker swarm update --autolock=false
+
+            $ docker swarm unlock-key
+
+            $ docker swarm unlock-key --rotate
     
     
     
@@ -314,15 +322,91 @@ To modify stack (To modify number of replicas, no of instances, resourece alloca
     
     
         Convert an application deployment into a stack file using a YAML compose file with "docker stack deploy"
-    
-    
+        --------------------------------------------------------------------------------------------------------
+
+        Docker File command SEQ : FROM --> WORKDIR --> COPY --> RUN --> EXPOSE --> ENV --> CMD 
+            # Use an official Python runtime as a parent image
+            FROM python:2.7-slim
+
+            # Set the working directory to /app
+            WORKDIR /app
+
+            # Copy the current directory contents into the container at /app
+            COPY . /app
+
+            # Install any needed packages specified in requirements.txt
+            RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+            # Make port 80 available to the world outside this container
+            EXPOSE 80
+
+            # Define environment variable
+            ENV NAME World
+
+            # Run app.py when the container launches
+            CMD ["python", "app.py"]
+
+
+
+            Docker File Build command :
+                docker build --tag=friendlyhello .
+
+            For DNS Settigs :
+                You can edit (or create) the configuration file at /etc/docker/daemon.json with the dns key 
+
+            To RUN:
+            docker run -p 4000:80 friendlyhello
+
+
+            $ docker login
+
+            SYNTAX:
+            $ docker tag <image-name> <username>/<repository>:<tag>
+
+            EXAMPLE:
+            $ docker tag friendlyhello gordon/get-started:part2
+
+            $ docker push username/repository:tag
+
+            $ docker run -p 4000:80 username/repository:tag
+
+            $ docker stack deploy -c docker-compose.yml getstartedlab
+
+
+
     
         Manipulate a running stack of services
-    
+        ----------------------------------------------------------------------
+        
     
     
         Increase number of replicas
-    
+        ----------------------------------------------------------------------
+
+            $ docker service scale SERVICE=REPLICAS [SERVICE=REPLICAS...]
+
+            $ docker service create --mode global --name backend backend:latest
+
+            $ docker service scale frontend=50
+
+            $ docker service ls --filter name=frontend
+
+
+            You can also scale a service using the docker service update command. The following commands are equivalent:
+
+            $ docker service scale frontend=50
+            $ docker service update --replicas=50 frontend
+
+
+            Docker Service Create 
+            -----------------------------
+            $ docker service create --name my-service -p 8080:80 nginx:alpine
+
+            $ docker service update --replicas=3 my-service
+
+            $ docker service rollback my-service
+
+
     
     
         Illustrate running a replicated vs global service
