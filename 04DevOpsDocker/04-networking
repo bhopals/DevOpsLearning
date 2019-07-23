@@ -1,0 +1,262 @@
+Docker network ls 
+
+
+Conatiners (APP)  ---USES---- NETWORK (to perform below tasks)
+                                    - Internet
+                                    - Data  
+                                    - End Users
+
+
+Things to consider why configuring NETWORK 
+    - Type of network
+    - Published ports 
+    - Custom DNS 
+    - Load Balancing
+    - Traffic Flow 
+    - Logging
+
+
+https://success.docker.com/article/networking
+
+
+The Docker networking architecture is built on a set of interfaces called the Container Networking Model (CNM). The philosophy of CNM is to provide application portability across diverse infrastructures. This model strikes a balance to achieve application portability and also takes advantage of special features and capabilities of the infrastructure.
+
+
+The Container Networking Model
+ - Network Sandbox  --> Endpoints --> NETWORK (This is not physical network, its the one which is configured on the Docker Host)
+
+        Then Network --> Docker Engine --> Network Driver or IPAM Driver --> NETWORK INFRASTRUCTURE
+
+        IPAM - IP Addressm Management Driver 
+
+
+    Native Network Driver:
+
+        - Bridge - Connects container to the LAN and other containers .
+                 --> default n/w type 
+
+        - Host - Remove n/w isolation between container and hist.
+                --> Only one container can use a port at the same time.
+                --> Useful for specific applications, such as a management container that you want to run on eveyr host.
+
+        - Overlay - Connet multiple Docker Hosts and their container together and enable swarm.
+                --> Only available with Docker EE and Swarm Enabled 
+                --> Multihost networking using VXLAN
+
+        - Macvlan - Assign a MAC Address, appear as physic host.
+                --> Clones host interfaces to create virtual interfaces, available in the container.
+                --> Supports connecting to VLANS
+
+        - none 
+
+    Third Party Network Plugins :
+        Examples on the Docker Store :
+            - infobox IPAN Plugin
+            - Weave Net
+            - Contiv Network Plugin 
+            https://blog.docker.com/2016/12/understanding-docker-networking-drivers-use-cases/ 
+
+
+Configuring Docker Networking 
+---------------------------------
+docker network ls 
+docker network bridge inspect 
+
+Since "bridge" network is default one so when we do 
+
+"docker container run", it by default go to bridge netwrok 
+
+To create user define bridge network :
+
+    docker network create --driver bridge <network-name>
+    docker network create --driver bridge app-net 
+
+    docker network inspect app-net  
+
+Now spin a container with newly created bridge connection.
+
+    docker run --name <app-name> --network <network-name> <image-name>
+
+    docker run --name app11 --network app-net alpine ash 
+    docker run --name app12 --network app-net alpine ash 
+
+Once created. 
+
+    docker container attach app12
+        /# ping app11 
+        /# ping www.google.com
+        To exit from this. Press CTRL+P+Q
+
+
+    docker container attach app11
+        /# ping app12 
+        /# ping www.google.com
+
+
+docker container rm <container1>,...<container-n>
+
+docker container rm app1 app2
+docker network rm app-net 
+
+
+
+Creating an overlay network
+---------------------------------
+Docker overlay network by default created if you have enabled docker swarm 
+
+ create overlay n/w 
+    docker network create --driver overlay <custom-network-name>
+    docker network create --dricver overlay app-overlay 
+
+Now deploy a service on newly created overlay network 
+
+    docker service create --network app-overlay --name app-serv1 --replicas 6 nginx
+
+    docker service create --network=app-overlay --name=app-serv1 --replicas=6 nginx
+
+ I believe both of the above commads are same. Need to investigate more if there is any sort of difference here 
+
+    docker service ls
+    docker ps 
+    docker ps | grep app1 
+
+    docker service inspect app1 | more 
+
+        Look for -  "VirtualIPs": [
+                            "NetworkID":"dafdfasdf",
+                            "Addr":"10.0.0.0"
+                        ]
+
+
+Publishing PORTS 
+----------------------
+To make application accessible outside the network / public network 
+
+DOCKER HOST 
+                    Exposed PORT #
+        container1 ----------------->  
+                                      BRIDGED NETWORK  ----------> Internal LAN / Public Network 
+        container2 ----------------->
+                    Exposed PORT #
+
+To summarize above diagram we can cofirm that 
+
+    - By default, containers are connected to the bridge network-
+    - By default, containers have outbound network access but no inbound network 
+    - Ports must be published to allow inbound network access 
+
+https://docs.docker.com/engine/reference/commandline/run/
+
+
+docker container run -dit -p 8080:80 nginx
+    - SMALL -p means the exposed port will be selected/decided by USER 
+docker container run -dit -P nginx
+    - CAPITAL -P means the exposed port will be selected by DOCKER HOST 
+
+-dit : Run it as Daemon (d) and in interactive mode (it)
+-p : PORT Option 
+8080 : on the host 
+80 : inside the container 
+
+docker ps 
+
+And if you take a look on the assigned ports, it says:
+    0.0.0.0:8080->80/tcp
+    so here 8080 host going inside the container by port 80(inbound traffic)
+
+
+Comparing HOST and INGRESS Port Publishing 
+
+Configuring DNS in Docker 
+    by passing --dns <ip-address> in the command 
+
+
+To change DNS setting for all cotainers hosted on docker 
+
+    we would edit /etc/docker/daemon.json and change 
+
+        {
+            "dns":["198.12.1.33"]
+        }
+
+sudo nano /etc/docker/daemon.json 
+
+sudo systemctl restart docker 
+
+DNS server details are being saved in /etc/resolv.conf of each conatners 
+
+
+
+Configuring Load Balancing 
+    https://success.docker.com/article/ucp-service-discovery
+
+
+Configuring Host network - No IP is assigned and thats what make it different from other network type
+    docker run --rm -d --network host --name my_nginx nginx
+
+    https://docs.docker.com/network/network-tutorial-host/
+
+
+DOCKER ARCHITECTURE AND TRAFFIC FLOW:- 
+
+        ----------------------------------------------------
+        DOCKER TRUSTER REGISTRY | CONTAINERS/APPLICATIONS
+        ----------------------------------------------------
+        UNIVERSAL CONTROL PLANE (UCP)
+        ----------------------------------------------------
+            DOCKER EE ENGINE 
+        ----------------------------------------------------
+        CLOUD SERVER | PHYSICAL SERVERS | VIRTUAL SERVERS
+        ---------------------------------------------------
+
+
+
+DOCKER Swarm Cluster Configuration: 
+
+If Manager then it will have following Process components :
+
+    MANAGER
+    UCP MANAGER 
+    UCP AGENT 
+    DOCKER EE 
+
+If Worker then it will have following Process components :
+
+    WORKER 
+    UCP WORKER 
+    UCP AGENT 
+    DOCKER EE 
+
+https://docs.docker.com/ee/ucp/ucp-architecture/
+
+https://docs.docker.com/ee/docker-ee-architecture/
+
+
+Docker Container External PORT
+---------------------------------
+To know docker containers port details 
+
+docker ps 
+docker container port "container-name"
+
+docker container port ucp-proxy
+OUTPUT: 
+    6444/tcp=>0.0.0.0:6444
+    12378/tcp=>0.0.0.0:12378
+
+
+
+Using logs to analyze networking issue .
+--------------------------------------
+    https://docs.docker.com/engine/reference/commandline/logs/
+
+
+To know all the options of logs, we can check
+    docker container logs --help
+
+docker container logs <container-id>
+
+docker container logs tdc-o3e
+
+
+
