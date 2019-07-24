@@ -1145,6 +1145,179 @@ docker container logs tdc-o3e
 ===================================================================================================
 
 
+Understanding Docker Security
+----------------------------------------
+
+Kernel Namespaces 
+    
+    - Created when a container is run
+    - Container processes cannot see or affect other processes
+    - Each container has its own network stack 
+
+
+
+Control Groups 
+    
+    - Created when a container is run
+    - Provide resource accounting and limiting
+    - Ensure no containers exhaust host resources 
+
+
+
+Docker Daemon Attack Surface 
+
+    - Attack surface is small, but takes appropriate security measures
+    - Only run docker on a host 
+    - Only let trusted users control the Docker Daemon 
+
+
+Linux  Kernel Capabilities
+
+    - Docker runs containers with restricted Capabilities
+    - For example, even OS containers don't get full root priviliges.
+
+
+https://docs.docker.com/engine/security/security/
+
+
+
+
+SECURING DOCKER SWARM CLUSTER 
+--------------------------------------
+
+Mutually Authenticated TLS (MTLS) / Mutually Authenticated Transport Layer Security.
+
+ - Manually rotating certificates is painful
+ - Rotating Secutiry certificates without downtime is even harder
+ - MTLS is built into Docker Swarm and solves these challenges
+
+
+
+So here's how it works. 
+    Built in to Docker Swarm clusters is a public key infrastructure, or PKI, that
+     facilitates secure communication between all the nodes in the cluster. The nodes use MTLS for authentication, authorization, 
+     and encryption of all communication. So when you first initialize your Docker Swarm cluster and the first
+      node that comes online is a manager, that node has a built-in certificate authority, or CA, 
+      that's created. From there, as you add new manager nodes, the key pair
+       initially created is used for secure communication between future nodes. The first manager node also
+        creates tokens to be used for workers or managers to join the cluster. In those tokens are a 
+        digest of the root CA certificate and a randomly generated secret. On top 
+        of the cluster is a universal control plane, or UCP, and then from there, you
+         can run your applications securely and efficiently. Swarm managers are in constant communication with each other, 
+         and the worker nodes talk to the managers. Every three months, each node in the cluster renews its
+          certificate automatically using MTLS.
+
+
+Managers v/s Workers
+
+Swarm Manager
+    - Maintain Cluster state 
+    - Schedule Services 
+    - Serve as Swarm HTTP API Endpoints
+    
+Swarm Workers
+    - Sole purpose is to execute container workloads 
+
+
+ If you're concerned that a Swarm node might be compromised in
+  your cluster, you can easily run 
+    "docker swarm ca --rotate"
+ on any of the Swarm managers to immediately generate a new CA certificate and key
+  that will be automatically distributed to all of the other
+   managers and workers in the cluster using MTLS.
+
+
+
+Secure Docker to Registry Communication 
+---------------------------------------------
+https://success.docker.com/article/security-best-practices
+https://success.docker.com/article/security-best-practices#dtrsecurity
+
+
+Understanding Docker Content Trust 
+----------------------------------------------
+https://docs.docker.com/v17.09/engine/security/trust/content_trust/
+
+
+What is Docker Content Trust -  
+    it's important to know that the image that you try to pull, that
+     you want, is the image that you actually receive. And this
+      is especially true when pulling images from internet sites or across large corporate networks,
+       especially very critical images, images that are critical to your company's production applications.
+        Now Docker has an opensource project called Docker Notary, and it allows you to digitally sign content,
+         and Notary is actually part of, by default, the Docker Trusted Registry. Now the purpose of Notary is
+          to enforce a policy that any operations when you talk to a remote registry, whether you're pulling down an
+           image, that that image is required to be signed, or if you're pushing up an image, that you attempt to digitally
+            sign that image. So, to enable Docker Content Trust, it's very easy. You do it in any Docker client simply by using
+             the command, export DOCKER_CONTENT_TRUST, and setting it to one. 
+        That enables Docker Content Trust. 
+
+    To Enable Docker Content Trust:
+        export DOCKER_CONTENT_TRUST 
+
+    Once enabled, the docker push will try to sign an image 
+    Once enabled, the docker pull wull only download signed images 
+
+    (Once you logout for Docker, the DOCKER_CONTENT_TRUST will be RESET so you need to enable it again if you want your images pull/push to be signed)
+
+    With UCP, you can ensure that only signed images can be run.
+
+
+
+
+     Configuring Docker Security
+     --------------------------------------
+
+          Docker Access Control Model 
+          -------------------------------
+
+            - Subjects : User / Team / Organisations / Service Accounts 
+                - Subjects are granted ROLES 
+
+            - Roles : 
+                - Define what can be done. Examples are:
+                    View Only / Restricted control / Full Control 
+
+            - Resources :
+                - Swarm collections / Kubernetes namespaces 
+                - Collections and namespaces together are called resource sets
+
+            - Grants : 
+                Grants are combination of a SUBJECT, a ROLE, and RESOURCE SET, and 
+                they're really the ACL or the Access Control List of Docker UCP. 
+
+        Check UCP UI for all the content and configurtion.
+
+
+    
+    Configuring RBAC (Role Based Access Control in UCP (Universal Control Plane))
+
+    https://docs.docker.com/ee/ucp/admin/configure/use-your-own-tls-certificates/
+
+
+    Creating UCP CLIENT BUNDLES
+
+    https://docs.docker.com/engine/security/certificates/
+
+
+    https://docs.docker.com/ee/ucp/user-access/cli/
+
+
+
+    Setting LDAP/AD with UCP
+    ---------------------------- 
+    In UCP, you have to provide all the LDAP (Light Weight Directory Access Protocol) configuration
+    https://docs.docker.com/ee/ucp/admin/configure/external-auth/
+
+
+    How to Ensure Images Pass Security Scans 
+    -------------------------------------------
+    DTR (Docker Trusted Registry) - Go to System and Enable Image scanning Option.
+    Once enabled, go to each repository, and SETTINGS --> Click on "Enable Image Scanning on PUSH"
+
+    By doing this, the security scan will run on each Image push and the scan will identify and list out if there is any vulnerabilites. 
+
+    
 
 ===================================================================================================
     Docker: Continuous Delivery

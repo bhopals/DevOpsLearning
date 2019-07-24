@@ -161,3 +161,12 @@ What is Docker Content Trust -
     Setting LDAP/AD with UCP
     ---------------------------- 
     In UCP, you have to provide all the LDAP (Light Weight Directory Access Protocol) configuration
+    https://docs.docker.com/ee/ucp/admin/configure/external-auth/
+
+
+    How to Ensure Images Pass Security Scans 
+    -------------------------------------------
+    DTR (Docker Trusted Registry) - Go to System and Enable Image scanning Option.
+    Once enabled, go to each repository, and SETTINGS --> Click on "Enable Image Scanning on PUSH"
+
+    By doing this, the security scan will run on each Image push and the scan will identify and list out if there is any vulnerabilites. 
