@@ -1,0 +1,49 @@
+
+
+Github Repo : https://github.com/arun-gupta/docker-for-java
+
+= Chapter 1
+
+== 1.1 Introduction to Docker
+
+	BUILD --> Docker Image     		
+	
+	SHIP  --> Docker Hub   / Docker Trusted Registry (DTR) / Public or Private Cloud   	
+	RUN   --> Docker Container 
+
+WildFly -
+	WildFly, formerly known as JBoss AS, or simply JBoss, is an application server authored by JBoss, now developed by Red Hat. WildFly is written in Java and implements the Java Platform
+
+
+==== DOCKER 
+	- Docker is an application delivery technology. 
+	- It gives you the ability to build an application using Docker image, 
+	- Ship an application using Docker Hub, or registry is another term for shipping, - Run the application as a Docker container, potentially on multiple hosts
+	- Even multiple instances of a container just to avoid a single point of failure 
+
+
+WORA - Write Once, Run Anywhere - JAVA
+PORA - Package Once, Deploy Anywhere - Docker 
+
+
+DOCKER ENGINE linux like cGroups and namespaces that gives Docker a facility to run images in isolation using containers.
+
+== Docker Workflow
+
+Client - Stateles and dumb Docker cli- Send commands to Docker Host via REST API CALL
+
+Docker Host / Docker hub/ Docker Engine - Which has Docker Daemon that listens the REST API call and RESPOND. Pull the requested image from Registry if not locally available and then run that image (container).
+
+
+Registry - Public / Private Directory / DTR  
+
+
+== Getting Started with Docker
+
+. Create Docker Machine: `docker-machine create -d virtualbox mymachine`
+.. Talk about `boot2docker.iso`
+. Show `env | grep DOCKER`
+. Setup machine: `eval $(docker-machine env mymachine)`
+. Show `env | grep DOCKER`
+
+==================================================================================================================
