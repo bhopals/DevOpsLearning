@@ -84,3 +84,80 @@ Swarm Workers
 
 Secure Docker to Registry Communication 
 ---------------------------------------------
+https://success.docker.com/article/security-best-practices
+https://success.docker.com/article/security-best-practices#dtrsecurity
+
+
+Understanding Docker Content Trust 
+----------------------------------------------
+https://docs.docker.com/v17.09/engine/security/trust/content_trust/
+
+
+What is Docker Content Trust -  
+    it's important to know that the image that you try to pull, that
+     you want, is the image that you actually receive. And this
+      is especially true when pulling images from internet sites or across large corporate networks,
+       especially very critical images, images that are critical to your company's production applications.
+        Now Docker has an opensource project called Docker Notary, and it allows you to digitally sign content,
+         and Notary is actually part of, by default, the Docker Trusted Registry. Now the purpose of Notary is
+          to enforce a policy that any operations when you talk to a remote registry, whether you're pulling down an
+           image, that that image is required to be signed, or if you're pushing up an image, that you attempt to digitally
+            sign that image. So, to enable Docker Content Trust, it's very easy. You do it in any Docker client simply by using
+             the command, export DOCKER_CONTENT_TRUST, and setting it to one. 
+        That enables Docker Content Trust. 
+
+    To Enable Docker Content Trust:
+        export DOCKER_CONTENT_TRUST 
+
+    Once enabled, the docker push will try to sign an image 
+    Once enabled, the docker pull wull only download signed images 
+
+    (Once you logout for Docker, the DOCKER_CONTENT_TRUST will be RESET so you need to enable it again if you want your images pull/push to be signed)
+
+    With UCP, you can ensure that only signed images can be run.
+
+
+
+
+     Configuring Docker Security
+     --------------------------------------
+
+          Docker Access Control Model 
+          -------------------------------
+
+            - Subjects : User / Team / Organisations / Service Accounts 
+                - Subjects are granted ROLES 
+
+            - Roles : 
+                - Define what can be done. Examples are:
+                    View Only / Restricted control / Full Control 
+
+            - Resources :
+                - Swarm collections / Kubernetes namespaces 
+                - Collections and namespaces together are called resource sets
+
+            - Grants : 
+                Grants are combination of a SUBJECT, a ROLE, and RESOURCE SET, and 
+                they're really the ACL or the Access Control List of Docker UCP. 
+
+        Check UCP UI for all the content and configurtion.
+
+
+    
+    Configuring RBAC (Role Based Access Control in UCP (Universal Control Plane))
+
+    https://docs.docker.com/ee/ucp/admin/configure/use-your-own-tls-certificates/
+
+
+    Creating UCP CLIENT BUNDLES
+
+    https://docs.docker.com/engine/security/certificates/
+
+
+    https://docs.docker.com/ee/ucp/user-access/cli/
+
+
+
+    Setting LDAP/AD with UCP
+    ---------------------------- 
+    In UCP, you have to provide all the LDAP (Light Weight Directory Access Protocol) configuration
