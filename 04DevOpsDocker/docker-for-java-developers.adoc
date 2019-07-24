@@ -4,7 +4,7 @@ Github Repo : https://github.com/arun-gupta/docker-for-java
 
 = Chapter 1
 
-== 1.1 Introduction to Docker
+==  Introduction to Docker
 
 	BUILD --> Docker Image     		
 	
