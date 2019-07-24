@@ -117,8 +117,6 @@ What is Docker Content Trust -
     With UCP, you can ensure that only signed images can be run.
 
 
-
-
      Configuring Docker Security
      --------------------------------------
 
@@ -157,7 +155,6 @@ What is Docker Content Trust -
     https://docs.docker.com/ee/ucp/user-access/cli/
 
 
-
     Setting LDAP/AD with UCP
     ---------------------------- 
     In UCP, you have to provide all the LDAP (Light Weight Directory Access Protocol) configuration
@@ -170,3 +167,4 @@ What is Docker Content Trust -
     Once enabled, go to each repository, and SETTINGS --> Click on "Enable Image Scanning on PUSH"
 
     By doing this, the security scan will run on each Image push and the scan will identify and list out if there is any vulnerabilites. 
+
