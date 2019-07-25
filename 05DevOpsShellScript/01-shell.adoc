@@ -1,0 +1,30 @@
+== ShellScript?
+
+	shell is a interpreter which is used to run your commands.
+
+=== automation:
+	perl, python, yaml,shell
+interpreter and compiler
+
+
+=== shell scripting?
+
+	shell script file:-			
+		filename.sh
+		/bin/bash
+			#!-> shebang			#!/bin/bash
+			
+				
+	echo -e " special character with text"
+
+	\n new line
+	\t tab space
+	\b  back space (\b after should containsome text) 
+	\a  bell sound
+	\v verical tab
+
+
+	https://www.shellscript.sh/
+
+							
+
