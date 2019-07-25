@@ -26,5 +26,8 @@ interpreter and compiler
 
 	https://www.shellscript.sh/
 
-							
+	Online Linxu Terminals to Practice LINUX :
+	https://bellard.org/jslinux/
+	https://itsfoss.com/online-linux-terminals/			
+	https://linuxzoo.net/page/centos_basic1.html				
 
