@@ -295,5 +295,99 @@ $ sudo docker build -t busyboxplus .
             RUN ["<exec>", "<arg-1>", ..., "<arg-n>"]
             Within this, the code terms mean the following:
 
+
         Example :
         RUN echo "echo Welcome to Docker!" >> /root/.bashrc
+
+
+==== CMD 
+
+
+    The CMD instruction can run any command (or application), which is similar to the RUN
+    instruction. However, the major difference between those two is the time of execution.
+    The command supplied through the RUN instruction is executed during the build time,
+    whereas the command specified through the CMD instruction is executed when the
+    container is launched from the newly created image. Therefore, the CMD instruction
+    provides a default execution for this container. However, it can be overridden by the
+    docker run subcommand arguments. When the application terminates, the container
+    will also terminate along with the application and vice versa.
+
+    The CMD instruction has three types of syntax, as shown here:
+
+        • The first syntax type is the shell type, as shown here:
+        CMD <command>
+        Within this, the <command> is the shell command, which has to be executed
+        during the launch of the container. If this type of syntax is used, then the
+        command is always executed by using /bin/sh -c.
+
+        • The second type of syntax is exec or the JSON array, as shown here:
+        CMD ["<exec>", "<arg-1>", ..., "<arg-n>"]
+        Within this, the code terms mean the following:
+            °° <exec>: This is the executable, which is to be run during the
+            container launch time.
+            °° <arg-1>, ..., <arg-n>: These are the variable (zero or more)
+            numbers of the arguments for the executable.
+            Building Images
+            [ 52 ]
+
+        • The third type of syntax is also exec or the JSON array, which is similar to the
+        previous type. However, this type is used for setting the default parameters
+        to the ENTRYPOINT instruction, as shown here:
+        CMD ["<arg-1>", ..., "<arg-n>"]
+        Within this, the code terms mean the following:
+            °° <arg-1>, ..., <arg-n>: These are the variable (zero or more)
+            numbers of the arguments for the ENTRYPOINT instruction, which
+         will be explained in the next section.
+
+==== Sample Docker File 
+
+########################################################
+# Dockerfile to demonstrate the behaviour of CMD
+########################################################
+# Build from base image busybox:latest
+FROM busybox:latest
+# Author: Dr. Peter
+MAINTAINER Dr. Peter <peterindia@gmail.com>
+# Set command for CMD
+CMD ["echo", "Dockerfile CMD demo"]
+
+$ sudo docker build -t cmd-demo .
+
+$ sudo docker run cmd-demo
+Dockerfile CMD demo
+
+Cool, isn't it? We have given a default execution for our container and our container
+has faithfully echoed Dockerfile CMD demo. However, this default execution can be
+easily overridden by passing another command as an argument to the docker run
+subcommand, as shown in the following example:
+
+$ sudo docker run cmd-demo echo Override CMD demo
+Override CMD demo
+
+
+
+
+==== ENTRYPOINT
+
+    The ENTRYPOINT instruction will help in crafting an image for running an application
+    (entry point) during the complete life cycle of the container, which would have
+    been spun out of the image. When the entry point application is terminated, the
+    container would also be terminated along with the application and vice versa.
+    Therefore, the ENTRYPOINT instruction would make the container function like an
+    executable. Functionally, ENTRYPOINT is akin to the CMD instruction, but the major
+    difference between the two is that the entry point application is launched by using
+    the ENTRYPOINT instruction, which cannot be overridden by using the docker run
+    subcommand arguments. However, these docker run subcommand arguments will
+    be passed as additional arguments to the entry point application. Having said this,
+    Docker provides a mechanism for overriding the entry point application through the
+    --entrypoint option in the docker run subcommand. The --entrypoint option
+    can accept only word as its argument, and so it has limited functionality.
+
+==== ONBUILD 
+
+    The ONBUILD instruction registers a build instruction to an image and this
+    is triggered when another image is built by using this image as its base image.
+    Any build instruction can be registered as a trigger and those instructions will be
+    triggered immediately after the FROM instruction in the downstream Dockerfile.
+    Therefore, the ONBUILD instruction can be used to defer the execution of the build
+    instruction from the base image to the target image.
