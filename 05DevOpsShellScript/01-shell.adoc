@@ -24,6 +24,49 @@ interpreter and compiler
 	\v verical tab
 
 
+	To know the command Location
+	  which <comand-name>
+	  /bin  --> Location
+
+	To print value of a variable 
+	echo $PATH 
+
+	To Create Custom Command / User Defined Command.
+
+	Create a file and give chmod 700 to that file 
+	and the directory in which you have created that file should be added into the environment variable path.
+
+
+	chmod u+x <filename>
+
+	ll <file-name>
+
+	echo $PATH 
+	/sbin:/bin:/usr/bin:/user/sbin
+
+	Now suppose the newly created file is in root directory then add the root directory in the PATH 
+	export PATH = /sbin:/bin:/usr/bin:/user/sbin:/root 
+
+
+
+
+
+	echo $SHELL --> Will print the current used SHELL 
+	if you want to switch the SHELL then just type "ksh" to switch to K shell.
+
+	To switch to Bash Shell -->type "bash" 
+	
+
+
+
+
+
+
+
+
+
+
+
 	https://www.shellscript.sh/
 
 	Online Linxu Terminals to Practice LINUX :

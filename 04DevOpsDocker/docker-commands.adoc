@@ -391,3 +391,57 @@ Override CMD demo
     triggered immediately after the FROM instruction in the downstream Dockerfile.
     Therefore, the ONBUILD instruction can be used to defer the execution of the build
     instruction from the base image to the target image.
+
+    The syntax of the ONBUILD instruction is as follows:
+    ONBUILD <INSTRUCTION>
+    Within this, <INSTRUCTION> is another Dockerfile build instruction, which will
+    be triggered later. The ONBUILD instruction does not allow the chaining of another
+    ONBUILD instruction. In addition, it does not allow the FROM and MAINTAINER
+    instructions as ONBUILD triggers.
+    Here is an example of the ONBUILD instruction:
+    ONBUILD ADD config /etc/appconfig
+
+    So It will have another instruction passed in.
+
+
+==== The .dockerignore file
+
+     we learnt that the docker build process will send the complete build context to the daemon. To ignore that, we have dockerignore file.
+
+
+Docker history subcommand is an excellent and handy tool for visualizing the image layers.
+$ sudo docker history <docker-id>
+
+VMWARE Alternative Boot and Delete Option 
+https://stackoverflow.com/questions/39858200/vmware-workstation-and-device-credential-guard-are-not-compatible
+
+
+
+
+=== Docker hub Image registry
+
+    Create a container 
+    $ sudo docker run -i --name="containerforhub" -t ubuntu /bin/bash
+    root@e3bb4b138daf:/#
+    Next, we'll create a new directory and file in the containerforhub container.
+    We will also update the new file with some sample text to test later:
+    
+    root@bd7cc5df6d96:/# mkdir mynewdir
+    
+    root@bd7cc5df6d96:/# cd mynewdir
+    
+    root@bd7cc5df6d96:/mynewdir# echo 'this is my new container to make
+    image and then push to hub' >mynewfile
+    
+    root@bd7cc5df6d96:/mynewdir# cat mynewfile
+    This is my new container to make image and then push to hub
+    
+    root@bd7cc5df6d96:/mynewdir#
+    
+    Let's build the new image with the docker commit command from the container,
+    which has just been created. Note that the commit command would be executed
+    from the host machine, from where the container is running, and not from inside
+    this container:
+    
+    $ sudo docker commit -m="NewImage" containerforhub vinoddandy/imageforhub
+    3f10a35019234af2b39d5fab38566d586f00b565b99854544c4c698c4a395d03
