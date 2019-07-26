@@ -30,8 +30,45 @@ The command variable we access the details of the IMAGE
 
 To detach any Docker from Container PRESS CTRL + P and CTRL + Q  in SEQUENCE 
 
-To attach any container back
+To attach any container back (You can attach/detach any container as many times as you want)
+
 
     $ sudo docker attach <container-id>
 
     $ sudo docker run --name <custom-name> -t -i ubuntu:latest /bin/bash 
+
+    ATTACH: 
+        $ sudo docker attach <container-name/id>
+
+    DETACH:
+        Press CTRL+P and CTRL+Q in SEQUENCE
+
+To see the changes we made in the docker image in the container 
+
+$ docker diff <img-id>
+
+To test this scenario ..first run thi $ sudo docker run --name <custom-name> -t -i ubuntu:latest /bin/bash 
+Once done, create some files in the bash by using "touch {a,b,c}.txt
+
+Then press CTRL+P and CTRL+Q to detach from the container.
+
+now run "docker diff <container-id>"
+
+It will return the changes that we made.
+
+
+SIGTERM (-15) - When a user issues this command, the Docker engine
+sends SIGTERM (-15) to the main process, which is running inside the container.
+The SIGTERM signal requests the process to terminate itself gracefully. Most of the
+processes would handle this signal and facilitate a graceful exit. However, if this
+process fails to do so, then the Docker engine will wait for a grace period. Even after
+the grace period, if the process has not been terminated, then the Docker engine will
+forcefully terminate the process. The forceful termination is achieved by sending
+SIGKILL (-9). 
+
+SIGKILL (-9) - The SIGKILL signal cannot be caught or ignored, and so it will result
+in an abrupt termination of the process without a proper clean-up.
+
+
+$ sudo container ps //List all the running containers 
+$ sudo container ps -a //List running and non running containers 
