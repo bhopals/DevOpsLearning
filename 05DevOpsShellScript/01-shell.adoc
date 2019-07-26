@@ -7,14 +7,36 @@
 interpreter and compiler
 
 
-=== shell scripting?
+=== Session 3
+
+	==== shell scripting?
 
 	shell script file:-			
 		filename.sh
 		/bin/bash
 			#!-> shebang			#!/bin/bash
 			
-				
+	
+	For comments 
+		- single line comment use "#" 
+			"# this is commented text"
+		- multi line comment use ">> <LABEL-NAME>
+
+			<all the lines here would be commented.. till the label found.
+
+			<LABEL-NAME> 
+
+		Example : 
+
+			>> comment-start
+			echo "test"
+			echo "come to home "
+			comment-start 
+
+			Now here all the lines from "comment-start" label to "comment-start"
+
+			
+
 	echo -e " special character with text"
 
 	\n new line
@@ -55,17 +77,56 @@ interpreter and compiler
 	if you want to switch the SHELL then just type "ksh" to switch to K shell.
 
 	To switch to Bash Shell -->type "bash" 
+
+    To know the installed Shell
+	ps -p $$ 
+
+
+	To create a Shell script. The file name would be with ".sh" extension (optinal).
+
+	And the very first line would be 
+	#!/bin/bash
+
+	To ensure that when the file is executed, it will run in bash shell and if bash shell is not installed
+	 then it would flag the error on very first line.
+ 
+	In vi editor, press "i" to enable insert mode.
+
+	once done with the editing, press ESC to exit from the INSERT MODE, and then press colon(:).
+	After colon press "wq" for save the write and quit OR "q" for quite without saving the changes.
+
+	":wq" + ENTER -> Save and quit
+	":q" + ENTER  -> Quit without saving the content
+
+	Once file is saved, you can view the content with cat command 
+	cat <file-name>
+	cat -n <file-name>  ("-n" flag to see line numbers as well)
+
+	To execute the shellscript file 
+	sh <file-name>.sh (Can run globally)
+
+	OR 
+
+	. <file-name>.sh  (Only if you are in the same directory)
+
+	sh display.sh OR . display.sh 
 	
+	OR 
+
+	./<file-name>.sh (File should have executable permission )
+
+
+	OR
+
+	bash -x <file-name>.sh (Run the file in a debug mode)
 
 
 
+=== Session 4
 
 
 
-
-
-
-
+=== Resources
 
 	https://www.shellscript.sh/
 
