@@ -307,9 +307,27 @@ $ docker image push localhost:5000/<user-id>/<image-name>:<tag-name>
 =============================================================================
 
 
-= Chapter 3
+= Chapter 3 - Multiple Container Application 
 
 == 3.1 Introduction to Docker Compose
+
+	- Typical applications have multiple components 
+	- You can easily run multicontainer applications with Docker Compose 
+	- Define and run multicontainer applications 
+	- Configuration defined in one or more files 
+		* default file name would be 
+			docker-compose.yml (default) (but it can be overriden)
+			docker-compose.override.yml (default) 
+
+		When we build both files configuration will got merged. docker-compose.override.yml will take precendence over mai file 
+		so it will have the entries that are supposed to be overridden.
+
+		We can have multiple configuration files and in that case an additional falg "-f" should be passed 
+		to specify paths of all files at the time of build.
+
+	- Single commad to manage all services 
+	- Great for dev, staging, and CI 
+	
 
 Slides
 
@@ -339,9 +357,19 @@ services:
 
 Run the commands:
 
+
+Once files is created, run "docker-compose up -d" command to start the services  
+
+Run "docker-compose ps" to see the running services 
+
+Run "docker-compose logs -f" to check the logs of deployed service 
+
+
 ```
+
 docker-compose up -d
 docker-compose logs -f
+
 cp docker-for-java-master/chapter2/webapp.war ~/deployments
 curl http://localhost:8080/webapp/resources/persons
 docker-compose down
@@ -372,6 +400,9 @@ services:
       - 11210:11210
 ```
 
+
+
+
 . Two images `web` and `db`
 . Explain `depdends_on` - container and app starting sequence
 . `COUCHBASE_URI` - show code
@@ -384,12 +415,49 @@ services:
 
 === Project name
 
+Multiple projects using -p 
+ - Create Multiple isolated environments on a host 
+
+
 By default, service names is <project-name>_<service-name>_<service-number>
 Start using `docker-compose -p myapp up -d`
 `docker-compose ps` shows no services
 `docker-compose -p myapp ps` shows services
 
+So "-p" will create a context for the service to run in more isolation. 
+If we create any contect the we need to interact to that service in isolation only 
+
+Example :
+
+$ docker-compose -p myapp up -d 
+  - Start the service in <myapp> context 
+
+$ docker-compose -p ps 
+  - Will not show anything 
+
+$ docker-compose -p myapp ps 
+	- This will list out the process running 
+
+Also the same way to stop such services :
+$ docker-compose -p myapp down 
+
+This "-p" feature is especially useful when we want to spin up the services for TEST/STAGE/UAT environment pointing to the same git repo.
+In this way, the context would help in isolation and smpooth running of all the environment, and can individually shut down once testing is done.
+
+
+
 === Default Override
+
+	File: docker-compose.override.yml 
+
+	- It replaces or extend values 
+	- Single-value options like "image" replace the old value.
+	- Multivalue options like ports are concatenated; newer values and high precedence 
+
+	
+The proper use case is that we can create docker-compose.override files for each environment and let it override depends on environment (sit,test,stage) to expose the port at the time of deloyment.
+
+
 
 Copy the following in `docker-compose.override.yml`:
 
@@ -407,14 +475,66 @@ services:
 
 == 3.5 Docker Compose options
 
-Slides only
+- Multiple files using -f 
+	Replace or extend the parent value 
 
 
+	Run: 
+		$ docker-compose \
+			-f docker-compose.yml \
+			-f docker-compose.db.yml
+			up -d 
+
+	Services: 
+		$ docker-compose \
+			-f docker-compose.yml \
+			-f docker-compose.db.yml
+			ps  
 
 
+	Shutdown: 
+		$ docker-compose \
+			-f docker-compose.yml \
+			-f docker-compose.db.yml
+			down  
+			
+
+- Extending services 
+	Use extends 
+
+	Filename: configuration.yml 
+	```
+	version: '3'
+	services:
+		config:
+			environment:
+				AWS_ACCESS_KEY: XXXXX
+				AWS_SECRET_KEY: XXXXX 
+
+	```
+
+	Filename: docker-compose.yml 
+	```
+		version: '3'
+		services:
+		web:
+			extends:
+				file:configuration.yml 
+				service: config 
+			image: jboss/wildfly
+			volumes:
+			- ~/deployments:/opt/jboss/wildfly/standalone/deployments
+			ports:
+			- 8080:8080
+	```
 
 
+So when you run the command, environment details from config file got set.
 
+To see the details what all the files are used in forming the final version of docker-compose.yml then use "verbose" flag while running the command to up the service.
+
+docker-compose --verbose up -d 
+ 
 . Docker image name format: `<registry>/repo_name:tag`
 .. Default value of `<registry>` is `docker.io`
 
