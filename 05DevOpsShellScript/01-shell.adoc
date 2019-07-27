@@ -150,6 +150,34 @@ variable  key points:
 >> Rules for defining the variables
 >> Bash initilization ***
 
+
+
+Sample Bash Files 
+1. 
+#!/bin/bash 
+echo "Enter First Number"
+read a 
+echo "Enter Second Number"
+read b 
+c=`expr $a + $b`
+echo $c;
+
+
+2. 
+#!/bin/bash 
+read -p "Enter First Value" a 
+read -p "Enter Second Value" b 
+c=`expr $a + $b`
+echo $c;
+
+Points:
+`expr $a + $b` - With space it will add and give result 
+`expr $a+$b` - Without space it will concatenate values  
+`expr $a \* $b` - For multiply we need to add escaping as "*" is reserved value in Linux 
+
+
+
+
 === Resources
 
 	https://www.shellscript.sh/
@@ -158,4 +186,6 @@ variable  key points:
 	https://bellard.org/jslinux/
 	https://itsfoss.com/online-linux-terminals/			
 	https://linuxzoo.net/page/centos_basic1.html				
+
+
 
