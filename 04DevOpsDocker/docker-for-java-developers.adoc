@@ -538,6 +538,31 @@ docker-compose --verbose up -d
 . Docker image name format: `<registry>/repo_name:tag`
 .. Default value of `<registry>` is `docker.io`
 
+
+
+==== Docker Compose: Common Use Cases 
+
+	Dev setup - 
+		docker-compose up 
+	
+	Local/remote host - 
+		DOCKER_HOST, DOCKER_TLS_VERIFY, DOCKER_CERT_PATH
+	
+	Single/multiple hosts - 
+		Integrated with Swarm
+	
+	Multiple isolated environments - 
+		docker-compose up -p <project-name>
+	
+	Automated test setup - 
+		docker-compose up 
+		mvn test 
+		docker-compose down 
+
+	Dev/prod impedance mismatch 
+		docker-compose up -f docker-compose.yml -f docker-production.yml 
+		 
+
 ==== Dockerfile
 
 Use Dockerfile:
