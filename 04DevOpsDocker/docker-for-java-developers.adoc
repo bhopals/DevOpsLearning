@@ -253,7 +253,7 @@ Slides only
 
 . Check out https://github.com/arun-gupta/docker-java-sample
 . Run using CLI: `mvn clean package exec:java`
-. Show `pom.xml` and explain DMP
+. Show `pom.xml` and explain DMP (Add Docker Maven Profile in pom.xml) - Fabrix maven plugin
 . Build image: `mvn package -Pdocker`
 . Show image: `docker image ls`
 . Run container: `mvn install -Pdocker`
@@ -271,6 +271,42 @@ Slides only
 === 2.11 Tag and Share Docker Image
 
 . Show tags at https://hub.docker.com/_/openjdk/
+
+$ docker image ls (It will show all the images with detailed information)
+$ docker image ls -aq
+
+-aq : All Quiet and in this case it will only return list of Image ID'sample
+
+$ docker image rm -f $(docker image ls -aq)
+
+So we have the option to pass subcommands 
+
+
+docker image build . 
+
+In this case REPOSITORY and TAG will be <none> because we have not specified any TAG here.
+
+docker image build -t helloworld:version-2 .
+
+Now Repository name would be "helloworld" and tag would be "version-2"
+Here "." is the build context
+
+To START a private and local registry 
+
+$ docker run -d -p 5000:5000 --restart always --name registry registry:2.6.0
+
+Now to send any build image to local registry we need to tag it
+
+$ docker image tag helloworld:latest localhost:5000/<user-id>/<image-naem>:<tag-name>
+Once tagged, we need to push the image to local registry
+
+$ docker image push localhost:5000/<user-id>/<image-name>:<tag-name>
+
+
+
+
+
+
 . Docker image name format: `<registry>/repo_name:tag`
 .. Default value of `<registry>` is `docker.io`
 

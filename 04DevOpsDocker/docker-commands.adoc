@@ -339,6 +339,17 @@ $ sudo docker build -t busyboxplus .
             numbers of the arguments for the ENTRYPOINT instruction, which
          will be explained in the next section.
 
+    === HEALTHCHECK
+        To check the health of the app running into the container.
+
+        Example: 
+        HEALTHCHECK --interval=5s --timeout=3s CMD curl --fails
+        http://localhost:8091/pools || exit 1
+
+    
+    == USER - Sets the username or UID to use when running the image .
+    
+
 ==== Sample Docker File 
 
 ########################################################
