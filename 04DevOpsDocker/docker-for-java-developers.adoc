@@ -47,3 +47,299 @@ Registry - Public / Private Directory / DTR
 . Show `env | grep DOCKER`
 
 ==================================================================================================================
+
+
+ === Docker Image 
+
+  COPY - Copy files from Source to target directory  
+
+  ADD - Same as COPY command + it can extract and copy ZIP/TAR files as well. Moreover, have support for exexution of CURL command.
+
+$ docker container run -p 8080:8080 <image-name>  
+
+
+= Chapter 2
+
+== 2.1 Docker CLI
+
+Show Docker CLI commands
+
+== 2.2 Run your first Docker container
+
+```
+docker container run -it jboss/wildfly
+
+The docker run subcommand takes an image as an input and launches it as a container. You have to pass the -t and -i flags to the docker run subcommand in order to make the container interactive. The -i flag is the key driver, which makes the container interactive by grabbing the standard input (STDIN) of the container. The -t flag allocates a pseudo-TTY or a pseudo terminal (terminal emulator) and then assigns that to the container.
+
+http://dinus.ac.id/private_lib/fahri/LEARNING_DOCKER.pdf
+
+The benefit if passing "it" command, the container will not be killed if I press CTRL+C, which otherwise be killed if I didn't use "it" flag. If you want to kill
+the container started in INTERACTIVE MODE, then you need to go by a different path. (docker container stop <id/name> )
+
+
+docker container run -d jboss/wildfly
+
+	Here "d" flag denotes, starting a container in DETACHED Mode. 
+
+
+When you run an image with only -d option, the container will exit immediately after the command executed. If you run with -itd option, the container will be detached but running in background, and you can attach back when you need. 
+
+In case if "it" - Once container is up, the command will not exit automatically
+(although the container will keep running in background as its in interactive mode)
+
+In case if "itd" - Once container is up, the command will exit automatically
+(although the container will keep running in background as its in interactive mode)
+
+
+
+-i (interactive) is about whether to keep stdin open (some programs, like bash, use stdin and other programs don't). -d (detached) is about whether the docker run command waits for the process being run to exit. Thus, they are orthogornal and not inherently contradictory. A program like bash exits when stdin in closed, so without -i, it exits immediately.
+
+-t allocates a pseudo-tty. You can see the difference from running bash with -it vs with just -i. For example, without -t, you don't get any prompt and ls shows results in one column. This difference is like the difference between running ls and running ls | cat, where cat does not have a pseudo-tty.
+
+When you docker run bash in a container, -it and -itd behave differently as follows:
+
+With -it, docker run gives you the bash prompt immediately.
+With -itd, docker run exits immediately, but you can docker attach after that and get the bash prompt just as if you had just done docker run -it.
+
+
+
+
+docker container ls
+docker container stop {name}
+docker container rm {name}
+
+docker container run -d web jboss/wildfly
+	- Docker will give some custome name of this container.
+
+docker container run -d --name web jboss/wildfly
+	- Here since we passed the "name", Docker will keep this the name of the container.
+
+
+docker container ls
+docker container rm -f web
+docker container run -it --name web jboss/wildfly bash
+```
+
+
+To Use any container, we need to expose ports. And attach volumes to it so that it can deploy .war files to it
+
+
+
+== 2.3 Run Docker container (ports & volumes)
+
+=== Expose ports
+
+```
+docker container run -d --name web -P jboss/wildfly
+docker container run ls
+docker container logs web
+```
+
+Access WildFly home page in browser on the exposed port
+
+=== Expose ports
+
+```
+docker container stop web
+docker container rm web
+docker container run -d --name web -p 8080:8080 jboss/wildfly
+docker container logs web
+```
+
+Access WildFly home page in browser on 8080
+
+
+=== Volume mapping
+
+```
+docker container rm -f web
+docker container run -d --name web -p 8080:8080 -v `pwd`/webapp.war:/opt/jboss/wildfly/standalone/deployments/webapp.war jboss/wildfly
+docker container logs web -f
+curl http://localhost:8080/webapp/resources/persons
+```
+
+`webapp.war` is used from https://github.com/javaee-samples/javaee7-simple-sample/releases/download/v1.10/javaee7-simple-sample-1.10.war.
+
+=== 2.4 Create first Docker image
+
+. Dockerfile syntax
+. Create a new directory
+. Explain build context
+
+```
+FROM ubuntu
+
+CMD echo "Hello world"
+```
+
+. Build image: `docker image build -t helloworld .`
+
+
+	"docker image build", because we need to build the image, and we want to give the image a tag name, so we're going to call it hello world. And, we're going to say "dot". Now, this is where creating a brand new directory is important. Because, essentially what's happening now is the docker CLI is giving a command to the docker host, build an image, and by saying dot, I am giving it a context. And I'm giving the current directory as the context. An entire context is sent from the client to the host. Now, if you do that in a directory which is populated with lot of other files and directories, entire content is then sent over to the host, which is not really necessary. It is very important that you actually create a new directory, and put Dockerfile over there. Now we understand sometimes it may not be possible to do that, in which case, just like in a get directory, or in a get project, you have dot get ignore, similarly you can have a "dot docker ignore". If you really have to do this in a directory which has a lot of other files and directories, then you can have dot docker ignore file, which follows very similar format as dot get ignore. From our persepective, it's just docker image build dash t hello world dot, and it's an empty directory, so we're going to build this image. 
+
+. Explain `.dockerignore`
+. List image: `docker image ls`
+. History of image: `docker image history helloworld`
+. Run container: `docker container run helloworld`
+. Explain `--compress`
+. Explain `--squash`
+
+
+ https://docs.docker.com/engine/reference/builder/
+
+
+
+=== 2.5 Create first Java Docker image
+
+```
+FROM openjdk
+
+CMD java -version
+```
+
+. Build image: `docker image build -t hellojava .`
+. List image and show the size: `docker image ls`
+. Run container: `docker container run hellojava`
+
+```
+FROM openjdk:jdk-alpine
+
+CMD java -version
+```
+
+. Build image: `docker image build -t hellojava:2 .`
+. Talk about image tagging
+. List image and show/compare the size: `docker image ls`
+. Run container: `docker container run hellojava:2`
+
+=== 2.6 Copy files in the Docker image
+
+. Explain `COPY` vs `ADD`
+
+```
+FROM jboss/wildfly
+
+COPY webapp.war /opt/jboss/wildfly/standalone/deployments/webapp.war
+```
+
+. Build image: `docker image build -t helloweb .`
+. Run container: `docker container run -p 8080:8080 -d helloweb`
+. Access application: `curl http://localhost:8080/webapp/resources/persons`
+
+=== 2.7 Run JAR files from the Docker image
+
+```
+FROM openjdk:jdk-alpine
+
+COPY myapp/target/myapp-1.0-SNAPSHOT.jar /deployments/
+
+CMD java -jar /deployments/myapp-1.0-SNAPSHOT.jar
+```
+
+. Create JAR file: `mvn -f myapp/pom.xml clean package`
+. Build image: `docker image build -t hellojava:3 .`
+. Run container: `docker container run hellojava:3`
+. Change Java application (change "Hello" to "Howdy")
+. Create new JAR file using `mvn -f myapp/pom.xml clean package`
+. Build new Docker image: `docker image build -t hellojava:4 .`
+. Run new Docker container: `docker container run hellojava:4`
+. Show updated changes
+
+=== 2.8 Other Dockerfile instructions
+
+Slides only
+
+=== 2.9 Docker and Maven
+
+. Check out https://github.com/arun-gupta/docker-java-sample
+. Run using CLI: `mvn clean package exec:java`
+. Show `pom.xml` and explain DMP
+. Build image: `mvn package -Pdocker`
+. Show image: `docker image ls`
+. Run container: `mvn install -Pdocker`
+
+=== 2.10 Docker and Gradle
+
+. Check out https://github.com/arun-gupta/docker-java-sample
+. Run using CLI: `./gradlew build run`
+. Show `build.gradle` and explain Docker Gradle Plugin
+. Build image: `./gradlew dockerBuildImage`
+. Show image: `docker image ls`
+. Run container: `./gradlew startContainer`
+
+
+=== 2.11 Tag and Share Docker Image
+
+. Show tags at https://hub.docker.com/_/openjdk/
+. Docker image name format: `<registry>/repo_name:tag`
+.. Default value of `<registry>` is `docker.io`
+
+==== Dockerfile
+
+Use Dockerfile:
+
+```
+FROM ubuntu:latest
+
+CMD echo "This is v1"
+```
+
+==== Remove all images and containers
+
+. `docker image rm -f $(docker image ls -qa)`
+. `docker container rm -f $(docker container ls -aq)`
+
+==== Image with no name or tag
+
+. Build image: `docker image build .`
+. List image: Use `docker image ls` to show the list of images, particular `<none>:<none>` for this image
+. Run container: `docker container run <image-id>`, have no name
+
+==== Image with no name and default `latest` tag
+
+. Build image: `docker image build -t helloworld .`
+. List image: `docker image ls`, show default `<none>:<none>` is gone, `latest` tag is created
+. Run container: `docker container run helloworld` and `docker container run helloworld:latest`
+
+==== Image with name and explicit tag
+
+. Remove all containers: `docker container rm -f $(docker container ls -aq)`
+. Remove image with `latest` tag: `docker image rm helloworld:latest`
+. Build image: `docker image build -t helloworld:1 .`
+. List image: `docker image ls`, show no `latest` tag
+. Run container: `docker container run helloworld:1`
+. Run `latest` container: `docker container run helloworld` and `docker container run helloworld:latest`
+
+==== Tag versioned image with `latest` tag
+
+. Tag image: `docker image tag helloworld:1 helloworld:latest`
+. List images: `docker image ls`, show both tags are available
+. Run `latest` container (now works): `docker container run helloworld` and `docker container run helloworld:latest`
+
+==== Is `latest` really latest?
+
+Use Dockerfile:
+
+```
+FROM ubuntu:latest
+
+CMD echo "This is v2"
+```
+
+. Build image: `docker image build -t helloworld:2 .`
+. Run container: `docker container run helloworld` shows v1
+. Tag v2 to `latest`: `docker image tag helloworld:2 helloworld:latest`
+. Run container: `docker container run helloworld` shows v2 now
+
+==== Push image to Docker Hub
+
+. Push the image without namespace and show the error: `docker image push helloworld:latest`
+. Tag image: `docker image tag helloworld:2 arungupta/helloworld:latest`
+. Login to Docker: `docker login`
+. Push to Docker Hub: `docker image push arungupta/helloworld:latest`
+. Push to local registry
+.. Run registry: `docker container run -d -p 5000:5000 --restart always --name registry registry:2.6.0`
+.. Tag image for local registry: `docker image tag helloworld:latest localhost:5000/arungupta/helloworld:latest`
+.. Use `docker image ls` to show the list of images
+.. Push to local registry: `docker image push localhost:5000/arungupta/helloworld:latest`
+

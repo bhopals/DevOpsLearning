@@ -124,7 +124,31 @@ interpreter and compiler
 
 === Session 4
 
+>>About the echo command
+			>> colors
+			>> -e option
+>>Vares (how to define and how to access them)
+	x  = 2 + y
+	if y= 1
+	x = 2 + 1
+	x = 3
 
+
+echo $? 
+if it returns 0 then the previous command or script executed successfully
+otherwise 0 then it is not successfully executed. 
+
+variable  key points:
+--------------------?
+--> variable name should be a-z , A-Z , 0-9 and special character _
+
+--> you should not start the varibale name with number
+-->doint include spaces in the variable name(if is required to use _(underscore).
+-->***** dont take the variable as the command name.
+---> variable names are case sensitive
+
+>> Rules for defining the variables
+>> Bash initilization ***
 
 === Resources
 
