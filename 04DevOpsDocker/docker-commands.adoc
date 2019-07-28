@@ -561,3 +561,96 @@ https://stackoverflow.com/questions/39858200/vmware-workstation-and-device-crede
 
 
 === Running your private Docker Infrastructure 
+
+    Primarily, a Docker Hub is specially made to centralize and centrally manage information on:
+        • User accounts
+        • Checksums of the images
+        • Public namespaces
+
+   The Docker Registry and Index 
+        A Docker hub consist of Docker Registry and Index 
+
+        The advanced features of the Docker registry include bugsnag, new relic, and cors.
+
+
+===== Publishing container ports – the -p option
+
+The -p option,
+    actually, supports the following four formats of arguments:
+    • <hostPort>:<containerPort>
+    • <containerPort>
+    • <ip>:<hostPort>:<containerPort>
+    • <ip>::<containerPort>
+
+===== Network Address Translation for containers
+        In the previous section, we saw how a -p 80:80 option did the magic, didn't it?
+        Well, in reality, under the hood, the Docker engine achieves this seamless
+        connectivity by automatically configuring the Network Address Translation (NAT)
+        rule in the Linux iptables configuration files.
+
+===== Binding a container to a specific IP address
+    $ sudo docker run -d -p 198.51.100.73:80:80 apache2
+    92f107537bebd48e8917ea4f4788bf3f57064c8c996fc23ea0fd8ea49b4f3335
+
+
+=== Sharing Data with Containers 
+
+
+In this chapter, we will cover the following topics:
+
+
+==== Data volume
+
+    Image are part of Union filesystem. However, the data volume is part of the Docker host filesystem, and it simply gets
+    mounted inside the container
+
+    A data volume can be inscribed in a Docker image using the VOLUME instruction of
+    the Dockerfile. 
+    
+    VOLUME /MountDemo 
+
+
+    Also, it can be prescribed during the launch of a container using
+    the -v option of the docker run subcommand.
+    $ sudo docker run –v /MountPointDemo -it ubuntu:14.04
+    
+
+    $ sudo docker run --rm -it mount-point-demo
+    --rm -> Remove the container once exits
+
+   
+
+   In both the scenarios described here, the Docker engine automatically creates the
+    directory under /var/lib/docker/vfs/ and mounts it to the container. When a
+    container is removed using the docker rm subcommand, the Docker engine does
+    not remove the directory that was automatically created during the container launch
+    time. This behavior is innately designed to preserve the state of the container's
+    application that was stored in the directory. If you want to remove the directory that
+    was automatically created by the Docker engine, you can do so while removing the
+    container by providing a -v option to the docker rm subcommand, on an already
+    stopped container:
+
+    $ sudo docker rm -v 8d22f73b5b46
+    $ sudo docker rm -vf 8d22f73b5b46 (Forced Removal)
+
+
+==== Sharing host data
+
+The –v option has three different formats
+enumerated as follows:
+1. -v <container mount path>
+2. -v <host path>/<container mount path>
+3. -v <host path>/<container mount path>:<read write mode>
+
+First, let's launch an interactive container with the –v option of the docker
+run subcommand to mount /tmp/hostdir of the Docker host directory to
+/MountPoint of the container:
+$ sudo docker run -v /tmp/hostdir:/MountPoint \
+-it ubuntu:14.04
+
+==== Sharing data between containers
+
+
+==== The avoidable common pitfalls
+
+
