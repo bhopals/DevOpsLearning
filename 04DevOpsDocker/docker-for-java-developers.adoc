@@ -874,6 +874,10 @@ services:
 
 == 4.7 Node maintenance, label/constraints, global service
 
+
+
+
+
 Slides only
 
 == 4.8 Create multi-node Swarm mode cluster on AWS/Azure
@@ -963,4 +967,386 @@ docker-machine ls
  - It reroutes traffic from any host to a container 
 	- Reserves a swarm-wide ingress port 
 	- Uses DNS-based service discovery 
-	
+
+
+
+
+
+= Chapter 5 - Stateful Container 
+
+== 5.1 Couchbase cluster using services
+
+Slides
+
+. Show how Docker image was created: https://github.com/arun-gupta/docker-images/tree/master/couchbase
+
+. Initialize swarm mode: `docker swarm init`
+. Create overlay network:
++
+```
+docker network create \
+  -d overlay \
+  couchbase
+```
++
+. Show the list of networks: `docker network ls`
+. Create master service:
++
+```
+docker service create \
+  --name couchbase-master \
+  --replicas 1 \
+  -p 8091:8091 \
+  --network couchbase \
+  -e TYPE=MASTER \
+  arungupta/couchbase
+```
++
+. List the services: `docker service ls`
+. Show logs: `docker service couchbase-master logs -f`
+. Show Couchbase Web Console at http://localhost:8091, show `Server Nodes` tab
+. Create worker service:
++
+```
+docker service create \
+  --name couchbase-worker \
+  --replicas 1 \
+  --network couchbase \
+  -e TYPE=WORKER \
+  -e COUCHBASE_MASTER=couchbase-master.couchbase \
+  -e AUTO_REBALANCE=false \
+  arungupta/couchbase
+```
++
+. Show services: `docker service ls`
+.. Talk about experimental release
+. Show logs: `docker service logs couchbase-worker -f`
+. Show Couchbase Web Console again and highlight `Pending Rabalance` tab
+. Click on `Rebalance` to rebalance the cluster
+. Scale the cluster: `docker service scale couchbase-worker=2`
+. Show services: `docker service ls`
+. Show Couchbase Web Console again and highlight `Pending Rabalance` tab
+. Remove the services: `docker service rm couchbase-master couchbase-worker`
+. Remove the network: `docker network rm couchbase`
+
+== 5.2 Persistent Containers Overview
+
+Slides only
+
+== 5.3 Persistent Containers
+
+=== Implicit per-container storage
+
+. Terminal1: Run Couchbase container: `docker container run -d --name db arungupta/couchbase`
+. Check volume mounts: `docker container inspect --format '{{json .Mounts }}' db  | jq`
+.. Show `/opt/couchbase/var` is mapped to the implicit storage
+. Check the mounted volume: `docker container inspect --format='{{range .Mounts}}{{.Source}}{{end}}' db`
+. Terminal2: Log into Docker for Mac VM:
++
+```
+docker container run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
+```
++
+.. `debian` image has `nsenter`
+.. `--pid=host` means enter the process space of the VM running Docker For Mac
+.. `sh` says to run a shell there
++
+. Show `ls <volume-dir>`
+. Terminal1: Stop container: `docker container stop db`
+. Remove container, including the volume: `docker container rm -v db`
+. Terminal2: Show that the volume does not exist any more
+
+=== Explicit per-container storage
+
+. Create a new volume: `docker volume create my_couchbase`
+. Check the list of volumes: `docker volume ls`
+. Get more details about the volume: `docker volume inspect my_couchbase`
+. Create a Couchbase container using this volume:
++
+```
+docker container run \
+  -d \
+  --name db \
+  -p 8091-8093:8091-8093 \
+  -v my_couchbase:/opt/couchbase/var \
+  arungupta/couchbase
+```
++
+. Check the volume mount again: `docker container inspect --format '{{json .Mounts }}' db  | jq`
+.. Show how the newly created volume is used here
+. Terminate the container: `docker container rm -f db`
+. Delete the volume explicitly: `docker volume rm my_couchbase`
+
+=== Per-host storage
+
+. Run Couchbase container
++
+```
+docker container run \
+  -d \
+  --name db \
+  -p 8091-8093:8091-8093 \
+  -v ~/couchbase:/opt/couchbase/var \
+  arungupta/couchbase
+```
++
+. Check volume mounts: `docker container inspect --format '{{json .Mounts }}' db  | jq`
+.. Show `/opt/couchbase/var` is mapped to the explicit directory
+. Show data in `~/couchbase`
+. Login to Couchbase Web Console at http://localhost:8091
+. Create a new bucket
+. Kill the container: `docker container rm -f db`
+. Restart the container using previous command
+. Access Couchbase Web Console and show that the bucket still exists
+
+== 5.4 Docker Volume Plugin
+
+	What is Portworx 
+	 - Easy-to-deploy container data services 
+	 - Provides persistence, replication, snapshots, and encryptions.
+
+	 Why Portworx
+	 	- Container granular volumes
+		- Cross-availability zone HA 
+		- Support for enterprise data operations 
+		- Ease of development and provisioning 
+
+
+== 5.5 Docker Volume Plugin in practice
+
+=== Pre setup 
+
+==== EC2 instance
+
+. Ubuntu 14.04, `m3.large`
+.. Add `8091` to inbound rules
+. Login to EC2 instance: `ssh -i ~/.ssh/arun-cb-west1.pem ubuntu@<public-ip>`
+. Update: `sudo apt-get update`
+. Install Docker: `curl -sSL https://get.docker.com/ | sh`
+. Enable non-root access: `sudo usermod -aG docker ubuntu`
+. Logout and log back in
+
+==== AWS EBS Volume
+
+. Create 10GB EBS volume
+. Attach the volume to EC2 instance using instance id
+
+==== Px-dev
+
+In EC2 instance:
+
+. Create `etcd`:
++
+```
+docker container run -v \
+  /data/varlib/etcd \
+  -p 4001:4001 \
+  -d \
+  portworx/etcd:latest
+```
++
+. Make root mounted volumes shareable: `sudo mount --make-shared /`
+. Use `lsblk` to check that the volume is attached to EC2 instance
+. Start `px-dev` container:
++
+```
+docker container run \
+  --restart=always \
+  --name px \
+  -d \
+  --net=host \
+  --privileged=true                             \
+  -v /run/docker/plugins:/run/docker/plugins    \
+  -v /var/lib/osd:/var/lib/osd:shared           \
+  -v /dev:/dev                                  \
+  -v /etc/pwx:/etc/pwx                          \
+  -v /opt/pwx/bin:/export_bin:shared            \
+  -v /var/run/docker.sock:/var/run/docker.sock  \
+  -v /var/cores:/var/cores                      \
+  -v /usr/src:/usr/src                           \
+  --ipc=host                                    \
+  portworx/px-dev \
+  -daemon \
+  -k \
+  etcd://localhost:4001 \
+  -c cluster1 \
+  -s /dev/xvdf
+```
++
+. Check the logs: `docker container logs -f px`
+
+=== Show
+
+. Talk:
+.. EBS volume attached to EC2 instance
+.. `etcd` container
+.. `px-dev` container
+
+. List the volumes: `docker volume ls`
+. Check the status of attached volumes that are available to Portworx using `sudo /opt/pwx/bin/pxctl status`
+. Create a Docker volume:
++
+```
+docker volume create -d pxd -o size=10G -o fs=ext4 --name cbvol
+```
++
+. List the volumes: `docker volume ls` and show newly created volume
+. Create a Couchbase container with Portworx volume:
++
+```
+docker container run \
+  -d \
+  --name db \
+  -v cbvol:/opt/couchbase/var \
+  -p 8091-8094:8091-8094 \
+  -p 11210:11210 \
+  arungupta/couchbase
+```
++
+. Login to Couchbase Web Console: http://<public-ip>:8091
+.. Login: `Administrator`, password: `password`
+. Create a new data bucket
+. See the list of containers
+. Kill the db container: `docker container rm -f db`
+. Restart the database container:
++
+```
+docker container run \
+  -d \
+  --name db \
+  -v cbvol:/opt/couchbase/var \
+  -p 8091-8094:8091-8094 \
+  -p 11210:11210 \
+  arungupta/couchbase
+```
++
+. Login to Couchbase Web Console and show that the bucket still exists
+
+=== Cleanup
+
+. Detach volume
+. Delete volume
+. Terminate EC2 instance
+
+
+
+
+= Chapter 6
+
+== 6.1 Monitoring Docker using CLI
+
+Talk through slides
+
+=== Docker CLI
+
+. Run a container: `docker container run -d --name db arungupta/couchbase`
+. `docker container stats` - You can use the `docker container stats` command to live stream a container’s runtime metrics. The command supports CPU, memory usage, memory limit, and network IO metrics.
+. See the list of running containers using `docker container ls` and show stats for one container only
+. `docker container stats <name>`
+. `docker container stats --format "{{.Container}}: {{.CPUPerc}}"`
+. `docker container stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"`
+. `docker container stats --no-stream`
+
+=== Docker Remote API
+
+. `curl --unix-socket /var/run/docker.sock http://localhost/containers/<name>/stats`
+
+=== Events
+
+. In one terminal (T1), `docker system events`
+. In a different terminal (T2), kill a running container using `docker container rm -f db`
+. Show the list of events in T1
+. Start a new container in T2: `docker container run -d jboss/wildfly`
+. Show the list of events in T1
+
+== 6.2 Monitor Docker with Prometheus
+
+=== Prometheus endpoint
+
+==== Default metrics
+
+. Update daemon settings:
++
+```
+{
+  "metrics-addr" : "0.0.0.0:1337",
+  "experimental" : true
+}
+```
++
+. Restart Docker
+. Show the list of metrics at `curl http://localhost:1337/metrics`
+. Show the list of engine metrics at `curl http://localhost:1337/metrics | grep engine`
+
+==== Prometheus node scraper
+
+. Create a new directory `prometheus` and change directory
+. Create `prometheus.yml`
++
+```
+# A scrape configuration scraping a Node Exporter and the Prometheus server
+# itself.
+scrape_configs:
+  # Scrape Prometheus itself every 5 seconds.
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+```
++
+. Start Prometheus container:
++
+```
+docker run \
+  -d \
+  --name metrics \
+  -p 9090:9090 \
+  -v `pwd`/prometheus.yml:/etc/prometheus/prometheus.yml \
+  prom/prometheus
+```
++
+. Show the dashboard at http://localhost:9090
+. Show the list of metrics
+. Choose `http_request_duration_microseconds`
+. Switch from `Console` to `Graph`
+.. Change the duration from `1h` to `5m`
+. Stop the container: `docker container rm -f metrics`
+
+== 6.3 Monitor Docker with cAdvisor
+
+. Run `cAdvisor`
++
+```
+docker run \
+  -d \
+  --name=cadvisor \
+  -p 8080:8080 \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  google/cadvisor:latest
+```
++
+. Show dashboard at http://localhost:8080
+.. All Docker containers are in `/docker` sub-container
+.. Explain CPU and Memory isolation
+.. Explain CPU, Memory, Network, Filesystem usage
+. Start Couchbase container:
++
+```
+docker run \
+  -d \
+  --name db \
+  -p 8091-8093:8091-8093 \
+  arungupta/couchbase
+```
++
+. Refresh the dashboard
+. Show Couchbase Web Console at http://localhost:8091
+. Create a new bucket `docker`
+. Create primary index in Query tab: `create primary index on docker;`
+. Select documents from the bucket `select * from docker;`
+. Refresh dashboard again
+
+
+
