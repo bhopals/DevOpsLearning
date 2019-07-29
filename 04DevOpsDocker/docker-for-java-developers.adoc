@@ -958,4 +958,9 @@ docker-machine ls
 
 
 ===== Swarm Mode: Routing Mesh 
- - Load ba
+ - Load balancers are host-aware, not container-aware
+ - Swarm mode introduces the container-aware routing 
+ - It reroutes traffic from any host to a container 
+	- Reserves a swarm-wide ingress port 
+	- Uses DNS-based service discovery 
+	
