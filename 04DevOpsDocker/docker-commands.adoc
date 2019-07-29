@@ -650,7 +650,139 @@ $ sudo docker run -v /tmp/hostdir:/MountPoint \
 
 ==== Sharing data between containers
 
+===== Mount Data Volume from other container
+    $ sudo docker run -d -p 80:80 \
+        --volumes-from log_vol \
+        apache2
+
+    By doing this we can make the data avaialbe for both containers as both are pointing to the same Data Volume 
 
 ==== The avoidable common pitfalls
 
 
+   ===== Directory leaks
+        Earlier in the data volume section, we learnt that the Docker engine automatically
+        creates directories based on the VOLUME instruction in Dockerfile as well as the
+        -v option of the docker run subcommand. We also understood that the Docker
+        engine does not automatically delete these auto-generated directories in order to
+        preserve the state of the application(s) run inside the container.
+
+  ===== The undesirable effect of data volume
+        As mentioned earlier, Docker enables us to etch data volumes in a Docker image
+        using the VOLUME instruction during the build time. Nonetheless, the data volumes
+        should never be used to store any data during the build time, otherwise it will result
+        in an unwanted effect.
+
+        Example :
+
+        1. Build the image using Ubuntu 14.04 as the base image:
+        # Use Ubuntu as the base image
+        FROM ubuntu:14.04
+        2. Create a /MountPointDemo data volume using the VOLUME instruction:
+        VOLUME /MountPointDemo
+        3. Create a file in the /MountPointDemo data volume using the RUN instruction:
+        RUN date > /MountPointDemo/date.txt
+
+
+
+
+
+
+=== Orchestration
+
+    <service>:
+    <key>: <value>
+    <key>:   
+        - <value>
+            Here, <service> is the name of the service. You can have more than one service
+            definition in a single docker-compose.yml file. The service name should be followed
+            by one or more keys. However, all the services must either have an image or a
+            build key, followed by any number of optional keys. Except the image and build
+            keys, the rest of the keys can be directly mapped to the options in the docker run
+            subcommand. The value can be either a single value or multiple values.
+            The following is a list of keys supported in the docker-compose version 1.2.0:
+            • image: This is the tag or image ID
+            • build: This is the path to a directory containing a Dockerfile
+            • command: This key overrides the default command
+            • links: This key links to containers in another service
+            • external_links: This key links to containers started either by some other
+            docker-compose.yml or by some other means (not by docker-compose)
+            Chapter 8
+            [ 143 ]
+            • ports: This key exposes ports and specifies both the ports
+            HOST_port:CONTAINER_port
+            • expose: This key exposes ports without publishing them to the host machine
+            • volumes: This key mounts paths as volumes
+            • volumes_from: This key mounts all of the volumes from another container
+            • environment: This adds environment variables and uses either an array or a
+            dictionary
+            • env_file: This adds environment variables to a file
+            • extends: This extends another service defined in the same or different
+            configuration file
+            • net: This is the networking mode, which has the same values as the Docker
+            client --net option
+            • pid: This enables the PID space sharing between the host and the containers
+            • dns: This sets custom DNS servers
+            • cap_add: This adds a capability to the container
+            • cap_drop: This drops a capability of the container
+            • dns_search: This sets custom DNS search servers
+            • working_dir: This changes the working directory inside the container
+            • entrypoint: This overrides the default entrypoint
+            • user: This sets the default user
+            • hostname: This sets a container's host name
+            • domainname: This sets the domain name
+            • mem_limit: This limits the memory
+            • privileged: This gives extended privileges
+            • restart: This sets the restart policy of the container
+            • stdin_open: This enables the standard input facility
+            • tty: This enables text based control such as a terminal
+            • cpu_shares: This sets the CPU shares (relative weight)
+
+
+==== The Docker exec command
+    
+    The docker exec command provided the much-needed help to users, who are
+    deploying their own web servers or other applications running in the background.
+    Now, it is not necessary to log in to run the SSH daemon in the container.
+    
+    First, run the docker ps -a command to get the container ID:
+    $ sudo docker ps -a
+    b34019e5b5ee nsinit:latest "make local"
+    a245253db38b training/webapp:latest "python app.py"
+    
+    Then, run the docker exec command to log in to the container.
+    $ sudo docker exec -it a245253db38b bash
+    root@a245253db38b:/opt/webapp#
+
+
+### The security features of containers
+
+    ##### Resource isolation
+
+        The kernel namespaces guarantee the much-needed isolation feature for Linux
+        containers. The Docker project has added a few additional namespaces for Docker
+        containers, and each distinct aspect of a container runs in its own namespace and
+        hence, does not have access outside it. The following is a list of namespaces that
+        Docker uses:
+        • The PID namespace: This is used for a series of actions taken in order to
+        achieve process-level isolation
+        • The Network namespace: This is used to have executive control over the
+        network interfaces
+        • The IPC namespace: This is used to maintain control over access to IPC
+        resources
+        • The Mount namespace: This is used to manage mount points
+        • The UTS namespace: This is used to segregate the kernel and version
+        identifiers
+
+    ##### Resource accounting and control
+
+
+    Copy-on-write filesystems: Docker has been using Advanced Multilayered
+        unification Filesystem (AuFS) as a filesystem for containers. AuFS
+        is a layered filesystem that can transparently overlay one or more existing
+        filesystems. When a process needs to modify a file, AuFS first creates a
+        copy of that file and is capable of merging multiple layers into a single
+        representation of a filesystem. This process is called copy-on-write, and this
+        prevents one container from seeing the changes of another container even
+        if they write to the same filesystem image. One container cannot change the
+        image content to affect the processes in another container
