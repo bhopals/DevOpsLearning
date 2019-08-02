@@ -186,6 +186,6 @@ Points:
 	https://bellard.org/jslinux/
 	https://itsfoss.com/online-linux-terminals/			
 	https://linuxzoo.net/page/centos_basic1.html				
-
+	https://drive.google.com/drive/folders/199SOg_qYmYNU9dfpwooM4U47rnUom66c
 
 

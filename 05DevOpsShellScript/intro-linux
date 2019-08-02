@@ -171,3 +171,63 @@ Enter the details. Once done editing. Press ESC then :wq to quit the editor.
 
 
 
+
+  ===   Session-05   Date: 24-07-2019
+        =========================
+        1) installation of any package by shellscript
+
+        vi install.sh
+        -------------
+        #!/bin/bash
+        read -p "please enter your required package" soft
+        yum install ${soft} -y
+        echo  -e "033[0;31m  Successfully \a installaed\033[0m;
+
+        ---------------------------------------------------------------------------------------
+
+        2) Redirectional operaters:
+
+            why we are using redirectional operators:
+        output of one command/script we will store as input to the another file.
+
+            ls > abc.txt
+
+        abc.txt if file not exist then it will be create.............	
+            
+        date  1>output.txt 2>error.txt (The output will be in "output.txt")
+        date  1>>output.txt 2>>error.txt (The output will be in "output.txt")
+
+        datee 1>output.txt 2>error.txt  (The output will be in "error.txt") 
+        datee 1>>output.txt 2>>error.txt  (The output will be in "error.txt") 
+
+
+        3) File Discriptors:
+        ---------------------
+            0 - STDIN
+            1 - STDOUT
+            2 - STDERR
+
+        4) Command line arguments
+        ------------------------------
+        #!/bin/bash 
+        $a=$1
+        $b=$2
+
+        echo `expr $a + $b`
+
+        File name : add.sh 
+
+        To Run "sh add.sh 10 12"
+        //Output 
+        22
+
+        5) Bash initialization:
+        -------------------
+        its default location : .bash_profile
+
+
+
+
+
+
+
