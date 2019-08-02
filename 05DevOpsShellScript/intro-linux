@@ -230,4 +230,173 @@ Enter the details. Once done editing. Press ESC then :wq to quit the editor.
 
 
 
+===Session-06	Date: 25-07-2019
+
+1) Redirectional Operator 
+
+	any command 1>filename1.txt 2>&1
+    Both Error and Success output will be printed in the same directory "filename1.txt" as we have used "&1" as the error file name.
+    
+
+2) Bash initialization
+
+		
+	a) when a user try to login to the server before getting the termial
+the first file executed by the server from the users default locaiton is
+.bash_profile----> .bashrc(it is also in the default locaiton of the user)
+.bashrc----------> /etc/bashrc
+/etc/bashrc---> /etc/profile.d/*.sh
+
+
+/etc/profile.d/
+i will create a my own script and i will check whether exe.or not
+
+	>> include custom scripts
+3) Grep command using :
+=======================
+global regular exp print
+4) Conditional statments
+		if
+		if..else
+		if..elif..elif..else ..if
+		case
+5) looping statement
+		for/while/select/until
+
+
+
+
+today putty session commands:
+==============================
+ 1  cd
+    2  clera
+    3  clear
+    4  ls
+    5  cat > example
+    6  cat example
+    7  clear
+    8  cat example 1>a.txt 2>b.txt
+    9  ls
+   10  cat b.txt
+   11  cat a.txt
+   12  cat example 1>new1 2>&1
+   13  cat new1
+   14  cat exampe 1>new1 2>&1
+   15  cat new1
+   16  cat exampe 1>new1 2>>&1
+   17  cat exampe 1>new1 2>&1
+   18  cat ne1
+   19  cat ne1
+   20  cat new1
+   21  cd
+   22  clear
+   23  cd /dev
+   24  ls
+   25  cat null
+   26  pwd
+   27  cat /dev/null
+   28  clear
+   29  cat /dev/null
+   30  cd
+   31  cat example
+   32  cat example > /dev/null
+   33  cat /dev/null
+   34  cat example
+   35  cat /dev/null
+   36  cd /dev
+   37  ll null
+   38  clear
+   39  cd
+   40  clear
+   41  ls
+   42  vi one.txt
+   43  sh one.txt
+   44  cat one.txt
+   45  date > 1>/dev/null 2>&1
+   46  vi one.txt
+   47  sh one.txt
+   48  echo $?
+   49  cat one.txt
+   50  cat /dev/null
+   51  vi first.sh
+   52  cat first.sh
+   53  sh first.sh
+   54  bash -x first.sh
+   55  cat /dev/null
+   56  a=`ls -la`
+   57  echo $a
+   58  echo $a > /dev/null
+   59  cat /dev/null
+   60  clear
+   61  cat $SHELL
+   62  CLER
+   63  clear
+   64  echo $SHELL
+   65  exit
+   66  cd
+   67  pwd
+   68  ls
+   69  rm -rf a.txt b.txt example first.sh new1 one.txt
+   70  ls
+   71  ll
+   72  ll -al
+   73  cat .bash_profile
+   74  3.bash_profile is calling another file in the location
+   75  clear
+   76  ls -al
+   77  cat .bash_history
+   78  clear
+   79  ls -al
+   80  cat .bashrc
+   81  cat /etc/bashrc
+   82  cd /etc/profile.d/
+   83  pwd
+   84  ll
+   85  ll *.sh
+   86  cat 256term.sh
+   87  clear
+   88  ls
+   89  vi naga.sh
+   90  ll naga.sh
+   91  chmod  u+x naga.sh
+   92  ll naga.sh
+   93  cd
+   94  source .bash_profile
+   95  cler
+   96  clear
+   97  clear
+   98  clear
+   99  alias
+  100  alias c=clear
+  101  alias
+  102  c
+  103  c
+  104  unalias c
+  105  alias x=date
+  106  x
+  107   #how to make perminat alias
+  108  .bash_profile
+  109  .bashrc
+  110  /etc/bashrc    /etc/profile.d/<location>
+  111  clear
+  112  vi .bash_profile
+  113  x
+  114  cat .bash_profile
+  115  source .bash_profile
+  116  cd
+  117  x
+  118  x
+  119  cat .bash_profile
+  120  source .bash_profile
+  121  x
+  122  cd
+  123  clear
+  124  .ssh
+  125  cd .ssh
+  126  ssh-keygen authorized_keys
+  127  ssh-keygen
+  128  ssh-copy-id -i root@"destionatin server "
+  129  clear
+  130  cd
+  131  history
 
