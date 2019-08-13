@@ -416,162 +416,152 @@ syntax:	 1) grep " option" "pattern" file_name
 		-
 	3) >> Conditional statements
 			a) if ..fi
-
-
-		if [ condition]
-		then
-			statements;;;;;;;
-		fi
-
+                    if [ condition]
+                    then
+                        statements;;;;;;;
+                    fi
 
 			b) if ...else...if
 
-if [ conditon is true ]
-then
-	stat:1
-else
-	stat:2
-fi
-		
-
-			
-
-
-
-
-
-
+                    if [ conditon is true ]
+                    then
+                        stat:1
+                    else
+                        stat:2
+                    fi
 
 			c) if....elif...elif...elif...else..if
+                    if [ cond1 ]
+                    then
+                        statement1
+                    elif [ cond2 ]
+                    then
+                        statements2
+                    elif [ cond3 ]
+                    then
+                        statement3
+                    ..
+                    ..
+                    else
+                        statements
+                    fi	
 
+*** Ensure to put space between if and "[" and the value.
+*** Ensure to put proper indendation
 
-if [ cond1 ]
-then
-	statement1
-elif [ cond2 ]
-then
-	statements2
-elif [ cond3 ]
-then
-	statement3
-..
-..
-else
-	statements
-fi	
+Example :
 
+    read -p "Please enter your age" name 
+    if [ $name -eq 10 ]
+    then
+        echo "You are selected as your Age is 10."
+    fi 
 
-
-
-
-
-
-
-
-
+    echo "I am outside the loop"
+    
 
 putty sesssion history:
 -----------------------
  1  ping www.google.com
-    2  clear
-    3  cd
-    4  clear
-    5  ls
-    6  vi new.txt
-    7  nano new.txt
-    8  nano new.txt
-    9  cat new.txt
-   10  cat -n new.txt
-   11  clear
-   12  ls
-   13  cat new.txt
-   14  grep linux new.txt
-   15  grep "linux" new.txt
-   16  grep -c "linux" new.txt
-   17  clear
-   18  cat new.txt
-   19  cp new.txt2
-   20  cp new.txt new1
-   21  cp new.txt new2
-   22  cp new.txt new3
-   23  touch old
-   24  cat new.txt
-   25  cat new1
-   26  cat new2
-   27  cat new3
-   28  ls
-   29  cat old
-   30  vi old
-   31  cat
-   32  clear
-   33  grep -l "linux" new1 new2 new2 old new.txt
-   34  grep -l "hi" new1 new2 new2 old new.txt
-   35  grep -l "hi" new1 new2 new2 old new.txt /etc/passwd
-   36  grep -l "root" new1 new2 new2 old new.txt /etc/passwd
-   37  cat
-   38  clear
-   39  cat new1
-   40  clear
-   41  cat -n new1
-   42  grep "fla " new1
-   43  grep "fla" new1
-   44  grep "our" new1
-   45  grep -w linu new1
-   46  grep -w linux new1
-   47  grep -o linux new1
-   48  grep -on linux new1
-   49  clear
-   50  cat -n new1
-   51  grep -vn cui
-   52  grep -vn "cui" new1
-   53  cleear
-   54  clear
-   55  df -h
-   56  df -h | grep -v File
-   57  df -h | grep -v Avail
-   58  df -h | grep -v Avail -v dev
-   59  df -h | grep -v Avail
-   60  clear
-   61  vi serach
-   62  cat search
-   63  cat serach
-   64  grep -f search new1
-   65  grep -f serach new1
-   66  echo "welcome" >> serach
-   67  cat serach
-   68  grep -f serach new1
-   69  grep -f serach /etc/passwd
-   70  echo "root" >> serach
-   71  grep -f serach /etc/passwd
-   72  clear
-   73  vi if.sh
-   74  sh if.sh
-   75  sh if.sh
-   76  sh if.sh
-   77  sh if.sh
-   78  cat if.sh
-   79  clear
-   80  if [ -e /root/new1 ]; then echo " file is exisited"; else echo "not available"; fi
-   81  if [ -e /root/ne1dw1 ]; then echo " file is exisited"; else echo "not available"; fi
-   82  if [ -e /root/ ]; then echo " file is exisited"; else echo "not available"; fi
-   83  if [ -e /root/ne1dw1 ]; then echo " file is exisited"; else echo "not available"; fi
-   84  clear
-   85  vi ifelse.sh
-   86  sh ifelse.sh
-   87  vi ifelse.sh
-   88  sh ifelse.sh
-   89  sh ifelse.sh
-   90  cat if
-   91  cat ifelse.sh
-   92  clear
-   93  vi number.txt
-   94  sh number.txt
-   95  vi number.txt
-   96  sh number.txt
-   97  sh number.txt
-   98  cat number.txt
-   99  case
-  100  history
+2  clear
+3  cd
+4  clear
+5  ls
+6  vi new.txt
+7  nano new.txt
+8  nano new.txt
+9  cat new.txt
+10  cat -n new.txt
+11  clear
+12  ls
+13  cat new.txt
+14  grep linux new.txt
+15  grep "linux" new.txt
+16  grep -c "linux" new.txt
+17  clear
+18  cat new.txt
+19  cp new.txt2
+20  cp new.txt new1
+21  cp new.txt new2
+22  cp new.txt new3
+23  touch old
+24  cat new.txt
+25  cat new1
+26  cat new2
+27  cat new3
+28  ls
+29  cat old
+30  vi old
+31  cat
+32  clear
+33  grep -l "linux" new1 new2 new2 old new.txt
+34  grep -l "hi" new1 new2 new2 old new.txt
+35  grep -l "hi" new1 new2 new2 old new.txt /etc/passwd
+36  grep -l "root" new1 new2 new2 old new.txt /etc/passwd
+37  cat
+38  clear
+39  cat new1
+40  clear
+41  cat -n new1
+42  grep "fla " new1
+43  grep "fla" new1
+44  grep "our" new1
+45  grep -w linu new1
+46  grep -w linux new1
+47  grep -o linux new1
+48  grep -on linux new1
+49  clear
+50  cat -n new1
+51  grep -vn cui
+52  grep -vn "cui" new1
+53  cleear
+54  clear
+55  df -h
+56  df -h | grep -v File
+57  df -h | grep -v Avail
+58  df -h | grep -v Avail -v dev
+59  df -h | grep -v Avail
+60  clear
+61  vi serach
+62  cat search
+63  cat serach
+64  grep -f search new1
+65  grep -f serach new1
+66  echo "welcome" >> serach
+67  cat serach
+68  grep -f serach new1
+69  grep -f serach /etc/passwd
+70  echo "root" >> serach
+71  grep -f serach /etc/passwd
+72  clear
+73  vi if.sh
+74  sh if.sh
+75  sh if.sh
+76  sh if.sh
+77  sh if.sh
+78  cat if.sh
+79  clear
+80  if [ -e /root/new1 ]; then echo " file is exisited"; else echo "not available"; fi
+81  if [ -e /root/ne1dw1 ]; then echo " file is exisited"; else echo "not available"; fi
+82  if [ -e /root/ ]; then echo " file is exisited"; else echo "not available"; fi
+83  if [ -e /root/ne1dw1 ]; then echo " file is exisited"; else echo "not available"; fi
+84  clear
+85  vi ifelse.sh
+86  sh ifelse.sh
+87  vi ifelse.sh
+88  sh ifelse.sh
+89  sh ifelse.sh
+90  cat if
+91  cat ifelse.sh
+92  clear
+93  vi number.txt
+94  sh number.txt
+95  vi number.txt
+96  sh number.txt
+97  sh number.txt
+98  cat number.txt
+99  case
+100  history
 
 
 

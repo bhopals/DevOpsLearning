@@ -178,6 +178,243 @@ Points:
 
 
 
+==== Sessoion 7 
+
+===== Conditional 
+	a) if ..fi
+			if [ condition]
+			then
+				statements;;;;;;;
+			fi
+
+	b) if ...else...if
+
+			if [ conditon is true ]
+			then
+				stat:1
+			else
+				stat:2
+			fi
+
+	c) if....elif...elif...elif...else..if
+			if [ cond1 ]
+			then
+				statement1
+			elif [ cond2 ]
+			then
+				statements2
+			elif [ cond3 ]
+			then
+				statement3
+			..
+			..
+			else
+				statements
+			fi	
+
+	d) case  $variable_name in 
+			pattern_1)
+					statement
+					;;
+			pattern_2) 
+					statement
+					;;
+			*) 
+				default statement
+				;;
+		esac 		
+
+Note : ";;" is necessary 
+Example :
+
+    read -p "Please enter your age" name 
+    if [ $name -eq 10 ]
+    then
+        echo "You are selected as your Age is 10."
+    fi 
+
+    echo "I am outside the loop"
+    
+
+Example : 
+if [ -e new.txt ]; then echo "File present"; else echo "Not
+Present"; fi
+
+
+====== Conditional Testing Operators 
+
+	====== Numberic Testing Operators 
+		-gt  Greater Than 
+		-lt  Less Than 
+		-le  Less Than Equal 
+		-ge  Greater Than Equal 
+		-ne  Not Equal 
+		-eq  Equal 
+
+
+	====== String Testing Operators 
+		==  Equal To 
+		!=  Not Equal To 
+		-z  String Length Zero 
+		-n  NonZero Length 
+
+
+	====== File Based Testing Operators 
+		-e <file-name>  To check if file exists
+		-f <file-name>  Is it a regular file 
+		-d <file-name>  Is it a Directory 
+		-r <file-name>  Is it Readable
+		-w <file-name>  Is it Writable
+		-x <file-name>  Is it Executable
+		-z <file-name>  Is it Zero Length 
+		-s <file-name>  Is it Non Zero Length  
+		
+
+
+===== GREP Command Details 
+
+Options Description
+-c : This prints only a count of the lines that match a pattern
+-h : Display the matched lines, but do not display the filenames.
+-i : Ignores, case for matching
+-l : Displays list of a filenames only.
+-n : Display the matched lines and their line numbers.
+-v : This prints out all the lines that do not matches the pattern
+-e exp : Specifies expression with this option. Can use multiple times.
+-f file : Takes patterns from file, one per line.
+-E : Treats pattern as an extended regular expression (ERE)
+-w : Match whole word
+-o : Print only the matched parts of a matching line,
+ with each such part on a separate output line.
+
+------------------------------------------------------------
+grep command in Unix/Linux
+The grep filter searches a file for 
+a particular pattern of characters, 
+and displays all lines that contain that pattern. 
+The pattern that is searched 
+in the file is referred to as the 
+regular expression (grep stands for globally 
+search for regular expression and print out).
+
+
+yntax:
+
+grep [options] pattern [files]
+Options Description
+-c : This prints only a count of the lines that match a pattern
+-h : Display the matched lines, but do not display the filenames.
+-i : Ignores, case for matching
+-l : Displays list of a filenames only.
+-n : Display the matched lines and their line numbers.
+-v : This prints out all the lines that do not matches the pattern
+-e exp : Specifies expression with this option. Can use multiple times.
+-f file : Takes patterns from file, one per line.
+-E : Treats pattern as an extended regular expression (ERE)
+-w : Match whole word
+-o : Print only the matched parts of a matching line,
+ with each such part on a separate output line.
+----------------------------------------------------------
+
+$cat > geekfile.txt
+unix is great os. unix is opensource. unix is free os.
+learn operating system.
+Unix linux which one you choose.
+uNix is easy to learn.unix is a multiuser os.Learn unix .unix is a powerful.
+------------------------------------------------------------------------
+1. Case insensitive search : 
+The -i option enables to search for a string case insensitively in the give file. 
+It matches the words like “UNIX”, “Unix”, “unix”.
+
+$grep -i "UNix" geekfile.txt
+------------------------------------------------------------------------
+
+
+2. Displaying the count of number of matches : 
+We can find the number of lines that matches the given string/pattern
+
+$ grep -c "unix" geekfile.txt
+
+------------------------------------------------------------------------
+3. Display the file names that matches the pattern : 
+We can just display the files that contains the given string/pattern.
+
+$grep -l "unix" *
+
+or
+ 
+$grep -l "unix" f1.txt f2.txt f3.xt f4.txt
+Output:
+
+
+-----------------------------------------------------------------------
+
+4. Checking for the whole words in a file : 
+By default, grep matches the given string/pattern even if it found as a substring
+ in a file. The -w option to grep makes it match only the whole words.
+
+$ grep -w "unix" geekfile.txt
+Output:
+
+$ grep -w "uni" geekfile.txt ( you will no o/p)
+
+------------------------------------------------------------------------
+5. Displaying only the matched pattern : 
+By default, grep displays the entire line which has the matched string. 
+We can make the grep to display only the matched string by using the -o option.
+
+$ grep -o "unix" geekfile.txt
+Output:
+
+------------------------------------------------------------------------
+6. Show line number while displaying the output using grep -n :
+ To show the line number of file with the line matched.
+
+$ grep -n "unix" geekfile.txt
+Output:
+
+------------------------------------------------------------------------
+7. Inverting the pattern match : You can display the lines that are not matched
+ with the specified search sting pattern using the -v option.
+
+$ grep -v "unix" geekfile.txt
+Output:
+
+------------------------------------------------------------------------
+8. Matching the lines that start with a string : 
+The ^ regular expression pattern specifies the start of a line. 
+This can be used in grep to match the lines which start with the given string or pattern.
+
+$ grep "^unix" geekfile.txt
+Output:
+
+------------------------------------------------------------------------
+
+9. Matching the lines that end with a string : 
+The $ regular expression pattern specifies the end of a line. 
+This can be used in grep to match the lines which end with the given string or pattern.
+
+$ grep "os$" geekfile.txt
+------------------------------------------------------------------------
+10.Specifies expression with -e option. Can use multiple times :
+
+$grep –e "Agarwal" –e "Aggarwal" –e "Agrawal" geekfile.txt
+------------------------------------------------------------------------
+
+11. -f file option Takes patterns from file, one per line.
+
+$cat pattern.txt
+
+Agarwal
+Aggarwal
+
+Agrawal
+
+$grep –f pattern.txt  geekfile.txt
+
+
+
+
 === Resources
 
 	https://www.shellscript.sh/
