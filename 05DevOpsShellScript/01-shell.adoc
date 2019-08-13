@@ -225,8 +225,11 @@ Points:
 		esac 		
 
 Note : ";;" is necessary 
-Example :
 
+
+
+Example :
+	#!/bin/bash 
     read -p "Please enter your age" name 
     if [ $name -eq 10 ]
     then
@@ -237,8 +240,29 @@ Example :
     
 
 Example : 
+#!/bin/bash 
 if [ -e new.txt ]; then echo "File present"; else echo "Not
 Present"; fi
+
+
+Example : 
+#!/bin/bash 
+echo "Welcome to the cafeteria"
+echo "=================================="
+echo "Please make your choice from the menu give below:"
+echo -e  "1. Tea\n2. Coffee\n3.Cold Drink"
+read i
+case $i in
+1) echo "Tea Selected"
+	;;
+2) echo "Coffee Selected"
+	;;
+3) echo "Cold Drink Selected"
+	;;
+*) echo "Sorry we do not serve this Item"
+	;;
+esac
+echo "Thank you for visiting Us!!"
 
 
 ====== Conditional Testing Operators 
@@ -269,6 +293,12 @@ Present"; fi
 		-z <file-name>  Is it Zero Length 
 		-s <file-name>  Is it Non Zero Length  
 		
+
+==== To pass the variables from command line to the file.
+	sh abc.sh 10 20 30 40 
+	In File, we can refer those variables using $0 $1 $2 $3 and so on.
+	$0 is the file name "abc.sh"
+	$1 is 10 and so on 
 
 
 ===== GREP Command Details 

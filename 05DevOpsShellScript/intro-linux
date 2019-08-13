@@ -458,9 +458,9 @@ Example :
     fi 
 
     echo "I am outside the loop"
-    
 
-putty sesssion history:
+
+putty sesssion history: (You can get this by executing "history" command)
 -----------------------
  1  ping www.google.com
 2  clear
