@@ -440,10 +440,44 @@ Aggarwal
 
 Agrawal
 
-$grep –f pattern.txt  geekfile.txt
+$ grep –f pattern.txt  geekfile.txt
 
 
 
+
+=== Loops 
+Loop Types :
+==== for loop
+
+for VAR_NAME in <list>
+do
+	<STATEMENT TO EXECUTE>
+done 
+
+Example: for1.sh 
+
+	#!/bin/sh
+	# This is sample for loop example
+	for i in 1 2 3 4 5 6 7 8 9 10
+	do
+			echo "Hello $i time"
+			sleep 1
+	done
+
+for i in {1..10} //Run from 1 to 10 with +1 increment 
+for i in {1..10..2} //Run from 1 to 10 with +2 increment 
+	
+==== Seq 
+seq 2 20  //Run the loop from 2 to 20 with +1 increment 
+seq 2 2 20//Run the loop from 2 to 20 with +2 increment  	
+
+==== while loop 
+
+
+==== until loop 
+
+
+==== select loop 
 
 === Resources
 
