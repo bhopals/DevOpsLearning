@@ -471,13 +471,159 @@ for i in {1..10..2} //Run from 1 to 10 with +2 increment
 seq 2 20  //Run the loop from 2 to 20 with +1 increment 
 seq 2 2 20//Run the loop from 2 to 20 with +2 increment  	
 
+x = `seq 1 10`
+echo $x // 1 2 3 4 5 6 7 8 9 10
+
+for v in $(seq 1 10)
+do
+	echo $v 
+done 
+
+TASK : 
+Write a program which take input of "directory name" and then it should output all the files/directory listed in it 
+
+#!/bin/bash 
+# File/Directory Exists or not
+read -p "Please enter directory name: " n
+ls $n 1>/dev/null 2>&1 
+output=$?
+if [ $output -eq 0 ]
+then
+        for v in $(ls $n)
+        do
+                echo "File /Directory name : $v"
+        done
+else
+        echo "Invalid Directory Entered"
+fi
+
+
+$? is used to find the return value of the last executed command. 
+
+
+Same thing in above scenario, we can also check the file type.
+For conditional details, kindly refer session 06-07, where we have the list of possible 
+condition evaluators.
+
+
+ if [ -f $path/$var ]
+ then
+	echo "The File name is $path"/"$var";
+ fi 
+
+For Directory check:
+if [ -d $path/$var ]
+ then
+	echo "The Directory name is $path"/"$var";
+ fi 
+
+
+
 ==== while loop 
+SYNTAX:
+while (condition)/read
+do
+		exe.
+done
+
+while (conditon)
+do
+done < Input from file 
+
+Example1:
+#!/bin/bash 
+read -p "Enter the number you want to print" var 
+var2 = 1
+while [ $var -le $var]
+do
+	echo $var2
+	var2 = $((var2+1))
+done 
+
+
+Example2:
+File: abc 
+-------------
+date
+time 
+ls
+
+File: test.sh
+--------------
+#!/bin/bash 
+while read val 
+do
+	echo $val
+done < abc 
+
+*Here "abc" is the file name that has some text. We are redirecting the ouput of the 
+file and injecting it into the WHILE loop.
+In above example while loop will read each line in each iteration 
+
+
+Example3:
+File: abc 
+-------------
+date time 
+whoami cal 
+
+File: test.sh
+--------------
+#!/bin/bash 
+while read val 
+do
+	echo $val
+done < abc 
+
+OUTPUT:
+-----------
+Error - Because while reading each line "date time" is not a valid command 
+
+To resolve that we need to pass more parameters that we want to read 
+
+Example4:
+File: abc 
+-------------
+date time ls  
+whoami cal pwd
+
+File: test.sh
+--------------
+#!/bin/bash 
+while read val1 val2 val3  
+do
+	echo $val
+	echo $val2 
+	echo $val3 
+done < abc 
+
+Now val1 will have first value 
+val2 will have second value And
+val3 will have all the remaining values.
+
+IFS - Internal Field separator 
+
+EXAMPLE:
+#!/bin/bash 
+x=$IFS 
+while IFS="," read a b c 
+do 
+	echo $a 
+done < abc 
+IFS=$x //Assigning back the value
+
+
+
 
 
 ==== until loop 
 
 
 ==== select loop 
+
+
+
+
 
 === Resources
 
