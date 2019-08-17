@@ -640,7 +640,65 @@ download_software() {
 		echo "Installation FAILED..."
 	fi 
 }
-download_software()
+download_software
+//In linux, at the time of function calling we do not use paranthesis. "download_software()" would flag an error.
+
+
+===== Function Arguements
+FILENAME:abc.sh
+#!/bin/bash 
+dis() {
+	echo $0
+	echo $1
+	echo $2
+}
+echo $0
+echo $1
+echo $2
+
+disp 
+
+#/ sh abc.sh 10 20 
+OUTPUT:
+abc.sh 
+10
+20 
+
+  
+abc.sh 
+
+If you see the arguements, except the $0 the file name, passed in the program were ignored by the function because in order to use
+the values in the function, it has to be passed.
+
+EXAMPLE
+#!/bin/bash 
+disp() {
+	echo $a
+	echo $b 
+}
+
+echo $0
+a=$1
+b=$b 
+disp $a $b  //Here both parameters are passed to the method
+
+
+==== Signals and Traps 
+There are certain predefined signals that we can send to the system to take defined actions 
+
+kill -l //it will list out around 64 singal details that we have in linux
+
+EXAMPLE:
+#!/bin/bash 
+trap " " SIGINT 
+for((i=0;i<=15;i++))
+do 
+echo $i
+sleep 2 
+done 
+
+So when you run this.. it will start printing 0 to 15 with 2 seconds sleep after each iteration,
+If you press CTRL+C in between. The system will not let you exit.
 
 === Resources
 
