@@ -655,7 +655,6 @@ dis() {
 echo $0
 echo $1
 echo $2
-
 disp 
 
 #/ sh abc.sh 10 20 
@@ -681,7 +680,6 @@ echo $0
 a=$1
 b=$b 
 disp $a $b  //Here both parameters are passed to the method
-
 
 ==== Signals and Traps 
 There are certain predefined signals that we can send to the system to take defined actions 
