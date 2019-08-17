@@ -623,7 +623,24 @@ IFS=$x //Assigning back the value
 
 
 
+==== Functions 
 
+
+Example:software.sh 
+#!/bin/bash 
+download_software() {
+	read -p "Enter the URL to install the software package" path 
+	echo "Downloading started ...."
+
+	wget $path 
+	if [ $? eq 0 ] 
+	then 
+		echo "Software installed successfully"
+	else 
+		echo "Installation FAILED..."
+	fi 
+}
+download_software()
 
 === Resources
 
