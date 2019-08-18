@@ -1,7 +1,5 @@
 
-
-Docker Swarm
------------------
+==== Docker Swarm
 Docker Swarm is open-source container orchestration platform and is the native clustering engine for and by Docker.
 
 Docker Swarm is Cluster Management and Orchestration feature that build into the Docker Engine.
@@ -33,8 +31,8 @@ ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
 
 
 
-Practical:
------------------------
+===== Practical:
+
 Use - https://labs.play-with-docker.com
 For all the practicals.
 
@@ -44,7 +42,7 @@ ERROR : docker swarm init could not choose an IP address error
 docker swarm init --advertise-addr <IP-ADDRESS>
 
 
-NODE / SERVICE / CONTAINER / TASKS
+===== NODE / SERVICE / CONTAINER / TASKS
 
 NODE - Node is your physical host or a virtual machine in the cloud thats running docker, the docker engine.
 
@@ -94,10 +92,11 @@ tens or hundreds of nodes in a docker swarm cluster with scalability and high av
 
 
 
-Locking a Swarm Cluster - You can enable it by passing a parameter --autolock while initializing docker swarm.
+====== Locking a Swarm Cluster 
+You can enable it by passing a parameter --autolock while initializing docker swarm.
 
-    The locking envolves saving of the keys on the storage for communication between all the nodes in clustered environment.
-    Also the logs access. To store and distribute keys across all the applications that uses docker.
+The locking envolves saving of the keys on the storage for communication between all the nodes in clustered environment.
+Also the logs access. To store and distribute keys across all the applications that uses docker.
 
     docker swarm init --autolock
 
@@ -120,7 +119,8 @@ To change key, we can run "docker swarm unlock-key --rotate
 Quorum should be achieved in CLUSTER mode of swarm. This basically tells if you have n numbers of total nodes
 then how many of the nodes would be manager to achieve less or almost zero fault tolerence.
 
-Fault tolerance is the property that enables a system to continue operating properly in the event of the failure of (or one or more faults within) some of its components.
+Fault tolerance is the property that enables a system to continue operating properly in the event of the failure of 
+(or one or more faults within) some of its components.
 
 The Quorum algorithms basically are based on RAFT consensus Algorith.
 
@@ -132,8 +132,8 @@ you need to run following command.
 
 
 
-MANAGING DOCKER Swarm
------------------------------------
+==== MANAGING DOCKER Swarm
+
 
 docker node ls - List all the nodes 
 docker info | more - Provide more information about the node.
@@ -147,22 +147,22 @@ To Stop any service on docker
 
 To visualize docker swarn cluster.
 
-    https://github.com/dockersamples/docker-swarm-visualizer
-    Here have details about it. Copy the given command and paste that in one of the manager node to deploy our startup.
+https://github.com/dockersamples/docker-swarm-visualizer
+Here have details about it. Copy the given command and paste that in one of the manager node to deploy our startup.
 
     docker run -it -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer.
 
-    Once the command is completed, please run "docker ps", you will find the visualizer in the list
+Once the command is completed, please run "docker ps", you will find the visualizer in the list
 
-    now run "ip addr" to get the ip address and get the IP address of the SERVICE. Append the port 8080 with ip address
-    and run that on the browser 
+now run "ip addr" to get the ip address and get the IP address of the SERVICE. Append the port 8080 with ip address
+and run that on the browser 
+    
     http://127.0.0.1:8080/
 
 To convert Manager to Worker and vice versa run promote/demote command
 
 
-Analyzing docker services with docker inspect
-----------------------------------------------------
+==== Analyzing docker services with docker inspect
 
 docker node ls - Give you the list of the nodes
 
@@ -177,14 +177,16 @@ To get specific field details you can do grep
 
 
 
-STACK 
--------------------------------
-A Service defines one or more instances of a single image deployed on one or more machines (described by one entry in the services part of the docker-compose.yaml files).
+=== STACK 
 
+A Service defines one or more instances of a single image deployed on one or more machines (described 
+by one entry in the services part of the docker-compose.yaml files).
 
 A Stack defines a group of heterogeneous services (described by the whole yaml file).
 
-A stack is a group of interrelated services that share dependencies, and can be orchestrated and scaled together. A single stack is capable of defining and coordinating the functionality of an entire application (though very complex applications may want to use multiple stacks).
+A stack is a group of interrelated services that share dependencies, and can be orchestrated and scaled 
+together. A single stack is capable of defining and coordinating the functionality of an entire 
+application (though very complex applications may want to use multiple stacks).
 
 To implement stack, first we need to create docker-composer.yml file and add all the details in it.
 Once done we need to run "the stack. 
@@ -197,30 +199,29 @@ To modify stack (To modify number of replicas, no of instances, resourece alloca
 
     docker service ls
     docker service update --replicas=20 <service-name> (Dynmically, without updating compose file) - One way
-    Or
 
-    Go to docker stack yml file and save. once done, run 
-        docker stack deploy -c docker-compose.yml <stackname>
-
+Or Go to docker stack yml file and save. once done, run 
+        
+    docker stack deploy -c docker-compose.yml <stackname>
 
     docker service ps <SERVICE/STACK_NAME>
 
     docker service update - can be used to update the network port or other settings of the deployed service
 
+==== Replicated v/s global services 
 
-    Replicated v/s global services 
+You can define the mode of the service at the time of service Creation
 
-    You can define the mode of the service at the time of service Creation
+    docker service create --mode = global  
 
-    docker service create --mode = global  - It will deploye one task/service every node (One node can have multiple containers)
-    for example- virus scanning, agent scanning
+It will deploye one task/service every node (One node can have multiple containers) for example- virus scanning, agent scanning
 
     docker service create --mode = replicated 
 
 
 
-    LOGS 
-    -------------------
+==== LOGS 
+    
     docker service logs
 
     docker service create --name <name-of-service> -p<incomingport>:<outboundport> <imagename>
@@ -233,234 +234,180 @@ To modify stack (To modify number of replicas, no of instances, resourece alloca
     DOCKER CONTAINER NETWROKING MODEL.. ?? //NEED to READ 
     
 
-    -----------------------------------------------------------------------------------------------
-
     https://github.com/Evalle/DCA/blob/master/README.md#domain-1-orchestration-25-of-exam
         
 
-    Domain 1: Orchestration (25% of exam)
-    -----------------------------------------------------------------------------------
+=== Domain 1: Orchestration (25% of exam)
+
+Complete the setup of a swarm mode cluster, with managers and worker nodes
+Initializing SWARM container        
+    $ docker swarm init --advertise-addr <MANAGER-IP>
+  
+    $ docker swarm join \
+        --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+        192.168.99.100:2377   
+
+    $ docker swarm join-token worker (It will return token details to join as a worker)
+
+    $ docker swarm join-token manager  (It will return token details to join as a manager)
+
+    $ docker service create --replicas 1 --name helloworld alpine ping docker.com
+        (To create and deploy service on Docker Container with replicas )
 
 
-        Complete the setup of a swarm mode cluster, with managers and worker nodes
-        --------------------------------------------------------------------------    
+Publish a port for a service
+
+    $ $ docker service create \
+            --name <SERVICE-NAME> \
+            --publish published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
+            <IMAGE>
+
+    $ docker service inspect helloworld
+
+Run docker service ps <SERVICE-ID> to see which nodes are running the service
+    $ docker service ps helloworld
+
+Run the following command to change the desired state of the service running in the swarm:
+
+    $ docker service scale <SERVICE-ID>=<NUMBER-OF-TASKS>
+    
+    $ docker service scale helloworld=5 helloworld scaled to 5
+
+    $ docker node update --label-add foo --label-add bar=baz node-1
+
+    $ docker node promote node-3 node-2 (Worker to Manager Node )
+
+    $ docker node demote node-3 node-2 (Manager to Worker Node)
+
+    $ docker swarm leave
+
+    $ docker node update --availability drain <NODE>
+
+
+==== State the differences between running a container vs running a service
+https://stackoverflow.com/questions/43408493/what-is-the-difference-between-docker-service-and-docker-container/43408904#43408904
+   
+===== Demonstrate steps to lock a swarm cluster
         
-            $ docker swarm init --advertise-addr <MANAGER-IP>
-                (Initializing SWARM container)
-
-            $ docker swarm join \
-                --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
-                192.168.99.100:2377   
-
-            $ docker swarm join-token worker (It will return token details to join as a worker)
-
-            $ docker swarm join-token manager  (It will return token details to join as a manager)
-
-
-            $ docker service create --replicas 1 --name helloworld alpine ping docker.com
-                (To create and deploy service on Docker Container with replicas )
-
-
-            Publish a port for a service
-            $ $ docker service create \
-                    --name <SERVICE-NAME> \
-                    --publish published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
-                    <IMAGE>
+    $ docker swarm init --autolock
+    $ docker swarm update --autolock=true
+    $ docker swarm update --autolock=false
+    $ docker swarm unlock-key
+    $ docker swarm unlock-key --rotate
     
-            $ docker service inspect helloworld
-
-            Run docker service ps <SERVICE-ID> to see which nodes are running the service
-            $ docker service ps helloworld
-
-
-            Run the following command to change the desired state of the service running in the swarm:
-
-            $ docker service scale <SERVICE-ID>=<NUMBER-OF-TASKS>
-                For example:
-                    $ docker service scale helloworld=5
-                    helloworld scaled to 5
-
-
-            $ docker node update --label-add foo --label-add bar=baz node-1
-
-            $ docker node promote node-3 node-2 (Worker to Manager Node )
-
-            $ docker node demote node-3 node-2 (Manager to Worker Node)
-
-            $ docker swarm leave
-
-            $ docker node update --availability drain <NODE>
-
-
-
-        State the differences between running a container vs running a service
-        --------------------------------------------------------------------------    
-            https://stackoverflow.com/questions/43408493/what-is-the-difference-between-docker-service-and-docker-container/43408904#43408904
-
+Extend the instructions to run individual containers into running services under swarm
+Interpret the output of "docker inspect" commands
+   
     
-        Demonstrate steps to lock a swarm cluster
-        --------------------------------------------------------------------------    
-        
-            $ docker swarm init --autolock
+===== Convert an application deployment into a stack file using a YAML compose file with "docker stack deploy"
 
-            $ docker swarm update --autolock=true
-
-            $ docker swarm update --autolock=false
-
-            $ docker swarm unlock-key
-
-            $ docker swarm unlock-key --rotate
+Docker File command SEQ : FROM --> WORKDIR --> COPY --> RUN --> EXPOSE --> ENV --> CMD 
     
-    
-    
-        Extend the instructions to run individual containers into running services under swarm
-    
-    
-    
-        Interpret the output of "docker inspect" commands
-    
-    
-    
-        Convert an application deployment into a stack file using a YAML compose file with "docker stack deploy"
-        --------------------------------------------------------------------------------------------------------
+    # Use an official Python runtime as a parent image
+    FROM python:2.7-slim
 
-        Docker File command SEQ : FROM --> WORKDIR --> COPY --> RUN --> EXPOSE --> ENV --> CMD 
-            # Use an official Python runtime as a parent image
-            FROM python:2.7-slim
+    # Set the working directory to /app
+    WORKDIR /app
 
-            # Set the working directory to /app
-            WORKDIR /app
+    # Copy the current directory contents into the container at /app
+    COPY . /app
 
-            # Copy the current directory contents into the container at /app
-            COPY . /app
+    # Install any needed packages specified in requirements.txt
+    RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-            # Install any needed packages specified in requirements.txt
-            RUN pip install --trusted-host pypi.python.org -r requirements.txt
+    # Make port 80 available to the world outside this container
+    EXPOSE 80
 
-            # Make port 80 available to the world outside this container
-            EXPOSE 80
+    # Define environment variable
+    ENV NAME World
 
-            # Define environment variable
-            ENV NAME World
-
-            # Run app.py when the container launches
-            CMD ["python", "app.py"]
+    # Run app.py when the container launches
+    CMD ["python", "app.py"]
 
 
+Docker File Build command :
+    docker build --tag=friendlyhello .
 
-            Docker File Build command :
-                docker build --tag=friendlyhello .
+For DNS Settigs :
+    You can edit (or create) the configuration file at /etc/docker/daemon.json with the dns key 
 
-            For DNS Settigs :
-                You can edit (or create) the configuration file at /etc/docker/daemon.json with the dns key 
-
-            To RUN:
-            docker run -p 4000:80 friendlyhello
-
-
-            $ docker login
-
-            SYNTAX:
-            $ docker tag <image-name> <username>/<repository>:<tag>
-
-            EXAMPLE:
-            $ docker tag friendlyhello gordon/get-started:part2
-
-            $ docker push username/repository:tag
-
-            $ docker run -p 4000:80 username/repository:tag
-
-            $ docker stack deploy -c docker-compose.yml getstartedlab
+To RUN:
+    docker run -p 4000:80 friendlyhello
 
 
+    $ docker login
 
-    
-        Manipulate a running stack of services
-        ----------------------------------------------------------------------
+SYNTAX:
+    $ docker tag <image-name> <username>/<repository>:<tag>
+
+EXAMPLE:
+    $ docker tag friendlyhello gordon/get-started:part2
+
+    $ docker push username/repository:tag
+
+    $ docker run -p 4000:80 username/repository:tag
+
+    $ docker stack deploy -c docker-compose.yml getstartedlab
+
+
+==== Manipulate a running stack of services
         
     
-    
-        Increase number of replicas
-        ----------------------------------------------------------------------
+===== Increase number of replicas
+        
+    $ docker service scale SERVICE=REPLICAS [SERVICE=REPLICAS...]
 
-            $ docker service scale SERVICE=REPLICAS [SERVICE=REPLICAS...]
+    $ docker service create --mode global --name backend backend:latest
 
-            $ docker service create --mode global --name backend backend:latest
+    $ docker service scale frontend=50
 
-            $ docker service scale frontend=50
-
-            $ docker service ls --filter name=frontend
+    $ docker service ls --filter name=frontend
 
 
-            You can also scale a service using the docker service update command. The following commands are equivalent:
+You can also scale a service using the docker service update command. The following commands are equivalent:
 
-            $ docker service scale frontend=50
-            $ docker service update --replicas=50 frontend
-
-
-            Docker Service Create 
-            -----------------------------
-            $ docker service create --name my-service -p 8080:80 nginx:alpine
-
-            $ docker service update --replicas=3 my-service
-
-            $ docker service rollback my-service
+    $ docker service scale frontend=50
+    $ docker service update --replicas=50 frontend
 
 
-    
-    
-        Illustrate running a replicated vs global service
-    
-    
-    
-        Mount volumes
-    
-    
-    
-        Add networks, publish ports
-    
-    
-    
-        Identify the steps needed to troubleshoot a service not deploying
-    
-    
-    
-        Apply node labels to demonstrate placement of tasks
-    
-    
-    
-        Sketch how a Dockerized application communicates with legacy systems
-    
-    
-    
-        Paraphrase the importance of quorum in a swarm cluster
-    
-    
-    
-        Demonstrate the usage of templates with "docker service create"
+===== Docker Service Create 
+            
+    $ docker service create --name my-service -p 8080:80 nginx:alpine
+
+    $ docker service update --replicas=3 my-service
+
+    $ docker service rollback my-service
+
+
+===== Illustrate running a replicated vs global service
+    Mount volumes
+    Add networks, publish ports
+    Identify the steps needed to troubleshoot a service not deploying
+    Apply node labels to demonstrate placement of tasks
+    Sketch how a Dockerized application communicates with legacy systems
+    Paraphrase the importance of quorum in a swarm cluster
+    Demonstrate the usage of templates with "docker service create"
 
 
 
-
-
-
-Other Details :
--------------------------
+===== Other Details  
 Open protocols and ports between the hosts
-
 The following ports must be available. On some systems, these ports are open by default.
+TCP port 2377 for cluster management communications
+TCP and UDP port 7946 for communication among nodes
+UDP port 4789 for overlay network traffic
+If you plan on creating an overlay network with encryption (--opt encrypted), 
+you also need to ensure ip protocol 50 (ESP) traffic is allowed
 
-    TCP port 2377 for cluster management communications
-    TCP and UDP port 7946 for communication among nodes
-    UDP port 4789 for overlay network traffic
-    If you plan on creating an overlay network with encryption (--opt encrypted), you also need to ensure ip protocol 50 (ESP) traffic is allowed
 
 
-
-The swarm manager uses ingress load balancing to expose the services you want to make available externally to the swarm. The swarm manager can automatically assign the service a PublishedPort or you can configure a PublishedPort for the service. You can specify any unused port. If you do not specify a port, the swarm manager assigns the service a port in the 30000-32767 range.
-
+The swarm manager uses ingress load balancing to expose the services you want to make available 
+externally to the swarm. The swarm manager can automatically assign the service a PublishedPort 
+or you can configure a PublishedPort for the service. You can specify any unused port. 
+If you do not specify a port, the swarm manager assigns the service a port in the 30000-32767 range.
 
 An N manager cluster tolerates the loss of at most (N-1)/2 managers.
 
-Worker nodes don’t participate in the Raft distributed state, make scheduling decisions, or serve the swarm mode HTTP API.
+Worker nodes don’t participate in the Raft distributed state, make scheduling decisions, 
+or serve the swarm mode HTTP API.
 
