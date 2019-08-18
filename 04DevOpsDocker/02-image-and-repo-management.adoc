@@ -26,32 +26,33 @@ Docker Image is made of Layer.
 
 Understanding Layering with docker Image
 
-Images are made up of multiple read-only layers. Multiple containers are typically based on the same image.
-When an image is instantiated into a container, a top writable image is created (which is deleted when the container is removed)
-Docker manages this using STORAGE DRIVERS to manage the content of the image layers and the top writable layer. 
-All drivers use stackable image layers and then a copy-on-write, or COW, strategy.
+Images are made up of multiple read-only layers. Multiple containers are typically based on the same 
+image. When an image is instantiated into a container, a top writable image is created (which is 
+deleted when the container is removed) Docker manages this using STORAGE DRIVERS to manage the content
+of the image layers and the top writable layer.All drivers use stackable image layers and then 
+a copy-on-write, or COW, strategy.
 
 Docker Image Union Filesystem.
 
 Image LAyers : 
 
-                                        Other Changes
-                                        application
-                                        Config changes
-                                        operating system 
-                                        manifest
+    Other Changes
+    application
+    Config changes
+    operating system 
+    manifest
 
 
 
-Once an image is instantiated in docker container. A writable layer is created on top of the Image in the container.
+Once an image is instantiated in docker container. A writable layer is created on top of the Image
+in the container.
 
 Container Layers = Image Layers + Writable Layers.
 
 Container are stateles as the Image layers are read only and can't be modified.
 
 
-Dockerfile
-------------
+==== Dockerfile
 The configuration file that build docker image is called Dockerfile
 
 A Dockerfile is a text file that contians all the commands, in order, needed to build a given iamge. 
@@ -61,8 +62,9 @@ Dockerfile - Automate the steps of creating Docker Image.
 
 "docker build" read the docker file and then builds a docker image based on docker file.
 
-You can keep name anything you want, but if you do then you need to pass the file name with "docker build" command.
-Without passing any name the "docker build" command will look for "Dockerfile.yml" in the same directory and with same name.
+You can keep name anything you want, but if you do then you need to pass the file name with "docker 
+build" command. Without passing any name the "docker build" command will look for "Dockerfile.yml" 
+in the same directory and with same name.
 
 
 CLIENT (DOCKER CLI) ------ DOCKER HOST (DOCKER DAEMON) --- REGISTRY (DOCKERHUB)
@@ -74,7 +76,7 @@ Once you create the file. Run "docker build <DockerFileLocation>"
 
 Dockerfile :
 
-nvironment variables are supported by the following list of instructions in the Dockerfile:
+Environment variables are supported by the following list of instructions in the Dockerfile:
 
 ADD
 COPY
@@ -89,28 +91,31 @@ WORKDIR
 RUN - Commands to run 
 
 SAMPLE Dockerfile :
-# Nginx
-#
-# VERSION               0.0.1
+    # Nginx
+    #
+    # VERSION               0.0.1
 
-FROM      ubuntu
-LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
-RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
+    FROM      ubuntu
+    LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
+    RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
 
-
-docker build . 
+You can build it by using below command:
+    docker build . 
 
 Once above command is executed, a new image is created. To check the newly created image run 
 
-docker image ls 
+    docker image ls 
 
 OR 
 
-docker image inspect <first-three-chars-of-image-id>
-docker image inspect 4f4
-docker image inspect 4f4 | more
+    docker image inspect <first-three-chars-of-image-id>
+    docker image inspect 4f4
+    docker image inspect 4f4 | more
+
 OR
-docker image history 4f4 (this will give you details of all the layers of the images when I was created and size of the layers )
+
+docker image history 4f4 
+This will give you details of all the layers of the images when I was created and size of the layers.
 
 Example :
 
@@ -154,56 +159,52 @@ Run 'docker image COMMAND --help' for more information on a command.
 C:\...\DOCKER\DockerExercise>
 
 
-docker image prune 
+it will removed all the dangling images (Images without TAGID/NAME)
 
-   - it will removed all the dangling images (Images without TAGID/NAME)
+    docker image prune 
+ 
+It will remove all the unused images, that are not being used by the container.
 
-if you want to remove all 
+    docker image prune -a 
+    
+    docker image inspect <image-name>:latest --format='{{.<FieldName>}}'
 
-docker image prune -a 
-    - It will remove all the unused images, that are not being used by the container.
+    docker image inspect <image-name>:latest --format='{{json .ContainerConfig}}'
 
-
-
-docker image inspect <image-name>:latest --format='{{.<FieldName>}}'
-
-
-docker image inspect <image-name>:latest --format='{{json .ContainerConfig}}'
+    docker image inspect <image-name>:latest --format='{{.ContainerConfig.HostName}}'
 
 
-docker image inspect <image-name>:latest --format='{{.ContainerConfig.HostName}}'
-
-
+==== Docker Tag 
 Docker Tag : used to identiy version of image/application.
 
-docker image tag <tag-name/image-id> <new-name>:<tag-name>
+    docker image tag <tag-name/image-id> <new-name>:<tag-name>
 
-docker image tag 6fr new-app:latest
+    docker image tag 6fr new-app:latest
 
-docker image tag new-app:latest mynew-app:latest
+    docker image tag new-app:latest mynew-app:latest
 
+    docker build <githuburl>
 
-docker build <githuburl>
-
-
-docker build -f dd-docker -t ubunut:v2 . 
-
-here "." is the build context
-here "-t" is the tag name 
+    docker build -f dd-docker -t ubunut:v2 . 
 
 
-docker image history ubunut:v2  (it will list out all Layers of the image as a part of the build )
+*Here "." is the build context
+*Here "-t" is the tag name 
+
+
+It will list out all Layers of the image as a part of the build 
+
+    docker image history ubunut:v2 
 
 To minimize the Image size you can use "squash" feature.
 
-docker build -f dd-docker --squash -t ubunut:v3 . 
+    docker build -f dd-docker --squash -t ubunut:v3 . 
 
-Another way to reduce image size, we can use EXPORT option. Creating image into TAR by exporing a running container and then import it back
+Another way to reduce image size, we can use EXPORT option. 
+Creating image into TAR by exporing a running container and then import it back
 
 
-Modifying Image Layer :
--------------------------------
-
+==== Modifying Image Layer :
 
 Tags are essentially aliases
 
