@@ -1,9 +1,9 @@
 
 
-DOCKER ENGINE : 
+==== DOCKER ENGINE : 
 
-    Client - Docker Cli - (From where you execute the command.)
-    Rest API - REGISTRY (docker hub)
+Client - Docker Cli - (From where you execute the command.)
+Rest API - REGISTRY (docker hub)
 
 When you run "docker run hello-world" on the command prompt, following things happened:
 
@@ -18,48 +18,51 @@ To generate this message, Docker took the following steps:
     to your terminal.
 
 
-Docker Universal Control Panel (UCP):
-  Only comes with docker EE version (Enterprise Edition)
-  It helps us to manage multiple nodes/machine with docker engine running
+==== Docker Universal Control Panel (UCP):
+Only comes with docker EE version (Enterprise Edition)
+It helps us to manage multiple nodes/machine with docker engine running
 
-  UCP provides below features:
-    - Private image Registry called Docker Trusted Registry
-    - Secure and access use Management
-    - Application and cluster Management
-    - Image security scanning and continuous monitoring
-    - Content trust and verification
-    - Policy Management
+===== UCP provides below features:
+- Private image Registry called Docker Trusted Registry
+- Secure and access use Management
+- Application and cluster Management
+- Image security scanning and continuous monitoring
+- Content trust and verification
+- Policy Management
 
 
-Docker user Namespace for container isolation.
-Moreover, Docker also uses CGroups (Control Groups) for controlling container resources, primarily around CPU and Memory.
+Docker user Namespace for container isolation. Moreover, Docker also 
+uses CGroups (Control Groups) for controlling container resources, primarily around CPU and Memory.
 
 
 To Run Ubuntu Images:
-docker container run -it ubuntu
 
+    docker container run -it ubuntu
 
 
 Docker Public Repository - Docker hub
-
 To login into docker hub.
 
-Configuration
--------------------
+==== Configuration
 run "docker login"
-It will ask for username and password. Once successfully logged in, pull sample images to local from public dockerhub repository.
+
+It will ask for username and password. Once successfully logged in, pull sample images to 
+local from public dockerhub repository.
 
     docker pull <image-name>
     docker pull alphine
 
-Once the image is downloaded, you can check by running "docker images". It will list out all the images/repository.
+Once the image is downloaded, you can check by running "docker images". It will list out all 
+the images/repository.
 
 Now we will tag the downloaded image with some other id.
 
     docker tag <first_three_letter_of_image_id> <username>/<image-name/repository-name>:<newtagname>
 
     docker tag af0 bhopalsingh/alphine:linkedtag1
+
     docker tag af0 bhopalsingh/alphine:linkedtag2
+
     docker tag af0 bhopalsingh/alphine:linkedtag3
 
 Here we have created 3 copies of the same repository.
@@ -67,20 +70,27 @@ Here we have created 3 copies of the same repository.
 Now we need to push these repositories up to Docker Hub, and to do that, execute following command.
 
     docker push <username>/<repository-name>
+
     docker push bhopalsingh/alphine
 
 
 
-To delete docker images 
+===== To delete docker images 
+    
     docker images (it will list out all the Images)
+    
     docker image rm <first_three_letter_of_image_id> -f 
+
 
 Once deleted, we can fetch the copy from docker hub by
 
     docker pull <username>/<repository-name>:<tagname>
+
     docker pull bhopalsingh/alphine:linkedin1
 
+
 So above demo was about: (push and pull images back and forth)
+
     - creating a docker repositories on local
     - push the repository to docker Hub
     - pull it back to local
@@ -99,7 +109,7 @@ To Back up DOCKER, we need to take back up of following things:
 
 Install DTR - Docker Trusted Registry
 
-docker run -it --rm docker/dtr:2.4.12 install --ucp-insecure-tls
+    docker run -it --rm docker/dtr:2.4.12 install --ucp-insecure-tls
 
 
 Some useful commands to know the staus of your docker command.
