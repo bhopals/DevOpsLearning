@@ -1,61 +1,72 @@
 
+
+=== Manage Data in Containers 
+
 https://docs.docker.com/storage/
 
-Manage Data in Containers 
 
-Issue with storing data inside containers.
-    - Containers are stateless 
-    - Conatiners are designed to be ephemeral
-    - When containers are stopped, data is not accessible
-    - Containers are typically stored on each host
-    - The container filesystem was not designed for high performance I/O
-
-Options for Data Storage with Containers:
-    - Volumes (Most recommended one) 
-        - The recommended way to persist data, stored at /var/lib/docker/volumes 
-
-    - Bind Mounts
-        - Have limited functionality and you must use the exact file path on the host
-
-    - tmpfs Mounts
-        - Stored only in a hosts memory in Linux (Least Recommended)
+==== Issue with storing data inside containers.
+- Containers are stateless 
+- Conatiners are designed to be ephemeral
+- When containers are stopped, data is not accessible
+- Containers are typically stored on each host
+- The container filesystem was not designed for high performance I/O
 
 
-    Block v/s Object Storage 
-    ----------------------------
 
-    Block - 
-        Fixed Chunks of data
-        No metadata is stored
-        Best for I/O intensive apps 
-        SAN Storage uses block storage
+==== Options for Data Storage with Containers:
+- Volumes (Most recommended one) 
+    - The recommended way to persist data, stored at /var/lib/docker/volumes 
 
-    Object 
-        Data is stored with metadata with a unique identifier
-        There is no organization/hierarchy to the objects
-        Scalability is limitless
-        Accessed with HTTP Calls
-        Amazon S3 Storage is an example 
+- Bind Mounts
+    - Have limited functionality and you must use the exact file path on the host
 
-    When it comes to Docker container storage infrastructures, block storage is typically used to store persistent application data, whereas object storage is typically used to store Docker container images, for example, with Docker trusted registry.
-
-    Docker container uses a Layered storage filesystem, which honestly is a stroke of genius.
+- tmpfs Mounts
+    - Stored only in a hosts memory in Linux (Least Recommended)
 
 
-    Docker union File system 
-    Docker Container 
-    Container Layer 
-    Writable Layer
+==== Block v/s Object Storage 
+
+===== Block 
+- Fixed Chunks of data
+- No metadata is stored
+- Best for I/O intensive apps 
+- SAN Storage uses block storage
+
+===== Object 
+- Data is stored with metadata with a unique identifier
+- There is no organization/hierarchy to the objects
+- Scalability is limitless
+- Accessed with HTTP Calls
+- Amazon S3 Storage is an example 
 
 
-    Docker uses what they call storage drivers to manage the contents of the image layers, as well as that top writable layer. Each storage layer has different implementation, but all drivers use this layered, stackable concept and the copy-on-write strategy. What that means is that a read-only file is only brought from the lower read-only layers into the writable layer when that file is being modified. 
+When it comes to Docker container storage infrastructures, block storage is typically 
+used to store persistent application data, whereas object storage is typically used 
+to store Docker container images, for example, with Docker trusted registry.
+
+Docker container uses a Layered storage filesystem, which honestly is a stroke of genius.
+
+- Docker union File system 
+- Docker Container 
+- Container Layer 
+- Writable Layer
 
 
-    Configuring Storage Drivers
-    ----------------------------------
-    Storage Drivers - Overlay2 is default and preferred choice over "overlay"
+Docker uses what they call storage drivers to manage the contents of the image layers, 
+as well as that top writable layer. Each storage layer has different implementation, 
+but all drivers use this layered, stackable concept and the copy-on-write strategy. 
+What that means is that a read-only file is only brought from the lower read-only layers 
+into the writable layer when that file is being modified. 
 
-    To find out existing docker storage driver, you can run "docker info"
+
+==== Configuring Storage Drivers
+
+Storage Drivers - Overlay2 is default and preferred choice over "overlay"
+
+===== To find out existing docker storage drivers
+
+Run "docker info"
 
     C:\Users\<UserName>docker info 
         Containers: 5
@@ -68,35 +79,42 @@ Options for Data Storage with Containers:
         Backing Filesystem: extfs
     
 
-To change Storage Drivers:
+===== To change Storage Drivers:
 
-    1. Stop the docker 
-        - sudo systemctl stop docker 
-    2. Take the old backup
-    3. Edit /etc/docker/daemon.json and update the driver information
-    4. Restart the docker 
-        - sudo systemctl start docker 
-
-Device Mapper Storage Drivers 
-------------------------------
-    1. Stop the docker 
-        - sudo systemctl stop docker 
-    2. Take the old backup
-    3. Edit /etc/docker/daemon.json and update the Storage to devicemapper 
-    4. Restart the docker 
-        - sudo systemctl start docker 
+1. Stop the docker 
+    - sudo systemctl stop docker 
+2. Take the old backup
+3. Edit /etc/docker/daemon.json and update the driver information
+4. Restart the docker 
+    - sudo systemctl start docker 
 
 
-VOLUME 
--------------------
 
-docker volume ls (To list all the volumes )
-docker volume inspect <vol-name> (Will inspect and show details about that specific volume)
+===== Device Mapper Storage Drivers 
+1. Stop the docker 
+    - sudo systemctl stop docker 
+2. Take the old backup
+3. Edit /etc/docker/daemon.json and update the Storage to devicemapper 
+4. Restart the docker 
+    - sudo systemctl start docker 
 
- docker volume create <vol-name>
- docker volume create my-vol
 
- docker volume inspect my-vol
+==== VOLUME 
+
+To list all the volumes
+
+    docker volume ls 
+    
+
+Will inspect and show details about that specific volume
+
+    docker volume inspect <vol-name> 
+
+    docker volume create <vol-name>
+    
+    docker volume create my-vol
+
+    docker volume inspect my-vol
     [
         {
             "Driver": "local",
@@ -108,33 +126,39 @@ docker volume inspect <vol-name> (Will inspect and show details about that speci
         }
     ]
 
-docker volume rm my-vol
-
-docker run -d --name devtest --mount source=myvol2,target=/app nginx:latest
-
-
-Bind Mount
-----------------------
-
-docker container run -d --mount type=bind, source=/tmp, target=/app nginx
+    
+    docker volume rm my-vol
 
 
-configure docker cluster storage 
---------------------------------
- Use a volume driver ...Storage volume plugin
- Docker Volume Plugin driver
-
- https://thenewstack.io/methods-dealing-container-storage/
- https://dev.to/jibinliu/how-to-persist-data-in-docker-container-2m72
+    docker run -d --name devtest --mount source=myvol2,target=/app nginx:latest
 
 
-docker image prune - Delete all dangling container images 
-docker system prune - Delete all system files..stopped container and system files being used by first_three_letter_of_image_id
+==== Bind Mount
 
-C:\Users\<userId>docker system prune
-WARNING! This will remove:
-        - all stopped containers
-        - all volumes not used by at least one container
-        - all networks not used by at least one container
-        - all dangling images
-Are you sure you want to continue? [y/N]
+    docker container run -d --mount type=bind, source=/tmp, target=/app nginx
+
+
+==== configure docker cluster storage 
+Use a volume driver ...Storage volume plugin
+Docker Volume Plugin driver
+
+https://thenewstack.io/methods-dealing-container-storage/
+https://dev.to/jibinliu/how-to-persist-data-in-docker-container-2m72
+
+
+===== Delete all dangling container images
+    
+    docker image prune 
+
+===== Delete all system files
+stopped container and system files being used by first_three_letter_of_image_id
+
+    docker system prune 
+
+    C:\Users\<userId>docker system prune
+    WARNING! This will remove:
+            - all stopped containers
+            - all volumes not used by at least one container
+            - all networks not used by at least one container
+            - all dangling images
+    Are you sure you want to continue? [y/N]
