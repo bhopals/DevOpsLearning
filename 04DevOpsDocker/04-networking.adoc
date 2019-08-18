@@ -1,14 +1,16 @@
 ==== Networking 
 
-Docker network ls 
+    docker network ls 
+
+===== Details:
 
 Conatiners (APP)  ---USES---- NETWORK (to perform below tasks)
-                                    - Internet
-                                    - Data  
-                                    - End Users
+- Internet
+- Data  
+- End Users
 
 
-Things to consider why configuring NETWORK 
+-===== Things to consider why configuring NETWORK 
 - Type of network
 - Published ports 
 - Custom DNS 
@@ -28,10 +30,10 @@ and also takes advantage of special features and capabilities of the infrastruct
 
 ===== The Container Networking Model
  
-- Network Sandbox  --> Endpoints --> NETWORK (This is not physical network, its the one which 
+- Network Sandbox  -> Endpoints -> NETWORK (This is not physical network, its the one which 
                                                 is configured on the Docker Host)
 
-Then Network --> Docker Engine --> Network Driver or IPAM Driver --> NETWORK INFRASTRUCTURE
+Then Network -> Docker Engine -> Network Driver or IPAM Driver -> NETWORK INFRASTRUCTURE
 
 IPAM - IP Addressm Management Driver 
 
