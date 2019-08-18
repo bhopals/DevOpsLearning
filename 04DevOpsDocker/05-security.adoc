@@ -1,10 +1,10 @@
-
 === Docker Security
 
 ==== Kernel Namespaces 
 - Created when a container is run
 - Container processes cannot see or affect other processes
 - Each container has its own network stack 
+
 
 
 ==== Control Groups 
@@ -14,10 +14,12 @@
 
 
 
+
 ==== Docker Daemon Attack Surface 
 - Attack surface is small, but takes appropriate security measures
 - Only run docker on a host 
 - Only let trusted users control the Docker Daemon 
+
 
 
 ==== Linux  Kernel Capabilities
@@ -149,7 +151,7 @@ https://docs.docker.com/ee/ucp/admin/configure/external-auth/
 
 ==== How to Ensure Images Pass Security Scans 
 DTR (Docker Trusted Registry) - Go to System and Enable Image scanning Option.
-Once enabled, go to each repository, and SETTINGS --> Click on "Enable Image Scanning on PUSH"
+Once enabled, go to each repository, and SETTINGS -> Click on "Enable Image Scanning on PUSH"
 
 By doing this, the security scan will run on each Image push and the scan will identify and list 
 out if there is any vulnerabilites. 
