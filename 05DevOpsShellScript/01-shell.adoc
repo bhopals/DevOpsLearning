@@ -698,6 +698,8 @@ done
 So when you run this.. it will start printing 0 to 15 with 2 seconds sleep after each iteration,
 If you press CTRL+C in between. The system will not let you exit.
 
+
+
 === Resources
 
 	https://www.shellscript.sh/
