@@ -10,52 +10,59 @@ The "busybox" is the registry here.
 
 If we dont pass this flag then docker will fetch only image which is tagged with latest.
 
-But if tou want to download the image varient other than the latest then you need to pass the tag details along with the repository
-$ sudo docker pull busybox:ubuntu-10.2.3
+But if tou want to download the image varient other than the latest then you need to pass the tag 
+details along with the repository
+
+    $ sudo docker pull busybox:ubuntu-10.2.3
 
 
-To Search for any Docker image 
+===== To Search for any Docker image 
     
     $ sudo docker search mysql
 
-
     $ docker run -i -t ubunut:latest /bin/bash
+
 
 Here once container is created, it will open a BASH and prompt for the command. 
 The command variable we access the details of the IMAGE 
 
-/# id 
+    /# id 
 
-/# hostname
+    /# hostname
+
+
+===== Attach/Detach 
 
 To detach any Docker from Container PRESS CTRL + P and CTRL + Q  in SEQUENCE 
-
 To attach any container back (You can attach/detach any container as many times as you want)
-
 
     $ sudo docker attach <container-id>
 
     $ sudo docker run --name <custom-name> -t -i ubuntu:latest /bin/bash 
 
-    ATTACH: 
+====== ATTACH: 
+
         $ sudo docker attach <container-name/id>
 
-    DETACH:
+====== DETACH:
+
         Press CTRL+P and CTRL+Q in SEQUENCE
+
 
 To see the changes we made in the docker image in the container 
 
-$ docker diff <img-id>
+    $ docker diff <img-id>
+
 
 To test this scenario ..first run thi $ sudo docker run --name <custom-name> -t -i ubuntu:latest /bin/bash 
 Once done, create some files in the bash by using "touch {a,b,c}.txt
 
 Then press CTRL+P and CTRL+Q to detach from the container.
 
-now run "docker diff <container-id>"
+now run "docker diff <container-id>". It will return the changes that we made.
 
-It will return the changes that we made.
 
+==== SIGTERM
 
 SIGTERM (-15) - When a user issues this command, the Docker engine
 sends SIGTERM (-15) to the main process, which is running inside the container.
@@ -66,27 +73,31 @@ the grace period, if the process has not been terminated, then the Docker engine
 forcefully terminate the process. The forceful termination is achieved by sending
 SIGKILL (-9). 
 
+
+==== SIGKILL
 SIGKILL (-9) - The SIGKILL signal cannot be caught or ignored, and so it will result
 in an abrupt termination of the process without a proper clean-up.
 
 
-$ sudo container ps //List all the running containers 
-$ sudo container ps -a //List running and non running containers 
+    $ sudo container ps //List all the running containers 
+    $ sudo container ps -a //List running and non running containers 
 
 
-$ cat Dockerfile
+    $ cat Dockerfile
     FROM busybox:latest
     CMD echo Hello World!!
 
-$ sudo docker build .
+    $ sudo docker build .
 
-$ sudo docker image ls 
+    $ sudo docker image ls 
 
-$ sudo docker run 0a2abe57c325
+    $ sudo docker run 0a2abe57c325
     Hello World!!
 
-To add tag name 
-$ sudo docker tag 0a2abe57c325 busyboxplus
+===== To add tag name 
+    
+    $ sudo docker tag 0a2abe57c325 busyboxplus
+
 
 The alternative approach is to build the image with an image name during the build
 time by using the -t option for the docker build subcommand, as shown here:
