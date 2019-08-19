@@ -101,214 +101,230 @@ in an abrupt termination of the process without a proper clean-up.
 
 The alternative approach is to build the image with an image name during the build
 time by using the -t option for the docker build subcommand, as shown here:
-$ sudo docker build -t busyboxplus .
+
+    $ sudo docker build -t busyboxplus .
 
 
 
-== Dockerfile 
+=== Dockerfile 
 
-    The Dockerfile build instructions - 
+==== The Dockerfile build instructions - 
 
-        The instruction line of Dockerfile is made up of two components, where the
-        instruction line begins with the instruction itself, which is followed by the arguments
-        for the instruction. The instruction could be written in any case, in other words, it is
-        case-insensitive. However, the standard practice or convention is to use uppercase in
-        order to differentiate it from the arguments. Let's take another look at the content of
-        Dockerfile in our previous example:
+The instruction line of Dockerfile is made up of two components, where the
+instruction line begins with the instruction itself, which is followed by the arguments
+for the instruction. The instruction could be written in any case, in other words, it is
+case-insensitive. However, the standard practice or convention is to use uppercase in
+order to differentiate it from the arguments. Let's take another look at the content of
+Dockerfile in our previous example:
+     
+    FROM busybox:latest
+    CMD echo Hello World!!
         
-        ``
-            FROM busybox:latest
-            CMD echo Hello World!!
-        ``
-        
-        Here, FROM is an instruction which has taken busybox:latest as an argument,
-        and CMD is an instruction which has taken echo Hello World!! as an argument.
+Here, FROM is an instruction which has taken busybox:latest as an argument,
+and CMD is an instruction which has taken echo Hello World!! as an argument.
 
 
-  ====  FROM 
+==== FROM 
 
-  The FROM instruction has the following syntax:
+The FROM instruction has the following syntax:
+
         FROM <image>[:<tag>]
-        In the preceding code statement, note the following:
-        • <image>: This is the name of the image which will be used as the base image.
-        • <tag>: This is the optional tag qualifier for that image. If any tag qualifier has
-        not been specified, then the tag latest is assumed.
-        Here is an example of the FROM instruction with the image name centos:
+
+In the preceding code statement, note the following:
+• <image>: This is the name of the image which will be used as the base image.
+• <tag>: This is the optional tag qualifier for that image. If any tag qualifier has
+not been specified, then the tag latest is assumed.
+Here is an example of the FROM instruction with the image name centos:
        
-        FROM centos 
+    FROM centos 
 
-        Docker Allow multiple FROM Instructions 
+***Docker Allow multiple FROM Instructions 
 
 
-  ====    COMMENT:
+==== COMMENT 
 
-            The comment line in Dockerfile must begin with the # symbol. The # symbol
-            after an instruction is considered as an argument. If the # symbol is preceded by
-            a whitespace, then the docker build system would consider that as an unknown
-            instruction and skip the line. Now, let's better understand these mentioned cases
-            with the help of an example to get a better understanding of the comment line:
+The comment line in Dockerfile must begin with the # symbol. The # symbol
+after an instruction is considered as an argument. If the # symbol is preceded by
+a whitespace, then the docker build system would consider that as an unknown
+instruction and skip the line. Now, let's better understand these mentioned cases
+with the help of an example to get a better understanding of the comment line:
+
+- A valid Dockerfile comment line always begins with a # symbol as the first character of the line:
             
-            • A valid Dockerfile comment line always begins with a # symbol as the
-            first character of the line:
-            
-            # This is my first Dockerfile comment
-            
-            
-            • The # symbol can be a part of an argument:
-            CMD echo ### Welcome to Docker ###
+    # This is my first Dockerfile comment
             
             
-            • If the # symbol is preceded by a whitespace, then it is considered as an
-            unknown instruction by the build system:
-                 # this is an invalid comment line
+• The # symbol can be a part of an argument:
+CMD echo ### Welcome to Docker ###
+
+            
+-  If the # symbol is preceded by a whitespace, then it is considered as an unknown instruction by the build system:
+    
+    # this is an invalid comment line
+
 
 ==== MAINTAINER 
 
     MAINTAINER <Author name/email address>
 
-    Should be placed after FROM instruction.
+Should be placed after FROM instruction.
 
 
 ==== COPY  
 
-    The COPY instruction enables you to copy the files from the Docker host to the
-    filesystem of the new image. The following is the syntax of the COPY instruction:
+The COPY instruction enables you to copy the files from the Docker host to the
+filesystem of the new image. The following is the syntax of the COPY instruction:
     
     COPY <src> ... <dst>
     
-    The preceding code terms bear the explanations shown here:
+The preceding code terms bear the explanations shown here:
     
-        • <src>: This is the source directory, the file in the build context, or the
-            directory from where the docker build subcommand was invoked.
-    
-        • ...: This indicates that multiple source files can either be specified
-                directly or be specified by wildcards.
-        
-        • <dst>: This is the destination path for the new image into which the source
-            file or directory will get copied. If multiple files have been specified, then the
-            destination path must be a directory and it must end with a slash /.
+• <src>: This is the source directory, the file in the build context, or the
+    directory from where the docker build subcommand was invoked.
+
+• ...: This indicates that multiple source files can either be specified
+        directly or be specified by wildcards.
+
+• <dst>: This is the destination path for the new image into which the source
+    file or directory will get copied. If multiple files have been specified, then the
+    destination path must be a directory and it must end with a slash /.
+
 
 ==== ADD 
 
-    The ADD instruction is similar to the COPY instruction. However, in addition to
-    the functionality supported by the COPY instruction, the ADD instruction can handle
-    the TAR files and the remote URLs. We can annotate the ADD instruction as COPY
-    on steroids.
-    The following is the syntax of the ADD instruction:
+The ADD instruction is similar to the COPY instruction. However, in addition to
+the functionality supported by the COPY instruction, the ADD instruction can handle
+the TAR files and the remote URLs. We can annotate the ADD instruction as COPY
+on steroids.
+The following is the syntax of the ADD instruction:
+
     ADD <src> ... <dst>
 
 
 ==== ENV
-    The ENV instruction sets an environment variable in the new image. An environment
-    variable is a key-value pair, which can be accessed by any script or application. The
-    Linux applications use the environment variables a lot for a starting configuration.
-    The following line forms the syntax of the ENV instruction:
+
+The ENV instruction sets an environment variable in the new image. An environment
+variable is a key-value pair, which can be accessed by any script or application. The
+Linux applications use the environment variables a lot for a starting configuration.
+The following line forms the syntax of the ENV instruction:
+
     ENV <key> <value>
-    Here, the code terms indicate the following:
-        • <key>: This is the environment variable
-        • <value>: This is the value that is to be set for the environment variable
+
+Here, the code terms indicate the following:
+• <key>: This is the environment variable
+• <value>: This is the value that is to be set for the environment variable
+
 
     ENV DEBUG_LVL 3
     ENV APACHE_LOG_DIR /var/log/apache
 
+
 ==== USER
-    The USER instruction sets the start up user ID or user Name in the new image.
-    By default, the containers will be launched with root as the user ID or UID.
-    Essentially, the USER instruction will modify the default user ID from root to
-    the one specified in this instruction.
-    The syntax of the USER instruction is as follows:
+
+The USER instruction sets the start up user ID or user Name in the new image.
+By default, the containers will be launched with root as the user ID or UID.
+Essentially, the USER instruction will modify the default user ID from root to
+the one specified in this instruction.
+The syntax of the USER instruction is as follows:
     USER <UID>|<UName>
-    The USER instructions accept either <UID> or <UName> as its argument:
-    • <UID>: This is a numerical user ID
-    • <UName>: This is a valid user Name
-    The following is an example for setting the default user ID at the time of startup to
-    73. Here 73 is the numerical ID of the user:
+
+The USER instructions accept either <UID> or <UName> as its argument:
+• <UID>: This is a numerical user ID
+• <UName>: This is a valid user Name
+The following is an example for setting the default user ID at the time of startup to
+73. Here 73 is the numerical ID of the user:
+
     USER 73
 
 
 ==== WORKDIR 
 
-    The WORKDIR instruction changes the current working directory from / to the
-    path specified by this instruction. The ensuing instructions, such as RUN, CMD,
-    and ENTRYPOINT will also work on the directory set by the WORKDIR instruction.
-    The following line gives the appropriate syntax for the WORKDIR instruction:
+The WORKDIR instruction changes the current working directory from / to the
+path specified by this instruction. The ensuing instructions, such as RUN, CMD,
+and ENTRYPOINT will also work on the directory set by the WORKDIR instruction.
+The following line gives the appropriate syntax for the WORKDIR instruction:
+
     WORKDIR <dirpath>
-    Here, <dirpath> is the path for the working directory to set in. The path can be
-    either absolute or relative. In case of a relative path, it will be relative to the previous
-    path set by the WORKDIR instruction. If the specified directory is not found in the
-    target image filesystem, then the director will be created.
-    The following line is a clear example of the WORKDIR instruction in a Dockerfile:
+
+Here, <dirpath> is the path for the working directory to set in. The path can be
+either absolute or relative. In case of a relative path, it will be relative to the previous
+path set by the WORKDIR instruction. If the specified directory is not found in the
+target image filesystem, then the director will be created.
+The following line is a clear example of the WORKDIR instruction in a Dockerfile:
     
     WORKDIR /var/log
 
 
 ==== VOLUME
-    The VOLUME instruction creates a directory in the image filesystem, which can later be
-    used for mounting volumes from the Docker host or the other containers.
-    The VOLUME instruction has two types of syntax, as shown here:
-    
-    • The first type is either exec or JSON array (all values must be within doublequotes
-    (")):
-        VOLUME ["<mountpoint>"]
-    
-    • The second type is shell, as shown here:
-        VOLUME <mountpoint>
-    
-    In the preceding line, <mountpoint> is the mount point that has to be created
-    in the new image.
+
+The VOLUME instruction creates a directory in the image filesystem, which can later be
+used for mounting volumes from the Docker host or the other containers.
+The VOLUME instruction has two types of syntax, as shown here:
+
+• The first type is either exec or JSON array (all values must be within doublequotes
+(")):
+
+    VOLUME ["<mountpoint>"]
+
+• The second type is shell, as shown here:
+
+    VOLUME <mountpoint>
+
+In the preceding line, <mountpoint> is the mount point that has to be created
+in the new image.
 
 
 ====  EXPOSE
 
-    The EXPOSE instruction opens up a container network port for communicating
-    between the container and the external world.
-    The syntax of the EXPOSE instruction is as follows:
+The EXPOSE instruction opens up a container network port for communicating
+between the container and the external world.
+The syntax of the EXPOSE instruction is as follows:
 
     EXPOSE <port>[/<proto>] [<port>[/<proto>]...]
 
-    Here, the code terms mean the following:
-        • <port>: This is the network port that has to be exposed to the outside world.
-        • <proto>: This is an optional field provided for a specific transport protocol,
-            such as TCP and UDP. If no transport protocol has been specified, then TCP
-            is assumed to be the transport protocol.
-    
-    The EXPOSE instruction allows you to specify multiple ports in a single line.
+Here, the code terms mean the following:
+• <port>: This is the network port that has to be exposed to the outside world.
+• <proto>: This is an optional field provided for a specific transport protocol, such as TCP and UDP. 
 
-    The following is an example of the EXPOSE instruction inside a Dockerfile exposing
-    the port number 7373 as a UDP port and the port number 8080 as a TCP port. As
-    mentioned earlier, if the transport protocol has not been specified, then the TCP
-    transport is assumed to be the transport protocol:
+If no transport protocol has been specified, then TCP is assumed to be the transport protocol.
+    
+The EXPOSE instruction allows you to specify multiple ports in a single line.
+
+The following is an example of the EXPOSE instruction inside a Dockerfile exposing
+the port number 7373 as a UDP port and the port number 8080 as a TCP port. As
+mentioned earlier, if the transport protocol has not been specified, then the TCP
+transport is assumed to be the transport protocol:
     
     EXPOSE 7373/udp 8080
 
-    If Protocol not provided then by default TCP is set.
+If Protocol not provided then by default TCP is set.
 
 
 ==== RUN
 
+The RUN instruction is the real workhorse during the build time, and it can run any
+command. The general recommendation is to execute multiple commands by using
+one RUN instruction. This reduces the layers in the resulting Docker image because
+the Docker system inherently creates a layer for each time an instruction is called in
+Dockerfile.
+The RUN instruction has two types of syntax:
 
-    The RUN instruction is the real workhorse during the build time, and it can run any
-    command. The general recommendation is to execute multiple commands by using
-    one RUN instruction. This reduces the layers in the resulting Docker image because
-    the Docker system inherently creates a layer for each time an instruction is called in
-    Dockerfile.
-    The RUN instruction has two types of syntax:
-
-        • The first is the shell type, as shown here:
-            
-            RUN <command>
-            
-            Here, the <command> is the shell command that has to be executed during the
-            build time. If this type of syntax is to be used, then the command is always
-            executed by using /bin/sh -c.
-
-        • The second syntax type is either exec or the JSON array, as shown here:
-            RUN ["<exec>", "<arg-1>", ..., "<arg-n>"]
-            Within this, the code terms mean the following:
+• The first is the shell type, as shown here:
+    
+    RUN <command>
+    
+Here, the <command> is the shell command that has to be executed during the
+build time. If this type of syntax is to be used, then the command is always
+executed by using /bin/sh -c.
 
 
-        Example :
-        RUN echo "echo Welcome to Docker!" >> /root/.bashrc
+• The second syntax type is either exec or the JSON array, as shown here:
+RUN ["<exec>", "<arg-1>", ..., "<arg-n>"]
+Within this, the code terms mean the following:
+
+Example :
+    
+    RUN echo "echo Welcome to Docker!" >> /root/.bashrc
 
 
 ==== CMD 
