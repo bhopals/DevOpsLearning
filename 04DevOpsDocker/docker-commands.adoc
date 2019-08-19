@@ -329,128 +329,142 @@ Example :
 
 ==== CMD 
 
+The CMD instruction can run any command (or application), which is similar to the RUN
+instruction. However, the major difference between those two is the time of execution.
+The command supplied through the RUN instruction is executed during the build time,
+whereas the command specified through the CMD instruction is executed when the
+container is launched from the newly created image. Therefore, the CMD instruction
+provides a default execution for this container. However, it can be overridden by the
+docker run subcommand arguments. When the application terminates, the container
+will also terminate along with the application and vice versa.
 
-    The CMD instruction can run any command (or application), which is similar to the RUN
-    instruction. However, the major difference between those two is the time of execution.
-    The command supplied through the RUN instruction is executed during the build time,
-    whereas the command specified through the CMD instruction is executed when the
-    container is launched from the newly created image. Therefore, the CMD instruction
-    provides a default execution for this container. However, it can be overridden by the
-    docker run subcommand arguments. When the application terminates, the container
-    will also terminate along with the application and vice versa.
+The CMD instruction has three types of syntax, as shown here:
 
-    The CMD instruction has three types of syntax, as shown here:
+• The first syntax type is the shell type, as shown here:
 
-        • The first syntax type is the shell type, as shown here:
         CMD <command>
-        Within this, the <command> is the shell command, which has to be executed
-        during the launch of the container. If this type of syntax is used, then the
-        command is always executed by using /bin/sh -c.
 
-        • The second type of syntax is exec or the JSON array, as shown here:
+Within this, the <command> is the shell command, which has to be executed
+during the launch of the container. If this type of syntax is used, then the
+command is always executed by using /bin/sh -c.
+
+• The second type of syntax is exec or the JSON array, as shown here:
+
         CMD ["<exec>", "<arg-1>", ..., "<arg-n>"]
-        Within this, the code terms mean the following:
-            °° <exec>: This is the executable, which is to be run during the
-            container launch time.
-            °° <arg-1>, ..., <arg-n>: These are the variable (zero or more)
-            numbers of the arguments for the executable.
-            Building Images
-            [ 52 ]
 
-        • The third type of syntax is also exec or the JSON array, which is similar to the
-        previous type. However, this type is used for setting the default parameters
-        to the ENTRYPOINT instruction, as shown here:
-        CMD ["<arg-1>", ..., "<arg-n>"]
-        Within this, the code terms mean the following:
-            °° <arg-1>, ..., <arg-n>: These are the variable (zero or more)
-            numbers of the arguments for the ENTRYPOINT instruction, which
-         will be explained in the next section.
 
-    === HEALTHCHECK
-        To check the health of the app running into the container.
+Within this, the code terms mean the following:
 
-        Example: 
-        HEALTHCHECK --interval=5s --timeout=3s CMD curl --fails
-        http://localhost:8091/pools || exit 1
+°° <exec>: This is the executable, which is to be run during the
+container launch time.
+°° <arg-1>, ..., <arg-n>: These are the variable (zero or more)
+numbers of the arguments for the executable.
+Building Images
+[ 52 ]
+
+
+• The third type of syntax is also exec or the JSON array, which is similar to the
+previous type. However, this type is used for setting the default parameters
+to the ENTRYPOINT instruction, as shown here:
+CMD ["<arg-1>", ..., "<arg-n>"]
+Within this, the code terms mean the following:
+°° <arg-1>, ..., <arg-n>: These are the variable (zero or more)
+numbers of the arguments for the ENTRYPOINT instruction, which
+will be explained in the next section.
+
+==== HEALTHCHECK
+To check the health of the app running into the container.
+
+    HEALTHCHECK --interval=5s --timeout=3s CMD curl --fails
+    http://localhost:8091/pools || exit 1
 
     
-    == USER - Sets the username or UID to use when running the image .
+==== USER - Sets the username or UID to use when running the image .
     
 
 ==== Sample Docker File 
 
-########################################################
-# Dockerfile to demonstrate the behaviour of CMD
-########################################################
-# Build from base image busybox:latest
-FROM busybox:latest
-# Author: Dr. Peter
-MAINTAINER Dr. Peter <peterindia@gmail.com>
-# Set command for CMD
-CMD ["echo", "Dockerfile CMD demo"]
+    ########################################################
+    # Dockerfile to demonstrate the behaviour of CMD
+    ########################################################
+    # Build from base image busybox:latest
+    FROM busybox:latest
+    # Author: Dr. Peter
+    MAINTAINER Dr. Peter <peterindia@gmail.com>
+    # Set command for CMD
+    CMD ["echo", "Dockerfile CMD demo"]
 
-$ sudo docker build -t cmd-demo .
 
-$ sudo docker run cmd-demo
-Dockerfile CMD demo
+To Build the Docker File 
+
+    $ sudo docker build -t cmd-demo .
+
+    $ sudo docker run cmd-demo
+
+
+===== Dockerfile CMD demo
 
 Cool, isn't it? We have given a default execution for our container and our container
 has faithfully echoed Dockerfile CMD demo. However, this default execution can be
 easily overridden by passing another command as an argument to the docker run
 subcommand, as shown in the following example:
 
-$ sudo docker run cmd-demo echo Override CMD demo
-Override CMD demo
+    $ sudo docker run cmd-demo echo Override CMD demo
 
 
 
 
 ==== ENTRYPOINT
 
-    The ENTRYPOINT instruction will help in crafting an image for running an application
-    (entry point) during the complete life cycle of the container, which would have
-    been spun out of the image. When the entry point application is terminated, the
-    container would also be terminated along with the application and vice versa.
-    Therefore, the ENTRYPOINT instruction would make the container function like an
-    executable. Functionally, ENTRYPOINT is akin to the CMD instruction, but the major
-    difference between the two is that the entry point application is launched by using
-    the ENTRYPOINT instruction, which cannot be overridden by using the docker run
-    subcommand arguments. However, these docker run subcommand arguments will
-    be passed as additional arguments to the entry point application. Having said this,
-    Docker provides a mechanism for overriding the entry point application through the
-    --entrypoint option in the docker run subcommand. The --entrypoint option
-    can accept only word as its argument, and so it has limited functionality.
+The ENTRYPOINT instruction will help in crafting an image for running an application
+(entry point) during the complete life cycle of the container, which would have
+been spun out of the image. When the entry point application is terminated, the
+container would also be terminated along with the application and vice versa.
+Therefore, the ENTRYPOINT instruction would make the container function like an
+executable. Functionally, ENTRYPOINT is akin to the CMD instruction, but the major
+difference between the two is that the entry point application is launched by using
+the ENTRYPOINT instruction, which cannot be overridden by using the docker run
+subcommand arguments. However, these docker run subcommand arguments will
+be passed as additional arguments to the entry point application. Having said this,
+Docker provides a mechanism for overriding the entry point application through the
+--entrypoint option in the docker run subcommand. The --entrypoint option
+can accept only word as its argument, and so it has limited functionality.
 
 ==== ONBUILD 
 
-    The ONBUILD instruction registers a build instruction to an image and this
-    is triggered when another image is built by using this image as its base image.
-    Any build instruction can be registered as a trigger and those instructions will be
-    triggered immediately after the FROM instruction in the downstream Dockerfile.
-    Therefore, the ONBUILD instruction can be used to defer the execution of the build
-    instruction from the base image to the target image.
+The ONBUILD instruction registers a build instruction to an image and this
+is triggered when another image is built by using this image as its base image.
+Any build instruction can be registered as a trigger and those instructions will be
+triggered immediately after the FROM instruction in the downstream Dockerfile.
+Therefore, the ONBUILD instruction can be used to defer the execution of the build
+instruction from the base image to the target image.
 
-    The syntax of the ONBUILD instruction is as follows:
+The syntax of the ONBUILD instruction is as follows:
+
     ONBUILD <INSTRUCTION>
-    Within this, <INSTRUCTION> is another Dockerfile build instruction, which will
-    be triggered later. The ONBUILD instruction does not allow the chaining of another
-    ONBUILD instruction. In addition, it does not allow the FROM and MAINTAINER
-    instructions as ONBUILD triggers.
-    Here is an example of the ONBUILD instruction:
+
+Within this, <INSTRUCTION> is another Dockerfile build instruction, which will
+be triggered later. The ONBUILD instruction does not allow the chaining of another
+ONBUILD instruction. In addition, it does not allow the FROM and MAINTAINER
+instructions as ONBUILD triggers.
+Here is an example of the ONBUILD instruction:
+
     ONBUILD ADD config /etc/appconfig
 
-    So It will have another instruction passed in.
+So It will have another instruction passed in.
 
 
 ==== The .dockerignore file
 
-     we learnt that the docker build process will send the complete build context to the daemon. To ignore that, we have dockerignore file.
-
+We learnt that the docker build process will send the complete build context to the daemon. 
+To ignore that, we have dockerignore file.
 
 Docker history subcommand is an excellent and handy tool for visualizing the image layers.
-$ sudo docker history <docker-id>
 
-VMWARE Alternative Boot and Delete Option 
+    $ sudo docker history <docker-id>
+
+
+==== VMWARE Alternative Boot and Delete Option 
 https://stackoverflow.com/questions/39858200/vmware-workstation-and-device-credential-guard-are-not-compatible
 
 
@@ -458,17 +472,19 @@ https://stackoverflow.com/questions/39858200/vmware-workstation-and-device-crede
 
 === Docker hub Image registry
 
-    Docker Registry is a storage system used to store the images.
+Docker Registry is a storage system used to store the images.
 
     $ sudo docker login (Command to login into docker hub from cmd prompt) 
 
 
-    Create a container 
+==== Create a container 
+
     $ sudo docker run -i --name="containerforhub" -t ubuntu /bin/bash
     root@e3bb4b138daf:/#
-    Next, we'll create a new directory and file in the containerforhub container.
-    We will also update the new file with some sample text to test later:
-    
+
+Next, we'll create a new directory and file in the containerforhub container.
+We will also update the new file with some sample text to test later:
+
     root@bd7cc5df6d96:/# mkdir mynewdir
     
     root@bd7cc5df6d96:/# cd mynewdir
@@ -480,22 +496,22 @@ https://stackoverflow.com/questions/39858200/vmware-workstation-and-device-crede
     This is my new container to make image and then push to hub
     
     root@bd7cc5df6d96:/mynewdir#
-    
-    Let's build the new image with the docker commit command from the container,
-    which has just been created. Note that the commit command would be executed
-    from the host machine, from where the container is running, and not from inside
-    this container:
-    
+
+Let's build the new image with the docker commit command from the container,
+which has just been created. Note that the commit command would be executed
+from the host machine, from where the container is running, and not from inside
+this container:
+
+
     $ sudo docker commit -m="NewImage" containerforhub vinoddandy/imageforhub
     3f10a35019234af2b39d5fab38566d586f00b565b99854544c4c698c4a395d03
 
-    Here "containerforhub" is the container ID on which we made the changes.
-
+Here "containerforhub" is the container ID on which we made the changes.
 
     $ docker run -p 5050:5050 registry //To install Registry on localhost
 
 
-    Here is a slightly more complex example that launches a registry on port 5000, using an Amazon S3 bucket to store images with a custom path, and enables the search endpoint:
+Here is a slightly more complex example that launches a registry on port 5000, using an Amazon S3 bucket to store images with a custom path, and enables the search endpoint:
 
     $ docker run \
             -e SETTINGS_FLAVOR=s3 \
@@ -508,163 +524,166 @@ https://stackoverflow.com/questions/39858200/vmware-workstation-and-device-crede
             registry
 
 
-
 ==== Automating the build process for Images
 
-    Here we can connect our github account to docker hub to automate the build process.
-    Once enabled, go to especific REPOSITORY and linked that with any branch.
+Here we can connect our github account to docker hub to automate the build process.
+Once enabled, go to especific REPOSITORY and linked that with any branch.
 
-
-    So, whenever the Dockerfile is updated in GitHub, the automated build gets
-    triggered, and a new image will be stored in the Docker Hub Registry. We can
-    always check the build history. We can change the Dockerfile on the local machine
-    and push to GitHub. Then, we can see the automated build link of the Docker Hub
-    at https://registry.hub.docker.com/u/vinoddandy/dockerautomatedbuild/
-    builds_history/82194/.
+So, whenever the Dockerfile is updated in GitHub, the automated build gets
+triggered, and a new image will be stored in the Docker Hub Registry. We can
+always check the build history. We can change the Dockerfile on the local machine
+and push to GitHub. Then, we can see the automated build link of the Docker Hub
+at https://registry.hub.docker.com/u/vinoddandy/dockerautomatedbuild/
+builds_history/82194/.
 
 
 ==== Public and Private repository
 
-    Let's create a repository in the local machine using the registry image provided by
-    Docker. We will run the registry container on the local machine, using the registry
-    image from Docker:
+Let's create a repository in the local machine using the registry image provided by
+Docker. We will run the registry container on the local machine, using the registry
+image from Docker:
     
     $ sudo docker run -p 5000:5000 -d registry
     768fb5bcbe3a5a774f4996f0758151b1e9917dec21aedf386c5742d44beafa41
     
-    Once Local registry server is up, we can tag any image and push that to local repository
+Once Local registry server is up, we can tag any image and push that to local repository
     
-    This tag will help you identify the particular image:
+This tag will help you identify the particular image:
+
     $ sudo docker tag
     224affbf9a65localhost:5000/vinoddandy/dockerfileimageforhub
     
-    Once the tagging is done, push this image to a new registry using the docker push
-    command:
-    $ sudo docker push localhost:5000/vinoddandy/dockerfile
-    imageforhub
+
+Once the tagging is done, push this image to a new registry using the docker push
+
+    $ sudo docker push localhost:5000/vinoddandy/dockerfileimageforhub
 
     
-    ===== Docker hub Rest API 
+==== Docker hub Rest API 
 
-    The REST APIs for the Docker Hub
-    The Docker Hub provides a REST API to integrate the Hub capabilities through
-    programs. The REST API is supported for both user as well as repository
-    management.
-    User management supports the following features:
+The REST APIs for the Docker Hub
+The Docker Hub provides a REST API to integrate the Hub capabilities through
+programs. The REST API is supported for both user as well as repository
+management.
+User management supports the following features:
     
-    • User Login: This is used for user login to the Docker Hub:
-        GET /v1/users
-        $ curl --raw -L --user vinoddandy:password
-        https://index.docker.io/v1/users
-        4
-        "OK"
-        0
+• User Login: This is used for user login to the Docker Hub:
+
+    GET /v1/users
+    $ curl --raw -L --user vinoddandy:password
+    https://index.docker.io/v1/users
+    4
+    "OK"
+    0
     
-    • User Register: This is used for registration of a new user:
+• User Register: This is used for registration of a new user:
+
         POST /v1/users
 
-    • Create User repositories
+• Create User repositories
+
     curl --raw -L -X POST --post301 -H "Accept:application/json"
     -H "Content-Type: application/json" --data-ascii '{"email":
     "singh_vinod@yahoo.com", "password": "password", "username":
     "singhvinod494" }' https://index.docker.io/v1/users
 
-    Delete a user repository: This deletes a user repository:
+• Delete a user repository: This deletes a user repository:
     
     DELETE /v1/repositories/(namespace)/(repo_name)/
-    • Create a library repository: This creates the library repository, and it is
-    available only to Docker administrators:
+
+• Create a library repository: This creates the library repository, and it is
+available only to Docker administrators:
+
     PUT /v1/repositories/(repo_name)/
 
-    • Delete a library repository: This deletes the library repository, and it is
-    available only to Docker administrators:
+• Delete a library repository: This deletes the library repository, and it is
+available only to Docker administrators:
+
     DELETE /v1/repositories/(repo_name)/
+
+
+• Update user repository images: This updates the images of a user's repository:
     
-    • Update user repository images: This updates the images of a user's
-    repository:
     PUT /v1/repositories/(namespace)/(repo_name)/images
 
 
+==== Running your private Docker Infrastructure 
+
+Primarily, a Docker Hub is specially made to centralize and centrally manage information on:
+ 
+• User accounts
+• Checksums of the images
+• Public namespaces
 
 
-=== Running your private Docker Infrastructure 
+===== The Docker Registry and Index 
+A Docker hub consist of Docker Registry and Index 
 
-    Primarily, a Docker Hub is specially made to centralize and centrally manage information on:
-        • User accounts
-        • Checksums of the images
-        • Public namespaces
-
-   The Docker Registry and Index 
-        A Docker hub consist of Docker Registry and Index 
-
-        The advanced features of the Docker registry include bugsnag, new relic, and cors.
+The advanced features of the Docker registry include bugsnag, new relic, and cors.
 
 
 ===== Publishing container ports – the -p option
 
-The -p option,
-    actually, supports the following four formats of arguments:
-    • <hostPort>:<containerPort>
-    • <containerPort>
-    • <ip>:<hostPort>:<containerPort>
-    • <ip>::<containerPort>
+The -p option, actually, supports the following four formats of arguments:
+• <hostPort>:<containerPort>
+• <containerPort>
+• <ip>:<hostPort>:<containerPort>
+• <ip>::<containerPort>
+
 
 ===== Network Address Translation for containers
-        In the previous section, we saw how a -p 80:80 option did the magic, didn't it?
-        Well, in reality, under the hood, the Docker engine achieves this seamless
-        connectivity by automatically configuring the Network Address Translation (NAT)
-        rule in the Linux iptables configuration files.
+In the previous section, we saw how a -p 80:80 option did the magic, didn't it?
+Well, in reality, under the hood, the Docker engine achieves this seamless
+connectivity by automatically configuring the Network Address Translation (NAT)
+rule in the Linux iptables configuration files.
+
 
 ===== Binding a container to a specific IP address
     $ sudo docker run -d -p 198.51.100.73:80:80 apache2
     92f107537bebd48e8917ea4f4788bf3f57064c8c996fc23ea0fd8ea49b4f3335
 
 
-=== Sharing Data with Containers 
-
-
-In this chapter, we will cover the following topics:
-
 
 ==== Data volume
 
-    Image are part of Union filesystem. However, the data volume is part of the Docker host filesystem, and it simply gets
-    mounted inside the container
+Image are part of Union filesystem. However, the data volume is part of the Docker host filesystem, 
+and it simply gets mounted inside the container.
 
-    A data volume can be inscribed in a Docker image using the VOLUME instruction of
-    the Dockerfile. 
+A data volume can be inscribed in a Docker image using the VOLUME instruction of the Dockerfile. 
     
     VOLUME /MountDemo 
 
 
-    Also, it can be prescribed during the launch of a container using
-    the -v option of the docker run subcommand.
+Also, it can be prescribed during the launch of a container using
+the -v option of the docker run subcommand.
+
     $ sudo docker run –v /MountPointDemo -it ubuntu:14.04
     
 
-    $ sudo docker run --rm -it mount-point-demo
-    --rm -> Remove the container once exits
+Remove the container once exits
+
+    $ sudo docker run --rm -it mount-point-demo  --rm 
 
    
 
-   In both the scenarios described here, the Docker engine automatically creates the
-    directory under /var/lib/docker/vfs/ and mounts it to the container. When a
-    container is removed using the docker rm subcommand, the Docker engine does
-    not remove the directory that was automatically created during the container launch
-    time. This behavior is innately designed to preserve the state of the container's
-    application that was stored in the directory. If you want to remove the directory that
-    was automatically created by the Docker engine, you can do so while removing the
-    container by providing a -v option to the docker rm subcommand, on an already
-    stopped container:
+In both the scenarios described here, the Docker engine automatically creates the
+directory under /var/lib/docker/vfs/ and mounts it to the container. When a
+container is removed using the docker rm subcommand, the Docker engine does
+not remove the directory that was automatically created during the container launch
+time. This behavior is innately designed to preserve the state of the container's
+application that was stored in the directory. If you want to remove the directory that
+was automatically created by the Docker engine, you can do so while removing the
+container by providing a -v option to the docker rm subcommand, on an already
+stopped container:
 
     $ sudo docker rm -v 8d22f73b5b46
+
     $ sudo docker rm -vf 8d22f73b5b46 (Forced Removal)
 
 
 ==== Sharing host data
 
-The –v option has three different formats
-enumerated as follows:
+The –v option has three different formats enumerated as follows:
 1. -v <container mount path>
 2. -v <host path>/<container mount path>
 3. -v <host path>/<container mount path>:<read write mode>
@@ -672,46 +691,47 @@ enumerated as follows:
 First, let's launch an interactive container with the –v option of the docker
 run subcommand to mount /tmp/hostdir of the Docker host directory to
 /MountPoint of the container:
-$ sudo docker run -v /tmp/hostdir:/MountPoint \
--it ubuntu:14.04
 
-==== Sharing data between containers
+    $ sudo docker run -v /tmp/hostdir:/MountPoint -it ubuntu:14.04
+
 
 ===== Mount Data Volume from other container
     $ sudo docker run -d -p 80:80 \
         --volumes-from log_vol \
         apache2
 
-    By doing this we can make the data avaialbe for both containers as both are pointing to the same Data Volume 
-
-==== The avoidable common pitfalls
-
-
-   ===== Directory leaks
-        Earlier in the data volume section, we learnt that the Docker engine automatically
-        creates directories based on the VOLUME instruction in Dockerfile as well as the
-        -v option of the docker run subcommand. We also understood that the Docker
-        engine does not automatically delete these auto-generated directories in order to
-        preserve the state of the application(s) run inside the container.
-
-  ===== The undesirable effect of data volume
-        As mentioned earlier, Docker enables us to etch data volumes in a Docker image
-        using the VOLUME instruction during the build time. Nonetheless, the data volumes
-        should never be used to store any data during the build time, otherwise it will result
-        in an unwanted effect.
-
-        Example :
-
-        1. Build the image using Ubuntu 14.04 as the base image:
-        # Use Ubuntu as the base image
-        FROM ubuntu:14.04
-        2. Create a /MountPointDemo data volume using the VOLUME instruction:
-        VOLUME /MountPointDemo
-        3. Create a file in the /MountPointDemo data volume using the RUN instruction:
-        RUN date > /MountPointDemo/date.txt
+By doing this we can make the data avaialbe for both containers as both are pointing to the same Data Volume 
 
 
 
+===== Directory leaks
+Earlier in the data volume section, we learnt that the Docker engine automatically
+creates directories based on the VOLUME instruction in Dockerfile as well as the
+-v option of the docker run subcommand. We also understood that the Docker
+engine does not automatically delete these auto-generated directories in order to
+preserve the state of the application(s) run inside the container.
+
+
+===== The undesirable effect of data volume
+As mentioned earlier, Docker enables us to etch data volumes in a Docker image
+using the VOLUME instruction during the build time. Nonetheless, the data volumes
+should never be used to store any data during the build time, otherwise it will result
+in an unwanted effect.
+
+Example :
+
+1. Build the image using Ubuntu 14.04 as the base image:
+
+    # Use Ubuntu as the base image
+    FROM ubuntu:14.04
+
+2. Create a /MountPointDemo data volume using the VOLUME instruction:
+    
+    VOLUME /MountPointDemo
+
+3. Create a file in the /MountPointDemo data volume using the RUN instruction:
+    
+    RUN date > /MountPointDemo/date.txt
 
 
 
@@ -768,48 +788,50 @@ $ sudo docker run -v /tmp/hostdir:/MountPoint \
 
 ==== The Docker exec command
     
-    The docker exec command provided the much-needed help to users, who are
-    deploying their own web servers or other applications running in the background.
-    Now, it is not necessary to log in to run the SSH daemon in the container.
-    
-    First, run the docker ps -a command to get the container ID:
+The docker exec command provided the much-needed help to users, who are
+deploying their own web servers or other applications running in the background.
+Now, it is not necessary to log in to run the SSH daemon in the container.
+
+First, run the docker ps -a command to get the container ID:
+
     $ sudo docker ps -a
     b34019e5b5ee nsinit:latest "make local"
     a245253db38b training/webapp:latest "python app.py"
     
-    Then, run the docker exec command to log in to the container.
+Then, run the docker exec command to log in to the container.
+
     $ sudo docker exec -it a245253db38b bash
     root@a245253db38b:/opt/webapp#
 
 
-### The security features of containers
 
-    ##### Resource isolation
+===== Resource isolation
 
-        The kernel namespaces guarantee the much-needed isolation feature for Linux
-        containers. The Docker project has added a few additional namespaces for Docker
-        containers, and each distinct aspect of a container runs in its own namespace and
-        hence, does not have access outside it. The following is a list of namespaces that
-        Docker uses:
-        • The PID namespace: This is used for a series of actions taken in order to
-        achieve process-level isolation
-        • The Network namespace: This is used to have executive control over the
-        network interfaces
-        • The IPC namespace: This is used to maintain control over access to IPC
-        resources
-        • The Mount namespace: This is used to manage mount points
-        • The UTS namespace: This is used to segregate the kernel and version
-        identifiers
+The kernel namespaces guarantee the much-needed isolation feature for Linux
+containers. The Docker project has added a few additional namespaces for Docker
+containers, and each distinct aspect of a container runs in its own namespace and
+hence, does not have access outside it. The following is a list of namespaces that Docker uses:
 
-    ##### Resource accounting and control
+• The PID namespace: This is used for a series of actions taken in order to
+achieve process-level isolation
+• The Network namespace: This is used to have executive control over the
+network interfaces
+• The IPC namespace: This is used to maintain control over access to IPC
+resources
+• The Mount namespace: This is used to manage mount points
+• The UTS namespace: This is used to segregate the kernel and version
+identifiers
 
 
-    Copy-on-write filesystems: Docker has been using Advanced Multilayered
-        unification Filesystem (AuFS) as a filesystem for containers. AuFS
-        is a layered filesystem that can transparently overlay one or more existing
-        filesystems. When a process needs to modify a file, AuFS first creates a
-        copy of that file and is capable of merging multiple layers into a single
-        representation of a filesystem. This process is called copy-on-write, and this
-        prevents one container from seeing the changes of another container even
-        if they write to the same filesystem image. One container cannot change the
-        image content to affect the processes in another container
+===== Resource accounting and control
+
+Copy-on-write filesystems: Docker has been using Advanced Multilayered
+unification Filesystem (AuFS) as a filesystem for containers. AuFS
+is a layered filesystem that can transparently overlay one or more existing
+filesystems. When a process needs to modify a file, AuFS first creates a
+copy of that file and is capable of merging multiple layers into a single
+representation of a filesystem. This process is called copy-on-write, and this
+prevents one container from seeing the changes of another container even
+if they write to the same filesystem image. One container cannot change the
+image content to affect the processes in another container
+
