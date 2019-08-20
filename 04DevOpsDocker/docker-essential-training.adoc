@@ -490,42 +490,41 @@ for example- virus scanning, agent scanning
 
 
 
-    LOGS 
-    -------------------
+
+==== LOGS 
+
     docker service logs
 
     docker service create --name <name-of-service> -p<incomingport>:<outboundport> <imagename>
+
     docker service create --name test-server -p8080:80 httpd
 
     docker service ls
 
     docker service logs <service-name>
 
-    DOCKER CONTAINER NETWROKING MODEL.. ?? //NEED to READ 
-    
+
+
+DOCKER CONTAINER NETWROKING MODEL.. ?? //NEED to READ 
 
 
 
 
-
-===================================================================================================
-    Chapter 3 - Docker Essential Training: 3 Image Creation, Management, and Registry
-===================================================================================================
-
-docker image ls 
-
-docker image rm -f <image-name>
-
-docker image prune -a (To remove all the images)
+====    Chapter 3 - Docker Essential Training: 3 Image Creation, Management, and Registry
 
 
-DOCKER IMAGE 
--------------
+    docker image ls 
+
+    docker image rm -f <image-name>
+
+    docker image prune -a (To remove all the images)
+
+
+===== DOCKER IMAGE 
 An image is an executable package that includes every thing needed 
 to run an application - the code, a runtime, libraries, environment variables, configurations. files.
 
 A container is a runtime instance of an Image.
-
 
 OR an Image is a container that's not yet running.
 
@@ -534,112 +533,128 @@ So you can build an image and literraly spawn thousands of containers from that.
 
 Containers are stateless
 
-
 Docker Image is made of Layer. 
 
 Understanding Layering with docker Image
 
-Images are made up of multiple read-only layers. Multiple containers are typically based on the same image.
-When an image is instantiated into a container, a top writable image is created (which is deleted when the container is removed)
-Docker manages this using STORAGE DRIVERS to manage the content of the image layers and the top writable layer. 
+Images are made up of multiple read-only layers. Multiple containers are typically based on the 
+same image. When an image is instantiated into a container, a top writable image is created 
+(which is deleted when the container is removed). Docker manages this using STORAGE DRIVERS 
+to manage the content of the image layers and the top writable layer. 
 All drivers use stackable image layers and then a copy-on-write, or COW, strategy.
 
 Docker Image Union Filesystem.
 
-Image LAyers : 
-
-                                        Other Changes
-                                        application
-                                        Config changes
-                                        operating system 
-                                        manifest
-
+===== Image LAyers : 
+- Other Changes
+- application
+- Config changes
+- operating system 
+- manifest
 
 
-Once an image is instantiated in docker container. A writable layer is created on top of the Image in the container.
+
+Once an image is instantiated in docker container. A writable layer is created on top of 
+the Image in the container.
 
 Container Layers = Image Layers + Writable Layers.
 
 Container are stateles as the Image layers are read only and can't be modified.
 
 
-Dockerfile
-------------
+===== Dockerfile
+
 The configuration file that build docker image is called Dockerfile
 
-A Dockerfile is a text file that contians all the commands, in order, needed to build a given iamge. 
+A Dockerfile is a text file that contians all the commands, in order, needed to build a given image. 
 A Dockerfile is executed by the "docker build" command.
 
 Dockerfile - Automate the steps of creating Docker Image.
 
 "docker build" read the docker file and then builds a docker image based on docker file.
 
-You can keep name anything you want, but if you do then you need to pass the file name with "docker build" command.
-Without passing any name the "docker build" command will look for "Dockerfile.yml" in the same directory and with same name.
+You can keep name anything you want, but if you do then you need to pass the file name with 
+"docker build" command.
+
+Without passing any name the "docker build" command will look for "Dockerfile.yml" in the 
+same directory and with same name.
 
 
-CLIENT (DOCKER CLI) ------ DOCKER HOST (DOCKER DAEMON) --- REGISTRY (DOCKERHUB)
+====== CLIENT (DOCKER CLI) ------ DOCKER HOST (DOCKER DAEMON) --- REGISTRY (DOCKERHUB)
 
 
 Once you create the file. Run "docker build <DockerFileLocation>"
 
-"docker build ." if its in the same location.
+    "docker build ." if its in the same location.
 
-Dockerfile :
+===== Dockerfile 
 
-nvironment variables are supported by the following list of instructions in the Dockerfile:
+Environment variables are supported by the following list of instructions in the Dockerfile:
 
-ADD
-COPY
-ENV - Any Environment variable
-EXPOSE
-FROM - Which Image 
-LABEL - Details 
-STOPSIGNAL
-USER
-VOLUME
-WORKDIR
-RUN - Commands to run 
+- ADD
+- COPY
+- ENV - Any Environment variable
+- EXPOSE
+- FROM - Which Image 
+- LABEL - Details 
+- STOPSIGNAL
+- USER
+- VOLUME
+- WORKDIR
+- RUN - Commands to run 
 
-SAMPLE Dockerfile :
-# Nginx
-#
-# VERSION               0.0.1
+====== SAMPLE Dockerfile :
 
-FROM      ubuntu
-LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
-RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
+    # Nginx
+    #
+    # VERSION               0.0.1
+
+    FROM      ubuntu
+    LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
+    RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
 
 
-docker build . 
+Then you can run Docker Build 
+
+    docker build . 
+
 
 Once above command is executed, a new image is created. To check the newly created image run 
 
-docker image ls 
+    docker image ls 
 
 OR 
 
-docker image inspect <first-three-chars-of-image-id>
-docker image inspect 4f4
-docker image inspect 4f4 | more
+    docker image inspect <first-three-chars-of-image-id>
+
+    docker image inspect 4f4
+
+    docker image inspect 4f4 | more
+
 OR
-docker image history 4f4 (this will give you details of all the layers of the images when I was created and size of the layers )
 
-Example :
+    docker image history 4f4
 
-IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-c83cd457511b        4 minutes ago       /bin/sh -c apt-get update && apt-get insta...   210 MB
-c00d03324bae        10 minutes ago      /bin/sh -c #(nop)  LABEL Description=This ...   0 B
-4c108a37151f        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
-<missing>           4 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
-<missing>           4 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
-<missing>           4 weeks ago         /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
-<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
+This will give you details of all the layers of the images when I was created 
+and size of the layers 
+
+====== Example :
+
+    IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+    c83cd457511b        4 minutes ago       /bin/sh -c apt-get update && apt-get insta...   210 MB
+    c00d03324bae        10 minutes ago      /bin/sh -c #(nop)  LABEL Description=This ...   0 B
+    4c108a37151f        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
+    <missing>           4 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
+    <missing>           4 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
+    <missing>           4 weeks ago         /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
+    <missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
+
 
 
 "docker image" command has various options.
 
-C:\...\DOCKER\DockerExercise>docker image --help
+    C:\...\DOCKER\DockerExercise>docker image --help
+
 
 Usage:  docker image COMMAND
 
@@ -649,122 +664,128 @@ Options:
       --help   Print usage
 
 Commands:
-  build       Build an image from a Dockerfile
-  history     Show the history of an image
-  import      Import the contents from a tarball to create a filesystem image
-  inspect     Display detailed information on one or more images
-  load        Load an image from a tar archive or STDIN
-  ls          List images
-  prune       Remove unused images
-  pull        Pull an image or a repository from a registry
-  push        Push an image or a repository to a registry
-  rm          Remove one or more images
-  save        Save one or more images to a tar archive (streamed to STDOUT by default)
-  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+    build       Build an image from a Dockerfile
+    history     Show the history of an image
+    import      Import the contents from a tarball to create a filesystem image
+    inspect     Display detailed information on one or more images
+    load        Load an image from a tar archive or STDIN
+    ls          List images
+    prune       Remove unused images
+    pull        Pull an image or a repository from a registry
+    push        Push an image or a repository to a registry
+    rm          Remove one or more images
+    save        Save one or more images to a tar archive (streamed to STDOUT by default)
+    tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
 
 Run 'docker image COMMAND --help' for more information on a command.
 
-C:\...\DOCKER\DockerExercise>
+    C:\...\DOCKER\DockerExercise>
 
+    docker image prune 
 
-docker image prune 
+It will removed all the dangling images (Images without TAGID/NAME), And if you want to remove all 
 
-   - it will removed all the dangling images (Images without TAGID/NAME)
-
-if you want to remove all 
-
-docker image prune -a 
-    - It will remove all the unused images, that are not being used by the container.
+    docker image prune -a 
+    
+It will remove all the unused images, that are not being used by the container.
 
 
 
-docker image inspect <image-name>:latest --format='{{.<FieldName>}}'
+List Image details:
 
+    docker image inspect <image-name>:latest --format='{{.<FieldName>}}'
 
-docker image inspect <image-name>:latest --format='{{json .ContainerConfig}}'
+    docker image inspect <image-name>:latest --format='{{json .ContainerConfig}}'
 
-
-docker image inspect <image-name>:latest --format='{{.ContainerConfig.HostName}}'
+    docker image inspect <image-name>:latest --format='{{.ContainerConfig.HostName}}'
 
 
 Docker Tag : used to identiy version of image/application.
 
-docker image tag <tag-name/image-id> <new-name>:<tag-name>
+    docker image tag <tag-name/image-id> <new-name>:<tag-name>
 
-docker image tag 6fr new-app:latest
+    docker image tag 6fr new-app:latest
 
-docker image tag new-app:latest mynew-app:latest
+    docker image tag new-app:latest mynew-app:latest
 
+    docker build <githuburl>
 
-docker build <githuburl>
+    docker build -f dd-docker -t ubunut:v2 . 
 
-
-docker build -f dd-docker -t ubunut:v2 . 
-
-here "." is the build context
-here "-t" is the tag name 
+Here "." is the build context
+Here "-t" is the tag name 
 
 
-docker image history ubunut:v2  (it will list out all Layers of the image as a part of the build )
+It will list out all Layers of the image as a part of the build.
+
+    docker image history ubunut:v2
+
 
 To minimize the Image size you can use "squash" feature.
 
-docker build -f dd-docker --squash -t ubunut:v3 . 
-
-Another way to reduce image size, we can use EXPORT option. Creating image into TAR by exporing a running container and then import it back
+    docker build -f dd-docker --squash -t ubunut:v3 . 
 
 
-Modifying Image Layer :
--------------------------------
+Another way to reduce image size, we can use EXPORT option. Creating 
+image into TAR by exporing a running container and then import it back
 
 
-Tags are essentially aliases
+**Tags are essentially aliases
 
 
 
+==== Understanding Docker Registry
 
-Understanding Docker Registry
-----------------------------------
+Docker Registry : A Docker Registry is a stateless, highly scalable application that 
+stores and lets you distribute Docker Images.
 
-Docker Registry : A Docker Registry is a stateless, highly scalable application that stores and lets you distribute Docker Images.
 Registries could be local(private) or cloud-based(private or public).
 
 Example of Docker Registries:
-    - Docker Registry (Local open-source registry)
 
-        On your local Machine. 
+- Docker Registry (Local open-source registry)
 
-        $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
-        Once local registry is up and running, we can push any image to this registry by using 
+On your local Machine. 
+
+    $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+
+Once local registry is up and running, we can push any image to this registry by using 
 
             docker tag ubuntu localhost:5000/ubuntu:v4   (Tagged)
+
             docker push local:5000/ubuntu:v4 (Pushing)
 
 
-        To Test this, Once image is pushed to local registry, we can delete from local 
+To Test this, Once image is pushed to local registry, we can delete from local 
+
             docker image rm localhost:5000/ubuntu:v4  (Deleted from local)
         
-        Pull it back from local registry
+
+Pull it back from local registry
+
             docker pull localhost:5000/ubuntu:v4
 
 
-    - Docker Trusted Registry (DTR) Enterprise grade, higly scalable and 
-        Features LDAP Integration, Image Signing, Security scanning and integration with Universal Control Plane
+=====  Docker Trusted Registry (DTR)
+
+Docker Trusted Registry (DTR) Enterprise grade, higly scalable and 
+features LDAP Integration, Image Signing, Security scanning and integration 
+with Universal Control Plane
     
-        To install DTR, first you require to install UCP (Universal Control Plane) on all the nodes where you plan to intall DTR. 
+To install DTR, first you require to install UCP (Universal Control Plane) on all 
+the nodes where you plan to intall DTR. 
 
-        DTR needs to be installed on a worker node that is being managed by UCP. 
-        You cannot install DTR on a standalone Docker Engine.
-
-
-
-
-    - Docker hub - Cloud based Docker registry
-
-        Docker hub is a public and private registry
+DTR needs to be installed on a worker node that is being managed by UCP. 
+You cannot install DTR on a standalone Docker Engine.
 
 
+===== Docker hub - Cloud based Docker registry
+
+Docker hub is a public and private registry
 
 Anytime you go to use a registry (docker hub), first you need to login in to the registry.
 
