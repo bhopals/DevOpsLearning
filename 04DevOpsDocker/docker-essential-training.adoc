@@ -1044,94 +1044,113 @@ first_three_letter_of_image_id
     
     Are you sure you want to continue? [y/N]
 
+If you press Y, it will delete all the image.
 
-===================================================================================================
-    Chapter 5 - Docker Essential Training: 5 Networking
-===================================================================================================
 
-Docker network ls 
+
+
+=== Chapter 5 - Docker Essential Training: 5 Networking
+
+==== To Fetch network details:
+
+    docker network ls 
 
 
 Conatiners (APP)  ---USES---- NETWORK (to perform below tasks)
-                                    - Internet
-                                    - Data  
-                                    - End Users
+                            - Internet
+                            - Data  
+                            - End Users
 
 
 Things to consider why configuring NETWORK 
-    - Type of network
-    - Published ports 
-    - Custom DNS 
-    - Load Balancing
-    - Traffic Flow 
-    - Logging
+- Type of network
+- Published ports 
+- Custom DNS 
+- Load Balancing
+- Traffic Flow 
+- Logging
 
 
 https://success.docker.com/article/networking
 
 
-The Docker networking architecture is built on a set of interfaces called the Container Networking Model (CNM). The philosophy of CNM is to provide application portability across diverse infrastructures. This model strikes a balance to achieve application portability and also takes advantage of special features and capabilities of the infrastructure.
+The Docker networking architecture is built on a set of interfaces called the 
+Container Networking Model (CNM). The philosophy of CNM is to provide application 
+portability across diverse infrastructures. This model strikes a balance to achieve 
+application portability and also takes advantage of special features and capabilities
+of the infrastructure.
 
 
 The Container Networking Model
- - Network Sandbox  --> Endpoints --> NETWORK (This is not physical network, its the one which is configured on the Docker Host)
+- Network Sandbox  --> Endpoints --> NETWORK (This is not physical network, its the one which is configured on the Docker Host)
 
-        Then Network --> Docker Engine --> Network Driver or IPAM Driver --> NETWORK INFRASTRUCTURE
+Then Network --> Docker Engine --> Network Driver or IPAM Driver --> NETWORK INFRASTRUCTURE
 
-        IPAM - IP Addressm Management Driver 
-
-
-    Native Network Driver:
-
-        - Bridge - Connects container to the LAN and other containers .
-                 --> default n/w type 
-
-        - Host - Remove n/w isolation between container and hist.
-                --> Only one container can use a port at the same time.
-                --> Useful for specific applications, such as a management container that you want to run on eveyr host.
-
-        - Overlay - Connet multiple Docker Hosts and their container together and enable swarm.
-                --> Only available with Docker EE and Swarm Enabled 
-                --> Multihost networking using VXLAN
-
-        - Macvlan - Assign a MAC Address, appear as physic host.
-                --> Clones host interfaces to create virtual interfaces, available in the container.
-                --> Supports connecting to VLANS
-
-        - none 
-
-    Third Party Network Plugins :
-        Examples on the Docker Store :
-            - infobox IPAN Plugin
-            - Weave Net
-            - Contiv Network Plugin 
-            https://blog.docker.com/2016/12/understanding-docker-networking-drivers-use-cases/ 
+IPAM - IP Addressm Management Driver 
 
 
-Configuring Docker Networking 
----------------------------------
-docker network ls 
-docker network bridge inspect 
+Native Network Driver:
+
+- Bridge - Connects container to the LAN and other containers .
+-> default n/w type 
+
+- Host - Remove n/w isolation between container and hist.
+-> Only one container can use a port at the same time.
+-> Useful for specific applications, such as a management container that you want to run on eveyr host.
+
+- Overlay - Connet multiple Docker Hosts and their container together and enable swarm.
+-> Only available with Docker EE and Swarm Enabled 
+-> Multihost networking using VXLAN
+
+- Macvlan - Assign a MAC Address, appear as physic host.
+-> Clones host interfaces to create virtual interfaces, available in the container.
+-> Supports connecting to VLANS
+
+- none 
+
+
+
+====== Third Party Network Plugins :
+- infobox IPAN Plugin
+- Weave Net
+- Contiv Network Plugin 
+(Examples on the Docker Store)
+https://blog.docker.com/2016/12/understanding-docker-networking-drivers-use-cases/ 
+
+
+===== Configuring Docker Networking 
+
+    docker network ls 
+
+    docker network bridge inspect 
 
 Since "bridge" network is default one so when we do 
-
 "docker container run", it by default go to bridge netwrok 
+
+====== Create Network Container 
 
 To create user define bridge network :
 
     docker network create --driver bridge <network-name>
+
     docker network create --driver bridge app-net 
 
     docker network inspect app-net  
+
+
+
+====== Run a Conatiner 
 
 Now spin a container with newly created bridge connection.
 
     docker run --name <app-name> --network <network-name> <image-name>
 
     docker run --name app11 --network app-net alpine ash 
+
     docker run --name app12 --network app-net alpine ash 
 
-Once created. 
+
+====== Attach, Once created. 
 
     docker container attach app12
         /# ping app11 
@@ -1144,19 +1163,25 @@ Once created.
         /# ping www.google.com
 
 
-docker container rm <container1>,...<container-n>
 
-docker container rm app1 app2
-docker network rm app-net 
+====== To Remove Network 
+
+    docker container rm <container1>,...<container-n>
+
+    docker container rm app1 app2
+
+    docker network rm app-net 
 
 
 
-Creating an overlay network
----------------------------------
+==== Creating an overlay network
+
 Docker overlay network by default created if you have enabled docker swarm 
 
- create overlay n/w 
+====== create overlay n/w 
+    
     docker network create --driver overlay <custom-network-name>
+    
     docker network create --dricver overlay app-overlay 
 
 Now deploy a service on newly created overlay network 
@@ -1168,52 +1193,60 @@ Now deploy a service on newly created overlay network
  I believe both of the above commads are same. Need to investigate more if there is any sort of difference here 
 
     docker service ls
+
     docker ps 
+
     docker ps | grep app1 
 
     docker service inspect app1 | more 
 
-        Look for -  "VirtualIPs": [
-                            "NetworkID":"dafdfasdf",
-                            "Addr":"10.0.0.0"
-                        ]
+Look for -  "VirtualIPs": [
+    "NetworkID":"dafdfasdf",
+    "Addr":"10.0.0.0"
+]
 
 
-Publishing PORTS 
-----------------------
+==== Publishing PORTS 
+
 To make application accessible outside the network / public network 
 
-DOCKER HOST 
-                    Exposed PORT #
-        container1 ----------------->  
-                                      BRIDGED NETWORK  ----------> Internal LAN / Public Network 
-        container2 ----------------->
-                    Exposed PORT #
+    DOCKER HOST 
+                        Exposed PORT #
+            container1 ----------------->  
+                                        BRIDGED NETWORK  ----------> Internal LAN / Public Network 
+            container2 ----------------->
+                        Exposed PORT #
 
 To summarize above diagram we can cofirm that 
 
-    - By default, containers are connected to the bridge network-
-    - By default, containers have outbound network access but no inbound network 
-    - Ports must be published to allow inbound network access 
+- By default, containers are connected to the bridge network-
+- By default, containers have outbound network access but no inbound network 
+- Ports must be published to allow inbound network access 
 
 https://docs.docker.com/engine/reference/commandline/run/
 
 
-docker container run -dit -p 8080:80 nginx
-    - SMALL -p means the exposed port will be selected/decided by USER 
-docker container run -dit -P nginx
-    - CAPITAL -P means the exposed port will be selected by DOCKER HOST 
+SMALL -p means the exposed port will be selected/decided by USER 
+
+    docker container run -dit -p 8080:80 nginx
+
+
+
+CAPITAL -P means the exposed port will be selected by DOCKER HOST 
+
+    docker container run -dit -P nginx
+
 
 -dit : Run it as Daemon (d) and in interactive mode (it)
 -p : PORT Option 
 8080 : on the host 
 80 : inside the container 
 
-docker ps 
+    docker ps 
 
 And if you take a look on the assigned ports, it says:
-    0.0.0.0:8080->80/tcp
-    so here 8080 host going inside the container by port 80(inbound traffic)
+0.0.0.0:8080->80/tcp
+so here 8080 host going inside the container by port 80(inbound traffic)
 
 
 Comparing HOST and INGRESS Port Publishing 
@@ -1266,48 +1299,53 @@ DOCKER Swarm Cluster Configuration:
 
 If Manager then it will have following Process components :
 
-    MANAGER
-    UCP MANAGER 
-    UCP AGENT 
-    DOCKER EE 
+- MANAGER
+- UCP MANAGER 
+- UCP AGENT 
+- DOCKER EE 
+
+
 
 If Worker then it will have following Process components :
 
-    WORKER 
-    UCP WORKER 
-    UCP AGENT 
-    DOCKER EE 
+- WORKER 
+- UCP WORKER 
+- UCP AGENT 
+- DOCKER EE 
 
+
+REFERENCE:
 https://docs.docker.com/ee/ucp/ucp-architecture/
-
 https://docs.docker.com/ee/docker-ee-architecture/
 
 
-Docker Container External PORT
----------------------------------
+====== Docker Container External PORT
+
 To know docker containers port details 
 
-docker ps 
-docker container port "container-name"
+    docker ps 
+    
+    docker container port "container-name"
 
-docker container port ucp-proxy
-OUTPUT: 
-    6444/tcp=>0.0.0.0:6444
-    12378/tcp=>0.0.0.0:12378
+    docker container port ucp-proxy
 
-
-
-Using logs to analyze networking issue .
---------------------------------------
-    https://docs.docker.com/engine/reference/commandline/logs/
+    OUTPUT: 
+        6444/tcp=>0.0.0.0:6444
+        12378/tcp=>0.0.0.0:12378
 
 
-To know all the options of logs, we can check
+
+====== Using logs to analyze networking issue .
+https://docs.docker.com/engine/reference/commandline/logs/
+
+
+====== To know all the options of logs, we can check
+    
     docker container logs --help
 
-docker container logs <container-id>
+    docker container logs <container-id>
 
-docker container logs tdc-o3e
+    docker container logs tdc-o3e
 
 
 ===================================================================================================
