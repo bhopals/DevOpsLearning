@@ -1,32 +1,27 @@
 
 
-https://github.com/Evalle/DCA
+=== Docker Essential 
 
-https://www.whizlabs.com/docker-certified-associate/
+Docker is a tool that can package an application and its dependencies in a virtual container 
+that can run on any Linux server
 
-https://evalle.xyz/posts/
-
-
-===================================================================================================
-     Learning Docker
-===================================================================================================
-
-Docker is a tool that can package an application and its dependencies in a virtual container that can run on any Linux server
-
-Docker is a set of coupled software-as-a-service and platform-as-a-service products that use operating-system-level virtualization to develop and deliver software in packages called containers. The software that hosts the containers is called Docker Engine. 
-https://labs.play-with-docker.com/
+Docker is a set of coupled software-as-a-service and platform-as-a-service products that use 
+operating-system-level virtualization to develop and deliver software in packages called containers. 
+The software that hosts the containers is called Docker Engine. 
 
 
-Docker is a tool that can package an application and its dependencies in a virtual container that can run on any Linux server. 
+Docker is a tool that can package an application and its dependencies in a virtual container 
+that can run on any Linux server. 
 
 
-Docker is a platform for developers and sysadmins to develop, deploy, and run applications with containers. The use of Linux containers to deploy applications is called containerization. Containers are not new, but their use for easily deploying applications is.
+Docker is a platform for developers and sysadmins to develop, deploy, and run applications 
+with containers. The use of Linux containers to deploy applications is called containerization. 
+Containers are not new, but their use for easily deploying applications is.
 
 container - A container is a runtime instance of an image
 
 
-
-COMMANDS :
+==== Docker Commands 
 
 docker run <image-name>
 docker ps  (will return all the running systems.)
@@ -1319,20 +1314,15 @@ What is Docker Content Trust -
 
     
 
-===================================================================================================
-    Docker: Continuous Delivery
-===================================================================================================
+==== REFERENCE
+
+https://evalle.xyz/posts/
+https://github.com/Evalle/DCA
+https://www.whizlabs.com/docker-certified-associate/
 
 
+==== Docker Lab Online 
 
+https://labs.play-with-docker.com/
+https://www.katacoda.com/courses/container-runtimes
 
-
-===================================================================================================
-   Learning Kubernetes
-===================================================================================================
- 
-
-===================================================================================================
-    Kubernetes: Service Mesh with Istio
-===================================================================================================
- 
