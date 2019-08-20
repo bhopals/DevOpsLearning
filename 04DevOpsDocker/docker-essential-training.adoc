@@ -789,13 +789,18 @@ Docker hub is a public and private registry
 
 Anytime you go to use a registry (docker hub), first you need to login in to the registry.
 
-    "docker login" once run, it will ask for username and password.
+"docker login" once run, it will ask for username and password.
 
-    You will get "Login Successed" message if its success.
+    docker login
 
-    If you want to logout, then use "docker logout"
 
-    If you want to use local deployed registry then
+You will get "Login Successed" message if its success.
+If you want to logout, then use "docker logout"
+
+    docker logout
+
+
+If you want to use local deployed registry then
 
     docker login localhost:5000
 
