@@ -1,5 +1,5 @@
 
-=== DOCKER IMAGE 
+=== Docker Image
 
 An image is an executable package that includes every thing needed 
 to run an application - the code, a runtime, libraries, environment variables, configurations. files.
@@ -22,7 +22,6 @@ image. When an image is instantiated into a container, a top writable image is c
 deleted when the container is removed) Docker manages this using STORAGE DRIVERS to manage the content
 of the image layers and the top writable layer.All drivers use stackable image layers and then 
 a copy-on-write, or COW, strategy.
-
 
     docker image ls 
 
@@ -93,9 +92,9 @@ Environment variables are supported by the following list of instructions in the
     # Nginx
     #
     # VERSION               0.0.1
-
     FROM      ubuntu
-    LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
+    LABEL Description="This image is used to start the foobar executable" 
+    Vendor="ACME Products" Version="1.0"
     RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
 
 
@@ -124,14 +123,14 @@ This will give you details of all the layers of the images when I was created an
 
     Example :
 
-    IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-    c83cd457511b        4 minutes ago       /bin/sh -c apt-get update && apt-get insta...   210 MB
-    c00d03324bae        10 minutes ago      /bin/sh -c #(nop)  LABEL Description=This ...   0 B
-    4c108a37151f        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
-    <missing>           4 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
-    <missing>           4 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
-    <missing>           4 weeks ago         /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
-    <missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
+    IMAGE            CREATED          CREATED BY                                      SIZE 
+    c83cd457511b     4 minutes ago    /bin/sh -c apt-get update && apt-get insta...   210 MB
+    c00d03324bae     10 minutes ago   /bin/sh -c #(nop)  LABEL Description=This ...   0 B
+    4c108a37151f     4 weeks ago      /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
+    <missing>        4 weeks ago      /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
+    <missing>        4 weeks ago      /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
+    <missing>        4 weeks ago      /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
+    <missing>        4 weeks ago      /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
 
 
 "docker image" command has various options.
@@ -274,8 +273,7 @@ To login Docker trusted registry
     
     $ docker tag ubuntu:latest <username>/ubuntu:latest (TAGGING THE IMAGE)
 
-    $ docker image ls
-    
+    $ docker image ls    
     REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
     ubunut               v3                  644366f5d590        24 minutes ago      274 MB
     <none>               <none>              195381418de7        24 minutes ago      274 MB
