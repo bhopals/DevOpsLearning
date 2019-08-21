@@ -292,11 +292,8 @@ To login Docker trusted registry
     fbd2732ad777: Mounted from library/ubuntu
         
 
-
 Docker Image Signing - Docker Enterprise Edition Only 
 Docker Notary - Docker Community version- Open source but with limited features.
-
-
 
 ==== Searching Docker Registries
 
