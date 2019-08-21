@@ -4,13 +4,14 @@
 
 ===== Details:
 
-Conatiners (APP)  ---USES---- NETWORK (to perform below tasks)
+====== Conatiners (APP)  -> USES -> NETWORK (to perform below tasks)
+
 - Internet
 - Data  
 - End Users
 
 
--===== Things to consider why configuring NETWORK 
+===== Things to consider why configuring NETWORK 
 - Type of network
 - Published ports 
 - Custom DNS 
@@ -21,7 +22,6 @@ Conatiners (APP)  ---USES---- NETWORK (to perform below tasks)
 
 https://success.docker.com/article/networking
 
-
 The Docker networking architecture is built on a set of interfaces called the Container 
 Networking Model (CNM). The philosophy of CNM is to provide application portability across 
 diverse infrastructures. This model strikes a balance to achieve application portability 
@@ -30,7 +30,7 @@ and also takes advantage of special features and capabilities of the infrastruct
 
 ===== The Container Networking Model
  
-- Network Sandbox  -> Endpoints -> NETWORK (This is not physical network, its the one which 
+- Network Sandbox  -> Endpoints -> Network (This is not physical network, its the one which 
                                                 is configured on the Docker Host)
 
 Then Network -> Docker Engine -> Network Driver or IPAM Driver -> NETWORK INFRASTRUCTURE
