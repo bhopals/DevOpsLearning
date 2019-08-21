@@ -136,35 +136,35 @@ This will give you details of all the layers of the images when I was created an
 
 "docker image" command has various options.
 
-C:\...\DOCKER\DockerExercise>docker image --help
+    docker image --help
 
 Usage:  docker image COMMAND
 
 Manage images
 
 Options:
-      --help   Print usage
+--help   Print usage
 
-Commands:
-  build       Build an image from a Dockerfile
-  history     Show the history of an image
-  import      Import the contents from a tarball to create a filesystem image
-  inspect     Display detailed information on one or more images
-  load        Load an image from a tar archive or STDIN
-  ls          List images
-  prune       Remove unused images
-  pull        Pull an image or a repository from a registry
-  push        Push an image or a repository to a registry
-  rm          Remove one or more images
-  save        Save one or more images to a tar archive (streamed to STDOUT by default)
-  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+    Commands:
+    - build       Build an image from a Dockerfile
+    - history     Show the history of an image
+    - import      Import the contents from a tarball to create a filesystem image
+    - inspect     Display detailed information on one or more images
+    - load        Load an image from a tar archive or STDIN
+    - ls          List images
+    - prune       Remove unused images
+    - pull        Pull an image or a repository from a registry
+    - push        Push an image or a repository to a registry
+    - rm          Remove one or more images
+    - save        Save one or more images to a tar archive (streamed to STDOUT by default)
+    - tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
 
 Run 'docker image COMMAND --help' for more information on a command.
 
-C:\...\DOCKER\DockerExercise>
 
 
-it will removed all the dangling images (Images without TAGID/NAME)
+====== It will removed all the dangling images (Images without TAGID/NAME)
 
     docker image prune 
  
@@ -180,6 +180,7 @@ It will remove all the unused images, that are not being used by the container.
 
 
 ==== Docker Tag 
+
 Docker Tag : used to identiy version of image/application.
 
     docker image tag <tag-name/image-id> <new-name>:<tag-name>
@@ -197,21 +198,17 @@ Docker Tag : used to identiy version of image/application.
 *Here "-t" is the tag name 
 
 
-It will list out all Layers of the image as a part of the build 
+===== It will list out all Layers of the image as a part of the build 
 
     docker image history ubunut:v2 
 
-To minimize the Image size you can use "squash" feature.
+
+===== To minimize the Image size you can use "squash" feature.
 
     docker build -f dd-docker --squash -t ubunut:v3 . 
 
 Another way to reduce image size, we can use EXPORT option. 
 Creating image into TAR by exporing a running container and then import it back
-
-
-==== Modifying Image Layer :
-Tags are essentially aliases
-
 
 
 ==== Understanding Docker Registry
@@ -226,9 +223,11 @@ Docker Registry (Local open-source registry) -  On your local Machine.
 
     $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
+
 Once local registry is up and running, we can push any image to this registry by using 
 
     docker tag ubuntu localhost:5000/ubuntu:v4   (Tagged)
+
     docker push local:5000/ubuntu:v4 (Pushing)
 
 
@@ -273,9 +272,9 @@ To login Docker trusted registry
 
 ==== Pusing, pulling, and signing Images 
     
-    C:\...\DOCKER\DockerExercise\dockertemp>docker tag ubuntu:latest <username>/ubuntu:latest (TAGGING THE IMAGE)
+    $ docker tag ubuntu:latest <username>/ubuntu:latest (TAGGING THE IMAGE)
 
-    C:\BhopalDev\DOCKER\DockerExercise\dockertemp>docker image ls
+    $ docker image ls
     
     REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
     ubunut               v3                  644366f5d590        24 minutes ago      274 MB
@@ -285,7 +284,8 @@ To login Docker trusted registry
     <username>/ubuntu   latest              4c108a37151f        4 weeks ago         64.2 MB
     ubuntu               latest              4c108a37151f        4 weeks ago         64.2 MB
 
-    C:\...\DOCKER\DockerExercise\dockertemp>docker push <username>/ubuntu:latest   (PUSHING THE IMAGE)
+    $ docker push <username>/ubuntu:latest   (PUSHING THE IMAGE)
+    
     The push refers to a repository [docker.io/<username>/ubuntu]
     75e70aa52609: Mounted from library/ubuntu
     dda151859818: Mounted from library/ubuntu
