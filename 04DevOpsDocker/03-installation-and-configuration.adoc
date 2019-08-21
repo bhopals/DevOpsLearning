@@ -1,6 +1,6 @@
 
 
-==== DOCKER ENGINE : 
+==== Docker Engine
 
 Client - Docker Cli - (From where you execute the command.)
 Rest API - REGISTRY (docker hub)
