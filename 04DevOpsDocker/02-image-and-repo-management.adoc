@@ -1,18 +1,10 @@
 
-docker image ls 
+=== DOCKER IMAGE 
 
-docker image rm -f <image-name>
-
-docker image prune -a (To remove all the images)
-
-
-DOCKER IMAGE 
--------------
 An image is an executable package that includes every thing needed 
 to run an application - the code, a runtime, libraries, environment variables, configurations. files.
 
 A container is a runtime instance of an Image.
-
 
 OR an Image is a container that's not yet running.
 
@@ -20,7 +12,6 @@ AND A container is essentially a running image.
 So you can build an image and literraly spawn thousands of containers from that.
 
 Containers are stateless
-
 
 Docker Image is made of Layer. 
 
@@ -32,15 +23,23 @@ deleted when the container is removed) Docker manages this using STORAGE DRIVERS
 of the image layers and the top writable layer.All drivers use stackable image layers and then 
 a copy-on-write, or COW, strategy.
 
-Docker Image Union Filesystem.
 
-Image LAyers : 
+    docker image ls 
 
-    Other Changes
-    application
-    Config changes
-    operating system 
-    manifest
+    docker image rm -f <image-name>
+
+    docker image prune -a (To remove all the images)
+
+
+
+==== Docker Image Union Filesystem.
+
+====== Image Layers : 
+- Other Changes
+- application
+- Config changes
+- operating system 
+- manifest
 
 
 
@@ -74,23 +73,23 @@ Once you create the file. Run "docker build <DockerFileLocation>"
 
 "docker build ." if its in the same location.
 
-Dockerfile :
+==== Dockerfile :
 
 Environment variables are supported by the following list of instructions in the Dockerfile:
+- ADD
+- COPY
+- ENV - Any Environment variable
+- EXPOSE
+- FROM - Which Image 
+- LABEL - Details 
+- STOPSIGNAL
+- USER
+- VOLUME
+- WORKDIR
+- RUN - Commands to run 
 
-ADD
-COPY
-ENV - Any Environment variable
-EXPOSE
-FROM - Which Image 
-LABEL - Details 
-STOPSIGNAL
-USER
-VOLUME
-WORKDIR
-RUN - Commands to run 
-
-SAMPLE Dockerfile :
+===== SAMPLE Dockerfile :
+    
     # Nginx
     #
     # VERSION               0.0.1
@@ -99,8 +98,11 @@ SAMPLE Dockerfile :
     LABEL Description="This image is used to start the foobar executable" Vendor="ACME Products" Version="1.0"
     RUN apt-get update && apt-get install -y inotify-tools nginx apache2 openssh-server
 
+
 You can build it by using below command:
+
     docker build . 
+
 
 Once above command is executed, a new image is created. To check the newly created image run 
 
@@ -109,24 +111,27 @@ Once above command is executed, a new image is created. To check the newly creat
 OR 
 
     docker image inspect <first-three-chars-of-image-id>
+
     docker image inspect 4f4
+
     docker image inspect 4f4 | more
 
 OR
 
-docker image history 4f4 
+    docker image history 4f4 
+
 This will give you details of all the layers of the images when I was created and size of the layers.
 
-Example :
+    Example :
 
-IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-c83cd457511b        4 minutes ago       /bin/sh -c apt-get update && apt-get insta...   210 MB
-c00d03324bae        10 minutes ago      /bin/sh -c #(nop)  LABEL Description=This ...   0 B
-4c108a37151f        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
-<missing>           4 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
-<missing>           4 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
-<missing>           4 weeks ago         /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
-<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
+    IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+    c83cd457511b        4 minutes ago       /bin/sh -c apt-get update && apt-get insta...   210 MB
+    c00d03324bae        10 minutes ago      /bin/sh -c #(nop)  LABEL Description=This ...   0 B
+    4c108a37151f        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0 B
+    <missing>           4 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo '...   7 B
+    <missing>           4 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' >...   745 B
+    <missing>           4 weeks ago         /bin/sh -c [ -z "$(apt-get indextargets)" ]     987 kB
+    <missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:4e6b5d9ca371eb8...   63.2 MB
 
 
 "docker image" command has various options.
